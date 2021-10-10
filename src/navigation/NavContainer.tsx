@@ -20,8 +20,11 @@ const NavContainer = () => {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Main" component={MainNavigator} />
-        {!isSignedIn && <Stack.Screen name="Auth" component={AuthStack} />}
+        {isSignedIn ? (
+          <Stack.Screen name="Main" component={MainNavigator} />
+        ) : (
+          <Stack.Screen name="Auth" component={AuthStack} />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
