@@ -1,4 +1,4 @@
-# MedicAlarm-API
+# MedicAlarm-APP
 
 Aplicación móvil para el proyecto MedicAlarm de la materia Desarrollo de un Proyecto de Software
 
