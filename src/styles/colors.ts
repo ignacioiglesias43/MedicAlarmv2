@@ -21,8 +21,12 @@ interface Colors {
 
 const colors: Colors = {
   ...DefaultTheme.colors,
-  primary: '#275591',
-  accent: '#BE3A3E',
+  //primary: '#275591',
+  //accent: '#BE3A3E',
+  primary: '#AFC8FF',
+  accent: '#FE7058',
+  background: '#FFFFFF',
+  text: '#3C3C3C',
 };
 
 export default colors;

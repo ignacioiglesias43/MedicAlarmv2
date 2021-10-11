@@ -1,11 +1,12 @@
 import React from 'react';
 import {View, Text} from 'react-native';
+import ViewContainer from '../components/templates/ViewContainer';
 
 const LoginScreen = () => {
   return (
-    <View>
-      <Text>Login</Text>
-    </View>
+    <ViewContainer primary>
+      <Text>Ta padre</Text>
+    </ViewContainer>
   );
 };
 
