@@ -5,6 +5,7 @@ import colors from './colors';
 const theme: Theme = {
   ...DefaultTheme,
   colors,
+  roundness: 10,
 };
 
 export default theme;

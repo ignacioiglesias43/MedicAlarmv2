@@ -1,20 +1,32 @@
 import React from 'react';
-import {View, StatusBar, SafeAreaView, StyleSheet} from 'react-native';
+import {
+  View,
+  StatusBar,
+  SafeAreaView,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 
 import colors from '../../styles/colors';
 
 interface ViewContainerProps {
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[];
   primary?: boolean;
+  childrenStyle?: StyleProp<ViewStyle>;
 }
 
-const ViewContainer = ({children, primary = false}: ViewContainerProps) => {
+const ViewContainer = ({
+  children,
+  primary = false,
+  childrenStyle = {},
+}: ViewContainerProps) => {
   const backgroundColor = primary ? colors.primary : colors.background;
 
   return (
     <SafeAreaView style={[styles.safeArea, {backgroundColor}]}>
       <StatusBar backgroundColor={backgroundColor} />
-      <View style={styles.childred}>{children}</View>
+      <View style={[styles.childred, childrenStyle]}>{children}</View>
     </SafeAreaView>
   );
 };
