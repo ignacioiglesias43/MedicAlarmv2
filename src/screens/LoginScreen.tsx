@@ -11,7 +11,7 @@ import colors from '../styles/colors';
 import {useAuthForm} from '../hooks/useAuthForm';
 
 const LoginScreen = () => {
-  const {formFields, setValues} = useAuthForm('LOGIN');
+  const {formFields, setValues, submitForm} = useAuthForm('LOGIN');
 
   return (
     <ViewContainer primary childrenStyle={styles.container}>
@@ -53,6 +53,7 @@ const LoginScreen = () => {
           text="Regístrate aquí"
           color={colors.accent}
           style={styles.button}
+          onPress={submitForm}
         />
       </View>
     </ViewContainer>
