@@ -18,6 +18,7 @@ interface Colors {
   splashContainerBottom: string;
   textOnImage: string;
   titleWhite: string;
+  tabBackground: string,
 }
 
 const colors: Colors = {
@@ -29,6 +30,7 @@ const colors: Colors = {
   background: '#FFFFFF',
   text: '#3C3C3C',
   titleWhite: '#FFFFFF',
+  tabBackground: "#FAFAFA"
 };
 
 export default colors;

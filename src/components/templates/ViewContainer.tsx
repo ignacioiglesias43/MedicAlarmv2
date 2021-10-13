@@ -22,10 +22,11 @@ const ViewContainer = ({
   childrenStyle = {},
 }: ViewContainerProps) => {
   const backgroundColor = primary ? colors.primary : colors.background;
+  const barStyle = primary ? "light-content" : "dark-content"
 
   return (
     <SafeAreaView style={[styles.safeArea, {backgroundColor}]}>
-      <StatusBar backgroundColor={backgroundColor} />
+      <StatusBar backgroundColor={backgroundColor} barStyle={barStyle}/>
       <View style={[styles.childred, childrenStyle]}>{children}</View>
     </SafeAreaView>
   );

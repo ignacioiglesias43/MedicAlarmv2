@@ -5,6 +5,8 @@ import {useForm} from './useForm';
 import {ISignupForm, initialSignupForm} from '../constants/initialSignupForm';
 import {ILoginForm, initialLoginForm} from '../constants/initialLoginForm';
 
+import { updateToken } from '../store/auth/actionCreators';
+
 // TODO: Descomentar y reemplazarlo por la logica necesaria
 
 export const useAuthForm = (formType: FormType) => {
@@ -21,6 +23,7 @@ export const useAuthForm = (formType: FormType) => {
 
   const handleLogin = (fields: ILoginForm) => {
     const {email, password} = fields;
+    dispatch(updateToken("12345"))
     if (email && password) {
     } else {
       /* dispatch(updateModalMessage('All fields are required.'));
