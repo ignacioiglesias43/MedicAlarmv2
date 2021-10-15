@@ -12,18 +12,20 @@ import {
 import persistReducer from 'redux-persist/es/persistReducer';
 
 import authReducer from './auth/authReducer';
-import reminderReducer from './auth/reminderReducer';
+import reminderReducer from './reminders/reminderReducer';
+import loadingIndicatorReducer from './loadingIndicator/loadingIndicatorReducer';
 
 const persistedConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['authReducer','reminderReducer'],
+  whitelist: ['authReducer', 'reminderReducer'],
   timeout: undefined,
 };
 
 const reducers = combineReducers({
   authReducer,
-  reminderReducer
+  reminderReducer,
+  loadingIndicatorReducer,
 });
 
 const persistedReducer = persistReducer(persistedConfig, reducers);

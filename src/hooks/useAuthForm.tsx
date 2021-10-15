@@ -6,6 +6,7 @@ import {ISignupForm, initialSignupForm} from '../constants/initialSignupForm';
 import {ILoginForm, initialLoginForm} from '../constants/initialLoginForm';
 
 import {updateToken} from '../store/auth/actionCreators';
+import {updateIndicatorVisible} from '../store/loadingIndicator/actionCreators';
 
 // TODO: Descomentar y reemplazarlo por la logica necesaria
 
@@ -30,7 +31,14 @@ export const useAuthForm = (formType: FormType) => {
 
   const handleLogin = () => {
     const {email, password} = formFields;
-    dispatch(updateToken('12345'));
+    /* TODO DELETE THIS SETITMEOUT AFTER CONSUMING WS, THIS IS JUST FOR DEMONSTRATION */
+    dispatch(updateIndicatorVisible(true));
+
+    setTimeout(() => {
+      dispatch(updateToken('12345'));
+      dispatch(updateIndicatorVisible(false));
+    }, 500);
+
     if (email && password) {
     } else {
       /* dispatch(updateModalMessage('All fields are required.'));

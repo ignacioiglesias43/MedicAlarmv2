@@ -9,6 +9,7 @@ import {Provider as PaperProvider} from 'react-native-paper';
 import theme from './src/styles/theme';
 
 import NavContainer from './src/navigation/NavContainer';
+import ModalIndicator from './src/components/atoms/ModalIndicator';
 
 const persistedStore = persistStore(store);
 
@@ -19,6 +20,7 @@ const App = () => {
         <PaperProvider theme={theme}>
           <SafeAreaProvider>
             <NavContainer />
+            <ModalIndicator />
           </SafeAreaProvider>
         </PaperProvider>
       </PersistGate>
