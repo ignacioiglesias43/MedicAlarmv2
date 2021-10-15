@@ -20,8 +20,8 @@ const chooseTabBarIcon =
   ({color, focused}: TabBarIconProps) => {
     let iconName = '';
 
-    if (route === 'Home') {
-      iconName = focused ? 'home' : 'home-outline';
+    if (route === 'Reminders') {
+      iconName = 'alarm';
     }
     if (route === 'Contacts') {
       iconName = focused ? 'account-box' : 'account-box-outline';
@@ -49,7 +49,7 @@ const MainNavigator = () => {
       screenOptions={({route}) => ({
         tabBarIcon: chooseTabBarIcon(route.name),
       })}>
-      <Tab.Screen name="Home" component={HomeStack} />
+      <Tab.Screen name="Reminders" component={HomeStack} />
       <Tab.Screen name="Contacts" component={ContactStack} />
       <Tab.Screen name="User" component={UserStack} />
 

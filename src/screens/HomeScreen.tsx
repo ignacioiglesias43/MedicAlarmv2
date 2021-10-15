@@ -1,17 +1,17 @@
-import React, {useEffect} from 'react';
-import {View, ListRenderItem, FlatList} from 'react-native';
+import React from 'react';
+import {ListRenderItem, FlatList} from 'react-native';
 import DataCard from '../components/molecules/DataCard';
 import ViewContainer from '../components/templates/ViewContainer';
 import useReminder from '../hooks/useReminder';
 
 import {Reminder} from '../api/reminder/model/Reminder';
+import NoDataCard from '../components/atoms/NoDataCard';
+import CustomFAB from '../components/atoms/CustomFAB';
+import CustomSearcher from '../components/atoms/CustomSearcher';
+import CustomHeader from '../components/atoms/CustomHeader';
 
 const HomeScreen = () => {
-  const {reminders} = useReminder();
-
-  useEffect(() => {
-    console.log(reminders);
-  }, []);
+  const {reminderList, updateQuery, query} = useReminder();
 
   const renderItem: ListRenderItem<Reminder> = ({item}) => (
     <DataCard
@@ -26,11 +26,19 @@ const HomeScreen = () => {
   return (
     <ViewContainer>
       <FlatList
-        data={reminders}
+        data={reminderList}
         renderItem={renderItem}
-        keyExtractor={(item) => `${item.id}`}
+        ListEmptyComponent={() => (
+          <NoDataCard text="No se han agregado recordatorios." />
+        )}
+        ListHeaderComponent={() => (
+          <CustomHeader>
+            <CustomSearcher value={query} onChangeText={updateQuery}/>
+          </CustomHeader>
+        )}
+        keyExtractor={item => `${item.id}`}
       />
-
+      <CustomFAB onPress={() => {}} />
     </ViewContainer>
   );
 };
