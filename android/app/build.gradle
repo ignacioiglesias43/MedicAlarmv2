@@ -159,6 +159,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('medic_alarm_2.keystore')
+            storePassword 'password1'
+            keyAlias 'medicalarm2'
+            keyPassword 'password1'
+        }
     }
     buildTypes {
         debug {
@@ -175,6 +181,7 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
 
