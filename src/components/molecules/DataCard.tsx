@@ -41,7 +41,7 @@ const DataCard = ({
           />
         ) : null}
       </Card.Content>
-      <Divider style={styles.divider}></Divider>
+      <Divider style={styles.divider} />
     </Card>
   );
 };

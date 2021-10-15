@@ -33,7 +33,7 @@ const HomeScreen = () => {
         )}
         ListHeaderComponent={() => (
           <CustomHeader>
-            <CustomSearcher value={query} onChangeText={updateQuery}/>
+            <CustomSearcher value={query} onChangeText={updateQuery} />
           </CustomHeader>
         )}
         keyExtractor={item => `${item.id}`}
