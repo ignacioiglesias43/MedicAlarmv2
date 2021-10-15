@@ -10,6 +10,7 @@ interface DataCardProps {
   second?: string;
   actionIcon?: string;
   action?: () => void;
+  onPress?: () => void;
   titleStyle?: StyleProp<TextStyle>;
   subtitleStyle?: StyleProp<TextStyle>;
 }
@@ -21,11 +22,12 @@ const DataCard = ({
   second,
   actionIcon,
   action,
+  onPress,
   titleStyle,
   subtitleStyle,
 }: DataCardProps) => {
   return (
-    <Card style={styles.card} elevation={0}>
+    <Card style={styles.card} elevation={0} onPress={onPress}>
       <Card.Title title={title} titleStyle={[styles.title, titleStyle]} />
       <Card.Content style={styles.cardContent}>
         <View>
