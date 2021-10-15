@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {GestureResponderEvent} from 'react-native';
+import {GestureResponderEvent, KeyboardTypeOptions} from 'react-native';
 
 import {TextInput} from 'react-native-paper';
 
@@ -29,6 +29,7 @@ interface CustomInputProps {
         ((e: GestureResponderEvent) => void))
   ) &
     (() => void);
+  keyboardType?: KeyboardTypeOptions | undefined;
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -38,6 +39,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   label,
   mode,
   icon,
+  keyboardType,
   secureTextEntry = false,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -55,6 +57,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
       onChangeText={onChangeText}
       onFocus={handleInputFocus}
       onBlur={handleInputBlur}
+      keyboardType={keyboardType}
       theme={{
         colors: {
           primary: colors.accent,

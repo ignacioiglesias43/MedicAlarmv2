@@ -5,7 +5,7 @@ import {useForm} from './useForm';
 import {ISignupForm, initialSignupForm} from '../constants/initialSignupForm';
 import {ILoginForm, initialLoginForm} from '../constants/initialLoginForm';
 
-import { updateToken } from '../store/auth/actionCreators';
+import {updateToken} from '../store/auth/actionCreators';
 
 // TODO: Descomentar y reemplazarlo por la logica necesaria
 
@@ -15,19 +15,22 @@ export const useAuthForm = (formType: FormType) => {
   );
 
   const [userType, setUserType] = useState<UserType>();
-  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
 
   const onUserTypeChange = (newValue: string) =>
     setUserType(newValue as UserType);
 
-  const submitForm = async () => {
-    //   TODO
+  const submitForm = () => {
+    if (formType === 'LOGIN') {
+      handleLogin();
+    } else {
+      handleSignup();
+    }
   };
 
-  const handleLogin = (fields: ILoginForm) => {
-    const {email, password} = fields;
-    dispatch(updateToken("12345"))
+  const handleLogin = () => {
+    const {email, password} = formFields;
+    dispatch(updateToken('12345'));
     if (email && password) {
     } else {
       /* dispatch(updateModalMessage('All fields are required.'));
@@ -38,7 +41,7 @@ export const useAuthForm = (formType: FormType) => {
     return null;
   };
 
-  const handleSignup = (fields: ISignupForm) => {
+  const handleSignup = () => {
     const {
       name = '',
       lastName = '',
@@ -46,7 +49,7 @@ export const useAuthForm = (formType: FormType) => {
       phone,
       password,
       repeatPassword,
-    } = fields;
+    } = formFields;
     if (name && lastName && email && phone && password && repeatPassword) {
       if (password === repeatPassword) {
       } else {
@@ -65,7 +68,6 @@ export const useAuthForm = (formType: FormType) => {
   return {
     formFields,
     submitForm,
-    isLoading,
     userType,
     onUserTypeChange,
     setValues: createChangeHandler,
