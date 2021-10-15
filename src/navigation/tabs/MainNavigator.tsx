@@ -4,6 +4,9 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import HomeStack from '../stacks/HomeStack';
+import ContactStack from '../stacks/ContactStack';
+import UserStack from '../stacks/UserStack';
+import colors from '../../styles/colors';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -17,8 +20,14 @@ const chooseTabBarIcon =
   ({color, focused}: TabBarIconProps) => {
     let iconName = '';
 
-    if (route === 'Home') {
-      iconName = focused ? 'home' : 'home-outline';
+    if (route === 'Reminders') {
+      iconName = 'alarm';
+    }
+    if (route === 'Contacts') {
+      iconName = focused ? 'account-box' : 'account-box-outline';
+    }
+    if (route === 'User') {
+      iconName = focused ? 'account' : 'account-outline';
     }
 
     return <Icon name={iconName} size={25} color={color} />;
@@ -26,21 +35,24 @@ const chooseTabBarIcon =
 
 const MainNavigator = () => {
   const barStyle: StyleProp<ViewStyle> = {
-    backgroundColor: '#FFFF',
+    backgroundColor: colors.tabBackground,
     height: 70,
     justifyContent: 'center',
   };
 
   return (
     <Tab.Navigator
-      activeColor="#BF2931"
-      inactiveColor="#C5CEE0"
+      activeColor={colors.accent}
+      inactiveColor={colors.disabled}
       barStyle={barStyle}
       shifting={false}
       screenOptions={({route}) => ({
         tabBarIcon: chooseTabBarIcon(route.name),
       })}>
-      <Tab.Screen name="Home" component={HomeStack} />
+      <Tab.Screen name="Reminders" component={HomeStack} />
+      <Tab.Screen name="Contacts" component={ContactStack} />
+      <Tab.Screen name="User" component={UserStack} />
+
     </Tab.Navigator>
   );
 };
