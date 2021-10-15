@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Subheading} from 'react-native-paper';
+import {StyleSheet} from 'react-native';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthStackParams} from '../navigation/stacks/AuthStack';
@@ -12,41 +11,30 @@ import ViewContainer from '../components/templates/ViewContainer';
 
 import colors from '../styles/colors';
 
-interface LoginProps extends NativeStackScreenProps<AuthStackParams, 'Login'> {}
+interface SignupProps
+  extends NativeStackScreenProps<AuthStackParams, 'Signup'> {}
 
-const LoginScreen: FC<LoginProps> = ({navigation}) => {
-  const signupBtn = () => navigation.navigate('Signup');
+const SignupScreen: FC<SignupProps> = ({navigation}) => {
+  const loginBtn = () => navigation.navigate('Login');
 
   return (
     <ViewContainer primary childrenStyle={styles.container}>
       <AuthHeader />
-      <AuthForm formType="LOGIN">
+      <AuthForm formType="REGISTER">
         <CustomButton
           dark
           mode="outlined"
-          text="Olvidé mi contraseña"
+          text="Iniciar sesión"
           color={colors.accent}
           style={styles.button}
+          onPress={loginBtn}
         />
-        <View style={styles.bottom}>
-          <Subheading style={styles.dontHaveAccount}>
-            ¿No tienes cuenta?
-          </Subheading>
-          <CustomButton
-            dark
-            mode="text"
-            text="Regístrate aquí"
-            color={colors.accent}
-            style={styles.button}
-            onPress={signupBtn}
-          />
-        </View>
       </AuthForm>
     </ViewContainer>
   );
 };
 
-export default LoginScreen;
+export default SignupScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -58,11 +46,5 @@ const styles = StyleSheet.create({
   },
   bottom: {
     marginVertical: 20,
-  },
-  dontHaveAccount: {
-    color: colors.textOnImage,
-    fontSize: 16,
-    textAlign: 'center',
-    marginBottom: -10,
   },
 });

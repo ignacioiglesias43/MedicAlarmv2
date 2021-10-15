@@ -5,7 +5,8 @@ import {useForm} from './useForm';
 import {ISignupForm, initialSignupForm} from '../constants/initialSignupForm';
 import {ILoginForm, initialLoginForm} from '../constants/initialLoginForm';
 
-import { updateToken } from '../store/auth/actionCreators';
+import {updateToken} from '../store/auth/actionCreators';
+import {updateIndicatorVisible} from '../store/loadingIndicator/actionCreators';
 
 // TODO: Descomentar y reemplazarlo por la logica necesaria
 
@@ -14,16 +15,30 @@ export const useAuthForm = (formType: FormType) => {
     formType === 'LOGIN' ? initialLoginForm : initialSignupForm,
   );
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [userType, setUserType] = useState<UserType>();
   const dispatch = useAppDispatch();
 
-  const submitForm = async () => {
-    //   TODO
+  const onUserTypeChange = (newValue: string) =>
+    setUserType(newValue as UserType);
+
+  const submitForm = () => {
+    if (formType === 'LOGIN') {
+      handleLogin();
+    } else {
+      handleSignup();
+    }
   };
 
-  const handleLogin = (fields: ILoginForm) => {
-    const {email, password} = fields;
-    dispatch(updateToken("12345"))
+  const handleLogin = () => {
+    const {email, password} = formFields;
+    /* TODO DELETE THIS SETITMEOUT AFTER CONSUMING WS, THIS IS JUST FOR DEMONSTRATION */
+    dispatch(updateIndicatorVisible(true));
+
+    setTimeout(() => {
+      dispatch(updateToken('12345'));
+      dispatch(updateIndicatorVisible(false));
+    }, 500);
+
     if (email && password) {
     } else {
       /* dispatch(updateModalMessage('All fields are required.'));
@@ -34,7 +49,7 @@ export const useAuthForm = (formType: FormType) => {
     return null;
   };
 
-  const handleSignup = (fields: ISignupForm) => {
+  const handleSignup = () => {
     const {
       name = '',
       lastName = '',
@@ -42,7 +57,7 @@ export const useAuthForm = (formType: FormType) => {
       phone,
       password,
       repeatPassword,
-    } = fields;
+    } = formFields;
     if (name && lastName && email && phone && password && repeatPassword) {
       if (password === repeatPassword) {
       } else {
@@ -61,7 +76,8 @@ export const useAuthForm = (formType: FormType) => {
   return {
     formFields,
     submitForm,
+    userType,
+    onUserTypeChange,
     setValues: createChangeHandler,
-    isLoading,
   };
 };

@@ -9,7 +9,7 @@ const useReminder = () => {
 
   //TODO: Sacar lo relacionado a busqueda a su propio hook
   const [query, setQuery] = useState('');
-  const updateQuery = (text:string) => setQuery(text)
+  const updateQuery = (text: string) => setQuery(text);
   useEffect(() => {
     console.log(query);
     if (query) {

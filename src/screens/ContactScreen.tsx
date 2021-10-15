@@ -1,11 +1,61 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {FC} from 'react';
+import {ListRenderItem, FlatList} from 'react-native';
 
-const ContactScreen = () => {
+import {useContacts} from '../hooks/useContacts';
+import {Contact} from '../api/contact/model/Contact';
+
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {ContactStackParams} from '../navigation/stacks/ContactStack';
+
+import CustomHeader from '../components/atoms/CustomHeader';
+import CustomFAB from '../components/atoms/CustomFAB';
+import CustomSearcher from '../components/atoms/CustomSearcher';
+import NoDataCard from '../components/atoms/NoDataCard';
+import DataCard from '../components/molecules/DataCard';
+import ViewContainer from '../components/templates/ViewContainer';
+
+interface ContactScreenProps
+  extends NativeStackScreenProps<ContactStackParams, 'Contact'> {}
+
+const ContactScreen: FC<ContactScreenProps> = ({navigation}) => {
+  const {contacts} = useContacts();
+
+  const renderItem: ListRenderItem<Contact> = ({item}) => (
+    <DataCard
+      title={item.name}
+      fisrt={item.phone}
+      actionIcon={'delete'}
+      type="personal"
+      action={() => console.log('Hola')}
+      onPress={() =>
+        navigation.navigate('Update', {contact: item, actionType: 'UPDATE'})
+      }
+    />
+  );
+
   return (
-    <View>
-      <Text>Contactos</Text>
-    </View>
+    <ViewContainer>
+      <FlatList
+        data={contacts}
+        renderItem={renderItem}
+        ListEmptyComponent={() => (
+          <NoDataCard text="No se han agregado contactos." />
+        )}
+        ListHeaderComponent={() => (
+          <CustomHeader>
+            <CustomSearcher value={''} onChangeText={() => {}} />
+          </CustomHeader>
+        )}
+        keyExtractor={item => `${item.id}`}
+      />
+      <CustomFAB
+        onPress={() =>
+          navigation.navigate('Update', {
+            actionType: 'ADD',
+          })
+        }
+      />
+    </ViewContainer>
   );
 };
 

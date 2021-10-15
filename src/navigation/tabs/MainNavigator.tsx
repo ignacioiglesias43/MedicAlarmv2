@@ -7,6 +7,7 @@ import HomeStack from '../stacks/HomeStack';
 import ContactStack from '../stacks/ContactStack';
 import UserStack from '../stacks/UserStack';
 import colors from '../../styles/colors';
+import AppointmentsStack from '../stacks/AppointmentsStack';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -30,8 +31,19 @@ const chooseTabBarIcon =
       iconName = focused ? 'account' : 'account-outline';
     }
 
+    if (route === 'Appointments') {
+      iconName = 'calendar-range';
+    }
+
     return <Icon name={iconName} size={25} color={color} />;
   };
+
+const titles = {
+  Reminders: 'Alarmas',
+  Appointments: 'Citas',
+  Contacts: 'Contactos',
+  User: 'Usuario',
+};
 
 const MainNavigator = () => {
   const barStyle: StyleProp<ViewStyle> = {
@@ -48,11 +60,13 @@ const MainNavigator = () => {
       shifting={false}
       screenOptions={({route}) => ({
         tabBarIcon: chooseTabBarIcon(route.name),
+        // @ts-ignore
+        title: titles[route.name as keyof chooseTitle],
       })}>
       <Tab.Screen name="Reminders" component={HomeStack} />
+      <Tab.Screen name="Appointments" component={AppointmentsStack} />
       <Tab.Screen name="Contacts" component={ContactStack} />
       <Tab.Screen name="User" component={UserStack} />
-
     </Tab.Navigator>
   );
 };
