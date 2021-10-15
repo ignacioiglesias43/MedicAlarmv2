@@ -1,17 +1,16 @@
 import {useState} from 'react'
+import {useSelector} from 'react-redux';
+import { RootState } from '../store/index';
+import {useAppDispatch} from '../store/hooks';
 
-interface ReminderData {
-    name: string, 
-    nextHour: string,
-    frecuency: number,
-    times: number,
-}
 
 const useReminder = () => {
-    const [reminders, setReminders] = useState()
+    const { reminders } = useSelector((state: RootState) => state.reminderReducer);
 
+    //const [reminders, setReminders] = useState()
+    //TODO: Toda la lógica con los reminders
 
-    return {}
+    return {reminders}
 }
 
 export default useReminder
