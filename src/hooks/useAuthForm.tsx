@@ -12,8 +12,12 @@ export const useAuthForm = (formType: FormType) => {
     formType === 'LOGIN' ? initialLoginForm : initialSignupForm,
   );
 
+  const [userType, setUserType] = useState<UserType>();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
+
+  const onUserTypeChange = (newValue: string) =>
+    setUserType(newValue as UserType);
 
   const submitForm = async () => {
     //   TODO
@@ -58,7 +62,9 @@ export const useAuthForm = (formType: FormType) => {
   return {
     formFields,
     submitForm,
-    setValues: createChangeHandler,
     isLoading,
+    userType,
+    onUserTypeChange,
+    setValues: createChangeHandler,
   };
 };

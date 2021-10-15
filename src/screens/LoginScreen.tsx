@@ -1,17 +1,25 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Subheading} from 'react-native-paper';
+
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {AuthStackParams} from '../navigation/stacks/AuthStack';
 
 import CustomButton from '../components/atoms/CustomButton';
 import CustomInput from '../components/atoms/CustomInput';
 import AuthHeader from '../components/molecules/AuthHeader';
 import ViewContainer from '../components/templates/ViewContainer';
 
-import colors from '../styles/colors';
 import {useAuthForm} from '../hooks/useAuthForm';
 
-const LoginScreen = () => {
+import colors from '../styles/colors';
+
+interface LoginProps extends NativeStackScreenProps<AuthStackParams, 'Login'> {}
+
+const LoginScreen: FC<LoginProps> = ({navigation}) => {
   const {formFields, setValues, submitForm} = useAuthForm('LOGIN');
+
+  const signupBtn = () => navigation.navigate('Signup');
 
   return (
     <ViewContainer primary childrenStyle={styles.container}>
@@ -35,6 +43,7 @@ const LoginScreen = () => {
         text="Iniciar Sesión"
         color={colors.accent}
         style={styles.button}
+        onPress={submitForm}
       />
       <CustomButton
         dark
@@ -53,7 +62,7 @@ const LoginScreen = () => {
           text="Regístrate aquí"
           color={colors.accent}
           style={styles.button}
-          onPress={submitForm}
+          onPress={signupBtn}
         />
       </View>
     </ViewContainer>
