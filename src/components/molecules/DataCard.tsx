@@ -1,15 +1,17 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleProp, StyleSheet, TextStyle, View} from 'react-native';
 import {Card, Caption, Divider, IconButton} from 'react-native-paper';
 import colors from '../../styles/colors';
 
 interface DataCardProps {
   title: string;
-  type?: 'reminder' | 'citation';
+  type?: 'reminder' | 'citation' | 'personal';
   fisrt: string;
-  second: string;
+  second?: string;
   actionIcon?: string;
   action?: () => void;
+  titleStyle?: StyleProp<TextStyle>;
+  subtitleStyle?: StyleProp<TextStyle>;
 }
 
 const DataCard = ({
@@ -19,18 +21,22 @@ const DataCard = ({
   second,
   actionIcon,
   action,
+  titleStyle,
+  subtitleStyle,
 }: DataCardProps) => {
   return (
     <Card style={styles.card} elevation={0}>
-      <Card.Title title={title} titleStyle={styles.title} />
+      <Card.Title title={title} titleStyle={[styles.title, titleStyle]} />
       <Card.Content style={styles.cardContent}>
         <View>
-          <Caption style={styles.caption}>
-            {type === 'reminder' ? 'Siguiente' : ''}: {fisrt}
+          <Caption style={[styles.caption, subtitleStyle]}>
+            {type === 'reminder' ? 'Siguiente:' : ''} {fisrt}
           </Caption>
-          <Caption style={styles.caption}>
-            {type === 'reminder' ? 'Frecuencia' : ''}: {second}
-          </Caption>
+          {second && (
+            <Caption style={[styles.caption, subtitleStyle]}>
+              {type === 'reminder' ? 'Frecuencia:' : ''} {second}
+            </Caption>
+          )}
         </View>
         {actionIcon ? (
           <IconButton

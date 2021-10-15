@@ -3,11 +3,11 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import AppointmentsScreen from '../../screens/AppointmentsScreen';
 
-const Stack = createNativeStackNavigator();
-
 export type AppointmentStackParams = {
-  Appointments: undefined;
+  AppointmentsDashboard: undefined;
 };
+
+const Stack = createNativeStackNavigator<AppointmentStackParams>();
 
 const AppointmentsStack = () => {
   return (

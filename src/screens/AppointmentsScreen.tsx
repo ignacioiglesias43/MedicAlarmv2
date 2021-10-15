@@ -17,6 +17,7 @@ const AppointmentsScreen = () => {
       title={item.doctor.name}
       fisrt={`Fecha: ${item.date}`}
       second={`Hora: ${item.hour}`}
+      type="citation"
       action={() => console.log('Hola')}
     />
   );
