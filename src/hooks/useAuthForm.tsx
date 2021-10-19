@@ -52,7 +52,7 @@ export const useAuthForm = (formType: FormType) => {
   const handleSignup = () => {
     const {
       name = '',
-      lastName = '',
+      lastname = '',
       email,
       phone,
       password,

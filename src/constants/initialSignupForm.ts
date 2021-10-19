@@ -1,6 +1,6 @@
 export interface ISignupForm {
   name?: string;
-  lastName?: string;
+  lastname?: string;
   email: string;
   password: string;
   repeatPassword?: string;
@@ -9,7 +9,7 @@ export interface ISignupForm {
 
 export const initialSignupForm: ISignupForm = {
   name: '',
-  lastName: '',
+  lastname: '',
   email: '',
   password: '',
   repeatPassword: '',

@@ -35,8 +35,8 @@ const AuthForm: FC<AuthFormProps> = ({formType, children}) => {
               <CustomInput
                 label="Apellidos"
                 mode="outlined"
-                value={formFields.lastName}
-                onChangeText={setValues('lastName')}
+                value={formFields.lastname}
+                onChangeText={setValues('lastname')}
               />
             </View>
           </View>

@@ -9,7 +9,6 @@ export interface RequestProps {
   params?: AxiosRequestConfig['params'];
 }
 
-// TODO: Change URL
 const api = axios.create({
   baseURL: API_URL,
 });
