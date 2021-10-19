@@ -3,6 +3,9 @@ import {StyleSheet} from 'react-native';
 
 import {Title} from 'react-native-paper';
 
+import {useAppDispatch} from '../store/hooks';
+import {updateToken} from '../store/auth/actionCreators';
+
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {UserStackParams} from '../navigation/stacks/UserStack';
 
@@ -17,9 +20,10 @@ interface UserScrenProps
   extends NativeStackScreenProps<UserStackParams, 'Dashboard'> {}
 
 const UserScreen: FC<UserScrenProps> = ({navigation}) => {
+  const dispatch = useAppDispatch();
   const updateInfo = () => navigation.navigate('UpdateInformation');
 
-  const logout = () => {};
+  const logout = () => dispatch(updateToken(''));
 
   return (
     <ViewContainer>
