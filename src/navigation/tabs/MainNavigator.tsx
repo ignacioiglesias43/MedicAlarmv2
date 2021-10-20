@@ -8,6 +8,7 @@ import ContactStack from '../stacks/ContactStack';
 import UserStack from '../stacks/UserStack';
 import colors from '../../styles/colors';
 import AppointmentsStack from '../stacks/AppointmentsStack';
+import MedicineStack from '../stacks/MedicineStack';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -30,7 +31,9 @@ const chooseTabBarIcon =
     if (route === 'User') {
       iconName = focused ? 'account' : 'account-outline';
     }
-
+    if (route === 'Medicines') {
+      iconName = 'pill';
+    }
     if (route === 'Appointments') {
       iconName = 'calendar-range';
     }
@@ -42,6 +45,7 @@ const titles = {
   Reminders: 'Alarmas',
   Appointments: 'Citas',
   Contacts: 'Contactos',
+  Medicines: 'Medicamentos',
   User: 'Usuario',
 };
 
@@ -66,6 +70,7 @@ const MainNavigator = () => {
       <Tab.Screen name="Reminders" component={HomeStack} />
       <Tab.Screen name="Appointments" component={AppointmentsStack} />
       <Tab.Screen name="Contacts" component={ContactStack} />
+      <Tab.Screen name="Medicines" component={MedicineStack} />
       <Tab.Screen name="User" component={UserStack} />
     </Tab.Navigator>
   );
