@@ -25,8 +25,7 @@ const MedicineScreen = ({navigation}: Props) => {
       type="personal"
       action={() => console.log('Hola')}
       onPress={() =>
-        //navigation.navigate('Update', {actionType: 'UPDATE'})
-        console.log()
+        navigation.navigate('Update', {medicine: item, actionType: 'UPDATE'})
       }
     />
   );

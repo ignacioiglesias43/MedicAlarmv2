@@ -70,7 +70,9 @@ const UpdateReminder = ({route}: Props) => {
           />
         </View>
         {monitoring ? (
-          <CustomDropdown />
+          <CustomDropdown 
+            title="Contacto de confianza"
+          />
         ) : null}
         <CustomButton
           text="Guardar"

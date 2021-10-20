@@ -1,8 +1,9 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {Medicine} from '../../api/medicines/model/Medicines';
 import MedicineScreen from '../../screens/MedicineScreen';
+import UpdateMedicine from '../../screens/UpdateMedicine';
 
 export type MedicineStackParams = {
   Medicine: undefined;
@@ -10,7 +11,7 @@ export type MedicineStackParams = {
 };
 
 export interface UpdateParams {
-  contact?: Medicine;
+  medicine?: Medicine;
   actionType: 'UPDATE' | 'ADD';
 }
 
@@ -23,6 +24,8 @@ const MedicineStack = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="Medicine" component={MedicineScreen} />
+      <Stack.Screen name="Update" component={UpdateMedicine} />
+
     </Stack.Navigator>
   );
 };
