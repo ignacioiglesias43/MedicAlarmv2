@@ -10,6 +10,7 @@ import theme from './src/styles/theme';
 
 import NavContainer from './src/navigation/NavContainer';
 import ModalIndicator from './src/components/atoms/ModalIndicator';
+import CustomModal from './src/components/atoms/CustomModal';
 
 const persistedStore = persistStore(store);
 
@@ -20,6 +21,7 @@ const App = () => {
         <PaperProvider theme={theme}>
           <SafeAreaProvider>
             <NavContainer />
+            <CustomModal />
             <ModalIndicator />
           </SafeAreaProvider>
         </PaperProvider>
