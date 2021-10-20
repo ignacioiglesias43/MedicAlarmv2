@@ -3,7 +3,7 @@ import {StyleProp, ViewStyle} from 'react-native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import HomeStack from '../stacks/HomeStack';
+import HomeStack from '../stacks/ReminderStack';
 import ContactStack from '../stacks/ContactStack';
 import UserStack from '../stacks/UserStack';
 import colors from '../../styles/colors';

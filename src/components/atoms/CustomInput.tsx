@@ -43,7 +43,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   onChangeText,
   onIconPress,
   label,
-  mode,
+  mode = 'outlined',
   icon,
   keyboardType,
   style = {},

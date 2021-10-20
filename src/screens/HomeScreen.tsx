@@ -4,13 +4,19 @@ import DataCard from '../components/molecules/DataCard';
 import ViewContainer from '../components/templates/ViewContainer';
 import useReminder from '../hooks/useReminder';
 
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {ReminderStackParams} from '../navigation/stacks/ReminderStack';
+
 import {Reminder} from '../api/reminder/model/Reminder';
 import NoDataCard from '../components/atoms/NoDataCard';
 import CustomFAB from '../components/atoms/CustomFAB';
 import CustomSearcher from '../components/atoms/CustomSearcher';
 import CustomHeader from '../components/atoms/CustomHeader';
 
-const HomeScreen = () => {
+interface Props
+  extends NativeStackScreenProps<ReminderStackParams, 'Reminder'> {}
+
+const HomeScreen = ({navigation}: Props) => {
   const {reminderList, updateQuery, query} = useReminder();
 
   const renderItem: ListRenderItem<Reminder> = ({item}) => (
@@ -20,6 +26,9 @@ const HomeScreen = () => {
       second={`${item.frecuency} hrs`}
       actionIcon={'delete'}
       action={() => console.log('Hola')}
+      onPress={() =>
+        navigation.navigate('Update', {reminder: item, actionType: 'UPDATE'})
+      }
     />
   );
 
@@ -38,7 +47,9 @@ const HomeScreen = () => {
         )}
         keyExtractor={item => `${item.id}`}
       />
-      <CustomFAB onPress={() => {}} />
+      <CustomFAB
+        onPress={() => navigation.navigate('Update', {actionType: 'ADD'})}
+      />
     </ViewContainer>
   );
 };

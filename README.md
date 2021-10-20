@@ -33,3 +33,5 @@ yarn ios
 ## Native Dependencies:
 
 Copy here link to docs for native dependencies
+
+Picker: https://github.com/react-native-picker/picker
