@@ -7,6 +7,15 @@ import {ILoginForm, initialLoginForm} from '../constants/initialLoginForm';
 
 import {updateToken} from '../store/auth/actionCreators';
 import {updateIndicatorVisible} from '../store/loadingIndicator/actionCreators';
+import {
+  updateModalMessage,
+  updateModalTitle,
+  updateModalIconColor,
+  updateModalVisible,
+  updateModalIcon,
+} from '../store/modal/actionCreators';
+
+import colors from '../styles/colors';
 
 // TODO: Descomentar y reemplazarlo por la logica necesaria
 
@@ -31,20 +40,19 @@ export const useAuthForm = (formType: FormType) => {
 
   const handleLogin = (fields: ILoginForm) => {
     const {email, password} = fields;
-    /* TODO DELETE THIS SETITMEOUT AFTER CONSUMING WS, THIS IS JUST FOR DEMONSTRATION */
-    dispatch(updateIndicatorVisible(true));
-
-    setTimeout(() => {
-      dispatch(updateToken('12345'));
-      dispatch(updateIndicatorVisible(false));
-    }, 500);
-
     if (email && password) {
+      dispatch(updateIndicatorVisible(true));
+
+      setTimeout(() => {
+        dispatch(updateToken('12345'));
+        dispatch(updateIndicatorVisible(false));
+      }, 500);
     } else {
-      /* dispatch(updateModalMessage('All fields are required.'));
-      dispatch(updateModalTitle('Warning'));
-      dispatch(updateIconColor('inherit'));
-      dispatch(updateModalVisible(true)); */
+      dispatch(updateModalTitle('Advertencia'));
+      dispatch(updateModalMessage('Todos los campos son necesarios.'));
+      dispatch(updateModalIcon('alert-circle-outline'));
+      dispatch(updateModalIconColor(colors.warning));
+      dispatch(updateModalVisible(true));
     }
     return null;
   };
@@ -61,14 +69,18 @@ export const useAuthForm = (formType: FormType) => {
     if (name && lastname && email && phone && password && repeatPassword) {
       if (password === repeatPassword) {
       } else {
-        /* dispatch(updateModalMessage("Password's do not match."));
-        dispatch(updateModalTitle('Warning'));
-        dispatch(updateModalVisible(true)); */
+        dispatch(updateModalTitle('Advertencia'));
+        dispatch(updateModalMessage('Las contraseñas no coinciden.'));
+        dispatch(updateModalIcon('alert-circle-outline'));
+        dispatch(updateModalIconColor(colors.warning));
+        dispatch(updateModalVisible(true));
       }
     } else {
-      /* dispatch(updateModalMessage('All fields but username are required.'));
-      dispatch(updateModalTitle('Warning'));
-      dispatch(updateModalVisible(true)); */
+      dispatch(updateModalTitle('Advertencia'));
+      dispatch(updateModalMessage('Todos los campos son necesarios.'));
+      dispatch(updateModalIcon('alert-circle-outline'));
+      dispatch(updateModalIconColor(colors.warning));
+      dispatch(updateModalVisible(true));
     }
     return null;
   };

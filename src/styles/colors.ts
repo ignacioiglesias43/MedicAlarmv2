@@ -7,6 +7,7 @@ interface Colors {
   accent: string;
   accentLight: string;
   error: string;
+  warning: string;
   text: string;
   onSurface: string;
   onBackground: string;
@@ -33,6 +34,7 @@ const colors: Colors = {
   titleWhite: '#FFFFFF',
   tabBackground: '#FAFAFA',
   markedDates: '#FFB7AB',
+  warning: '#ff8800',
 };
 
 export default colors;
