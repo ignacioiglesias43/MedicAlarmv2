@@ -23,14 +23,14 @@ export const useAuthForm = (formType: FormType) => {
 
   const submitForm = () => {
     if (formType === 'LOGIN') {
-      handleLogin();
+      handleLogin(formFields as ILoginForm);
     } else {
-      handleSignup();
+      handleSignup(formFields as ISignupForm);
     }
   };
 
-  const handleLogin = () => {
-    const {email, password} = formFields;
+  const handleLogin = (fields: ILoginForm) => {
+    const {email, password} = fields;
     /* TODO DELETE THIS SETITMEOUT AFTER CONSUMING WS, THIS IS JUST FOR DEMONSTRATION */
     dispatch(updateIndicatorVisible(true));
 
@@ -49,7 +49,7 @@ export const useAuthForm = (formType: FormType) => {
     return null;
   };
 
-  const handleSignup = () => {
+  const handleSignup = (fields: ISignupForm) => {
     const {
       name = '',
       lastname = '',
@@ -57,8 +57,8 @@ export const useAuthForm = (formType: FormType) => {
       phone,
       password,
       repeatPassword,
-    } = formFields;
-    if (name && lastName && email && phone && password && repeatPassword) {
+    } = fields;
+    if (name && lastname && email && phone && password && repeatPassword) {
       if (password === repeatPassword) {
       } else {
         /* dispatch(updateModalMessage("Password's do not match."));

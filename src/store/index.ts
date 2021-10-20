@@ -14,6 +14,7 @@ import persistReducer from 'redux-persist/es/persistReducer';
 import authReducer from './auth/authReducer';
 import reminderReducer from './reminders/reminderReducer';
 import loadingIndicatorReducer from './loadingIndicator/loadingIndicatorReducer';
+import modalReducer from './modal/modalReducer';
 
 const persistedConfig = {
   key: 'root',
@@ -26,6 +27,7 @@ const reducers = combineReducers({
   authReducer,
   reminderReducer,
   loadingIndicatorReducer,
+  modalReducer,
 });
 
 const persistedReducer = persistReducer(persistedConfig, reducers);
