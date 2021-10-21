@@ -14,6 +14,7 @@ interface CustomInputProps {
   value: string;
   label: string;
   mode?: 'flat' | 'outlined';
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined;
   secureTextEntry?: boolean;
   icon?: string;
   onChangeText?: ((text: string) => void) & Function;
@@ -48,6 +49,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   keyboardType,
   style = {},
   secureTextEntry = false,
+  autoCapitalize = 'sentences',
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -61,6 +63,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
       label={label}
       mode={mode}
       secureTextEntry={secureTextEntry}
+      autoCapitalize={autoCapitalize}
       onChangeText={onChangeText}
       onFocus={handleInputFocus}
       onBlur={handleInputBlur}
