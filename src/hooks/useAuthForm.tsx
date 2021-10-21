@@ -86,7 +86,13 @@ export const useAuthForm = (formType: FormType) => {
       }
     } catch (error: any) {
       dispatch(updateIndicatorVisible(false));
-      console.log('e', error.response);
+      if (error.response) {
+        dispatch(updateModalTitle('Error'));
+        dispatch(updateModalMessage(error?.response?.data?.message || ''));
+        dispatch(updateModalIcon('alert-decagram'));
+        dispatch(updateModalIconColor(colors.error));
+        dispatch(updateModalVisible(true));
+      }
     }
   };
 
@@ -101,7 +107,7 @@ export const useAuthForm = (formType: FormType) => {
     } else {
       dispatch(updateModalTitle('Advertencia'));
       dispatch(updateModalMessage('Todos los campos son necesarios.'));
-      dispatch(updateModalIcon('alert-circle-outline'));
+      dispatch(updateModalIcon('alert-decagram'));
       dispatch(updateModalIconColor(colors.warning));
       dispatch(updateModalVisible(true));
     }
@@ -137,14 +143,14 @@ export const useAuthForm = (formType: FormType) => {
       } else {
         dispatch(updateModalTitle('Advertencia'));
         dispatch(updateModalMessage('Las contraseñas no coinciden.'));
-        dispatch(updateModalIcon('alert-circle-outline'));
+        dispatch(updateModalIcon('alert-decagram'));
         dispatch(updateModalIconColor(colors.warning));
         dispatch(updateModalVisible(true));
       }
     } else {
       dispatch(updateModalTitle('Advertencia'));
       dispatch(updateModalMessage('Todos los campos son necesarios.'));
-      dispatch(updateModalIcon('alert-circle-outline'));
+      dispatch(updateModalIcon('alert-decagram'));
       dispatch(updateModalIconColor(colors.warning));
       dispatch(updateModalVisible(true));
     }
