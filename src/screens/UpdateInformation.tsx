@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {StyleSheet, View} from 'react-native';
 
 import CustomButton from '../components/atoms/CustomButton';
@@ -8,13 +8,16 @@ import ViewContainer from '../components/templates/ViewContainer';
 
 import {useUpdateInfo} from '../hooks/useUpdateInfo';
 
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {UserStackParams} from '../navigation/stacks/UserStack';
+
 import colors from '../styles/colors';
 
-const UpdateInformation = () => {
-  const {formFields, setValues} = useUpdateInfo();
+interface UpdateInformationProps
+  extends NativeStackScreenProps<UserStackParams, 'UpdateInformation'> {}
 
-  const update = () => {};
-  const cancel = () => {};
+const UpdateInformation: FC<UpdateInformationProps> = ({navigation}) => {
+  const {formFields, setValues, update, cancel} = useUpdateInfo(navigation);
 
   return (
     <ViewContainer>
@@ -30,8 +33,8 @@ const UpdateInformation = () => {
         <CustomInput
           label="Apellidos"
           mode="outlined"
-          value={formFields.lastName}
-          onChangeText={setValues('lastName')}
+          value={formFields.lastname}
+          onChangeText={setValues('lastname')}
           style={styles.input}
         />
         <CustomInput
