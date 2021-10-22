@@ -5,6 +5,7 @@ export interface ISignupForm {
   password: string;
   repeatPassword?: string;
   phone: string;
+  key?: string,
 }
 
 export const initialSignupForm: ISignupForm = {
@@ -14,4 +15,5 @@ export const initialSignupForm: ISignupForm = {
   password: '',
   repeatPassword: '',
   phone: '',
+  key: '',
 };

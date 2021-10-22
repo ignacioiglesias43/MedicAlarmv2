@@ -3,12 +3,16 @@ import {StyleProp, ViewStyle} from 'react-native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store/index';
+
 import HomeStack from '../stacks/ReminderStack';
 import ContactStack from '../stacks/ContactStack';
 import UserStack from '../stacks/UserStack';
 import colors from '../../styles/colors';
 import AppointmentsStack from '../stacks/AppointmentsStack';
 import MedicineStack from '../stacks/MedicineStack';
+import PatientStack from '../stacks/PatientStack';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -28,6 +32,9 @@ const chooseTabBarIcon =
     if (route === 'Contacts') {
       iconName = focused ? 'account-box' : 'account-box-outline';
     }
+    if (route === 'Patients') {
+      iconName = focused ? 'account-group' : 'account-group-outline';
+    }
     if (route === 'User') {
       iconName = focused ? 'account' : 'account-outline';
     }
@@ -43,6 +50,7 @@ const chooseTabBarIcon =
 
 const titles = {
   Reminders: 'Alarmas',
+  Patients: 'Pacientes',
   Appointments: 'Citas',
   Contacts: 'Contactos',
   Medicines: 'Medicamentos',
@@ -50,6 +58,8 @@ const titles = {
 };
 
 const MainNavigator = () => {
+  const {userInfo} = useSelector((state: RootState) => state.authReducer);
+
   const barStyle: StyleProp<ViewStyle> = {
     backgroundColor: colors.tabBackground,
     height: 70,
@@ -67,10 +77,17 @@ const MainNavigator = () => {
         // @ts-ignore
         title: titles[route.name as keyof chooseTitle],
       })}>
-      <Tab.Screen name="Reminders" component={HomeStack} />
+      {userInfo?.role === 'Medic' ? (
+        <Tab.Screen name="Patients" component={PatientStack} />
+        ) : (
+        <Tab.Screen name="Reminders" component={HomeStack} />
+      )}
       <Tab.Screen name="Appointments" component={AppointmentsStack} />
-      <Tab.Screen name="Contacts" component={ContactStack} />
-      <Tab.Screen name="Medicines" component={MedicineStack} />
+      {userInfo?.role === 'Medic' ? (
+        <Tab.Screen name="Medicines" component={MedicineStack} />
+      ) : (
+        <Tab.Screen name="Contacts" component={ContactStack} />
+      )}
       <Tab.Screen name="User" component={UserStack} />
     </Tab.Navigator>
   );

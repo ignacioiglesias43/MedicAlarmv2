@@ -123,6 +123,15 @@ const AuthForm: FC<AuthFormProps> = ({formType, children}) => {
           </RadioButton.Group>
         </View>
       )}
+      {formType === 'REGISTER' && userType === 'Doctor' && (
+        <>
+          <CustomInput
+            label="Código de médico"
+            value={formFields.key}
+            onChangeText={setValues('key')}
+          />
+        </>
+      )}
       <CustomButton
         dark
         mode="contained"
