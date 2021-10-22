@@ -4,17 +4,24 @@ import {StyleSheet, Text, View} from 'react-native';
 import {User} from '../../api/user/model/User';
 
 import PatientScreen from '../../screens/PatientScreen';
+import UpdatePatient from '../../screens/UpdatePatient';
+import PatientDetails from '../../screens/PatientDetails';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<PatientStackParams>();
 
 export type PatientStackParams = {
-  Reminder: undefined;
+  Patient: undefined;
   Update: UpdateParams;
+  Details: DetailsParams;
 };
 
 export interface UpdateParams {
   patient?: User;
-  actionType: 'UPDATE' | 'ADD';
+  actionType: 'UPDATE' | 'ADD' | 'SEE';
+}
+
+export interface DetailsParams {
+    patient: User,
 }
 
 const PatientStack = () => {
@@ -23,7 +30,10 @@ const PatientStack = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="Patients" component={PatientScreen} />
+      <Stack.Screen name="Patient" component={PatientScreen} />
+      <Stack.Screen name="Update" component={UpdatePatient} />
+      <Stack.Screen name="Details" component={PatientDetails} />
+
     </Stack.Navigator>
   );
 };

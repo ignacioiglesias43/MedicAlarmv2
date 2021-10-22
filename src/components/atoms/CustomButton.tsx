@@ -15,7 +15,7 @@ interface ButtonProps {
 
 const CustomButton = ({
   text,
-  color,
+  color=colors.accent,
   dark,
   onPress = () => {},
   mode = 'contained',
