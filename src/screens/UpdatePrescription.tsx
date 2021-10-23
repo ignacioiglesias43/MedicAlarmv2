@@ -1,11 +1,14 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+
 import CustomButton from '../components/atoms/CustomButton';
 import CustomDropdown from '../components/atoms/CustomDropdown';
 import CustomInput from '../components/atoms/CustomInput';
 import BackHeader from '../components/molecules/BackHeader';
 import ViewContainer from '../components/templates/ViewContainer';
+import FormContainer from '../components/templates/FormContainer';
+
 import useUpdatePrescription from '../hooks/useUpdatePrescription';
 import {
   PatientStackParams,
@@ -27,38 +30,38 @@ const UpdatePrescription = ({route}: Props) => {
   return (
     <ViewContainer>
       <BackHeader title={title} />
-      <View style={styles.container}>
-          <CustomDropdown 
-            title="Medicamento"
+      <FormContainer>
+        <View style={styles.container}>
+          <CustomDropdown title="Medicamento" />
+          <CustomInput
+            label="Frecuencia"
+            value={`${formFields.frecuency}`}
+            onChangeText={setValues('frecuency')}
+            style={styles.input}
           />
-        <CustomInput
-          label="Frecuencia"
-          value={`${formFields.frecuency}`}
-          onChangeText={setValues('frecuency')}
-          style={styles.input}
-        />
-        <CustomInput
-          label="Repeticiones"
-          value={`${formFields.count}`}
-          onChangeText={setValues('count')}
-          style={styles.input}
-        />
-        <CustomButton
-          dark
-          mode="contained"
-          text="Guardar"
-          color={colors.accent}
-          style={styles.button}
-          onPress={update}
-        />
-        <CustomButton
-          dark
-          mode="outlined"
-          text="Cancelar"
-          color={colors.accent}
-          onPress={cancel}
-        />
-      </View>
+          <CustomInput
+            label="Repeticiones"
+            value={`${formFields.count}`}
+            onChangeText={setValues('count')}
+            style={styles.input}
+          />
+          <CustomButton
+            dark
+            mode="contained"
+            text="Guardar"
+            color={colors.accent}
+            style={styles.button}
+            onPress={update}
+          />
+          <CustomButton
+            dark
+            mode="outlined"
+            text="Cancelar"
+            color={colors.accent}
+            onPress={cancel}
+          />
+        </View>
+      </FormContainer>
     </ViewContainer>
   );
 };

@@ -1,16 +1,14 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {StyleSheet, Text, View} from 'react-native';
+
 import {User} from '../../api/user/model/User';
 
-import { Prescription } from '../../api/prescriptions/model/Prescription';
+import {Prescription} from '../../api/prescriptions/model/Prescription';
 
 import PatientScreen from '../../screens/PatientScreen';
 import AddPatient from '../../screens/AddPatient';
 import PatientDetails from '../../screens/PatientDetails';
 import UpdatePrescription from '../../screens/UpdatePrescription';
-
-const Stack = createNativeStackNavigator<PatientStackParams>();
 
 export type PatientStackParams = {
   Patient: undefined;
@@ -19,12 +17,14 @@ export type PatientStackParams = {
   Update: UpdateParams;
 };
 export interface UpdateParams {
-  prescription?: Prescription
-  actionType: 'ADD' | 'UPDATE'
+  prescription?: Prescription;
+  actionType: 'ADD' | 'UPDATE';
 }
 export interface DetailsParams {
-    patient: User,
+  patient: User;
 }
+
+const Stack = createNativeStackNavigator<PatientStackParams>();
 
 const PatientStack = () => {
   return (
@@ -36,11 +36,8 @@ const PatientStack = () => {
       <Stack.Screen name="Add" component={AddPatient} />
       <Stack.Screen name="Details" component={PatientDetails} />
       <Stack.Screen name="Update" component={UpdatePrescription} />
-
     </Stack.Navigator>
   );
 };
 
 export default PatientStack;
-
-const styles = StyleSheet.create({});

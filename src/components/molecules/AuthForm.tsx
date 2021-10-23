@@ -1,10 +1,10 @@
 import React, {FC} from 'react';
 import {RadioButton, Text, Caption, TouchableRipple} from 'react-native-paper';
 import {StyleSheet, View} from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import CustomButton from '../atoms/CustomButton';
 import CustomInput from '../atoms/CustomInput';
+import FormContainer from '../templates/FormContainer';
 
 import {useAuthForm} from '../../hooks/useAuthForm';
 
@@ -26,11 +26,7 @@ const AuthForm: FC<AuthFormProps> = ({formType, children}) => {
   } = useAuthForm(formType);
 
   return (
-    <KeyboardAwareScrollView
-      enableOnAndroid
-      keyboardShouldPersistTaps={'handled'}
-      enableResetScrollToCoords={false}
-      showsVerticalScrollIndicator={false}>
+    <FormContainer>
       {formType === 'REGISTER' && (
         <View style={styles.rowInput}>
           <View style={[styles.inputWrap, styles.firstInput]}>
@@ -141,7 +137,7 @@ const AuthForm: FC<AuthFormProps> = ({formType, children}) => {
         onPress={submitForm}
       />
       {children}
-    </KeyboardAwareScrollView>
+    </FormContainer>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, {useState, useRef} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Text} from 'react-native-paper'
+import {Text} from 'react-native-paper';
 import {Picker, PickerProps} from '@react-native-picker/picker';
 import {Contact} from '../../api/contact/model/Contact';
 import colors from '../../styles/colors';
@@ -33,7 +33,7 @@ const CustomDropdown = ({title, items = []}: Props) => {
         selectedValue={selectedItem}
         onValueChange={(itemValue, itemIndex) => setSelectedItem(itemValue)}>
         {items.map(e => (
-          <Picker.Item label={e.name} value={e.id} />
+          <Picker.Item label={e.name} value={e.id} key={e.id?.toString()} />
         ))}
       </Picker>
     </View>
@@ -49,12 +49,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
   },
-  title:{
+  title: {
     position: 'absolute',
     paddingHorizontal: 5,
     fontSize: 12,
     top: -10,
     left: 5,
-    backgroundColor: colors.background
-  }
+    backgroundColor: colors.background,
+  },
 });

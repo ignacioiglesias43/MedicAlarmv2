@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {
@@ -8,13 +8,14 @@ import {
 } from '../navigation/stacks/MedicineStack';
 
 import CustomInput from '../components/atoms/CustomInput';
-import ViewContainer from '../components/templates/ViewContainer';
-import BackHeader from '../components/molecules/BackHeader';
 import CustomButton from '../components/atoms/CustomButton';
+import CustomDropdown from '../components/atoms/CustomDropdown';
+import BackHeader from '../components/molecules/BackHeader';
+import ViewContainer from '../components/templates/ViewContainer';
+import FormContainer from '../components/templates/FormContainer';
 
 import {useUpdateMedicine} from '../hooks/useUpdateMedicine';
 import colors from '../styles/colors';
-import CustomDropdown from '../components/atoms/CustomDropdown';
 
 interface Props
   extends NativeStackScreenProps<MedicineStackParams, 'Medicine'> {}
@@ -32,30 +33,32 @@ const UpdateMedicine = ({route}: Props) => {
   return (
     <ViewContainer>
       <BackHeader title={title} />
-      <View style={styles.container}>
-        <CustomInput
-          label="Nombre"
-          value={formFields.name}
-          onChangeText={setValues('name')}
-          style={styles.input}
-        />
-        <CustomDropdown title="Via de administración" items={pickerOptions} />
-        <CustomButton
-          dark
-          mode="contained"
-          text="Guardar"
-          color={colors.accent}
-          style={styles.button}
-          onPress={update}
-        />
-        <CustomButton
-          dark
-          mode="outlined"
-          text="Cancelar"
-          color={colors.accent}
-          onPress={cancel}
-        />
-      </View>
+      <FormContainer>
+        <View style={styles.container}>
+          <CustomInput
+            label="Nombre"
+            value={formFields.name}
+            onChangeText={setValues('name')}
+            style={styles.input}
+          />
+          <CustomDropdown title="Via de administración" items={pickerOptions} />
+          <CustomButton
+            dark
+            mode="contained"
+            text="Guardar"
+            color={colors.accent}
+            style={styles.button}
+            onPress={update}
+          />
+          <CustomButton
+            dark
+            mode="outlined"
+            text="Cancelar"
+            color={colors.accent}
+            onPress={cancel}
+          />
+        </View>
+      </FormContainer>
     </ViewContainer>
   );
 };

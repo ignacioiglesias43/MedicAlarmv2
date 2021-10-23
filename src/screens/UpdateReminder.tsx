@@ -7,14 +7,15 @@ import {
   UpdateParams,
 } from '../navigation/stacks/ReminderStack';
 
+import CustomButton from '../components/atoms/CustomButton';
+import CustomInput from '../components/atoms/CustomInput';
+import CustomDropdown from '../components/atoms/CustomDropdown';
+import BackHeader from '../components/molecules/BackHeader';
 import ViewContainer from '../components/templates/ViewContainer';
+import FormContainer from '../components/templates/FormContainer';
 
 import {useUpdateReminder} from '../hooks/useUpdateReminder';
-import BackHeader from '../components/molecules/BackHeader';
-import CustomInput from '../components/atoms/CustomInput';
-import CustomButton from '../components/atoms/CustomButton';
 import colors from '../styles/colors';
-import CustomDropdown from '../components/atoms/CustomDropdown';
 
 interface Props
   extends NativeStackScreenProps<ReminderStackParams, 'Reminder'> {}
@@ -32,61 +33,60 @@ const UpdateReminder = ({route}: Props) => {
   return (
     <ViewContainer>
       <BackHeader title={title} />
-      <View style={styles.container}>
-        <CustomInput
-          label="Asunto"
-          value={formFields.name}
-          onChangeText={setValues('name')}
-          style={styles.input}
-        />
-        <CustomInput
-          label="Repeticiones"
-          value={`${formFields.count}`}
-          onChangeText={setValues('count')}
-          keyboardType="numeric"
-          style={styles.input}
-        />
-        <CustomInput
-          label="Frecuencia (horas)"
-          value={`${formFields.frecuency}`}
-          onChangeText={setValues('frecuency')}
-          keyboardType="numeric"
-          style={styles.input}
-        />
-        <CustomInput
-          label="Hora inicial"
-          value={formFields.next_hour!}
-          onChangeText={setValues('next_hour')}
-          keyboardType="numeric"
-          style={styles.input}
-        />
-        <View style={styles.checkContainer}>
-          <Text style={styles.checkText}>Monitorear alarma:</Text>
-          <Checkbox
-            status={monitoring ? 'checked' : 'unchecked'}
-            onPress={() => {
-              setMonitoring(!monitoring);
-            }}
+      <FormContainer>
+        <View style={styles.container}>
+          <CustomInput
+            label="Asunto"
+            value={formFields.name}
+            onChangeText={setValues('name')}
+            style={styles.input}
+          />
+          <CustomInput
+            label="Repeticiones"
+            value={`${formFields.count}`}
+            onChangeText={setValues('count')}
+            keyboardType="numeric"
+            style={styles.input}
+          />
+          <CustomInput
+            label="Frecuencia (horas)"
+            value={`${formFields.frecuency}`}
+            onChangeText={setValues('frecuency')}
+            keyboardType="numeric"
+            style={styles.input}
+          />
+          <CustomInput
+            label="Hora inicial"
+            value={formFields.next_hour!}
+            onChangeText={setValues('next_hour')}
+            keyboardType="numeric"
+            style={styles.input}
+          />
+          <View style={styles.checkContainer}>
+            <Text style={styles.checkText}>Monitorear alarma:</Text>
+            <Checkbox
+              status={monitoring ? 'checked' : 'unchecked'}
+              onPress={() => {
+                setMonitoring(!monitoring);
+              }}
+            />
+          </View>
+          {monitoring ? <CustomDropdown title="Contacto de confianza" /> : null}
+          <CustomButton
+            text="Guardar"
+            color={colors.accent}
+            style={styles.button}
+            onPress={update}
+            dark
+          />
+          <CustomButton
+            mode="outlined"
+            text="Cancelar"
+            color={colors.accent}
+            onPress={cancel}
           />
         </View>
-        {monitoring ? (
-          <CustomDropdown 
-            title="Contacto de confianza"
-          />
-        ) : null}
-        <CustomButton
-          text="Guardar"
-          color={colors.accent}
-          style={styles.button}
-          onPress={update}
-        />
-        <CustomButton
-          mode="outlined"
-          text="Cancelar"
-          color={colors.accent}
-          onPress={cancel}
-        />
-      </View>
+      </FormContainer>
     </ViewContainer>
   );
 };
