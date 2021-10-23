@@ -1,14 +1,17 @@
 import {useState} from 'react';
-import { User } from '../api/user/model/User';
+import {Patient} from '../api/patient/model/Patient';
 
 export const usePacient = () => {
-  const [patients, setPatients] = useState<User[]>([
+  const [patients, setPatients] = useState<Patient[]>([
     {
-      id: 1,
-      name: 'Ignacio',
-      lastname: 'Iglesias',
-      phone: '6122192275',
-      email: 'iglesias@gmail.com'
+      patient: {
+        id: 1,
+        name: 'Ignacio',
+        lastname: 'Iglesias',
+        phone: '6122192275',
+        email: 'iglesias@gmail.com',
+      },
+      prescriptions: [],
     },
   ]);
 

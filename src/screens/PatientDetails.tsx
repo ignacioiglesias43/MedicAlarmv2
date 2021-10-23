@@ -1,8 +1,10 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
 import {FlatList, ListRenderItem, StyleSheet, Text, View} from 'react-native';
+import {FAB, Portal} from 'react-native-paper';
 import {Prescription} from '../api/prescriptions/model/Prescription';
 import CustomButton from '../components/atoms/CustomButton';
+import CustomFABGroup from '../components/atoms/CustomFABGroup';
 import NoDataCard from '../components/atoms/NoDataCard';
 import BackHeader from '../components/molecules/BackHeader';
 import DataCard from '../components/molecules/DataCard';
@@ -15,9 +17,9 @@ import {
 
 interface Props extends NativeStackScreenProps<PatientStackParams, 'Patient'> {}
 
-const PatientDetails = ({route}: Props) => {
+const PatientDetails = ({route, navigation}: Props) => {
   const {patient} = route.params as unknown as DetailsParams;
-  const {prescriptions} = usePatientMedicines();
+  const {prescriptions, actions} = usePatientMedicines();
 
   const renderItem: ListRenderItem<Prescription> = ({item}) => (
     <DataCard
@@ -27,6 +29,12 @@ const PatientDetails = ({route}: Props) => {
       actionIcon="delete"
       type="personal"
       action={() => console.log('Hoa')}
+      onPress={() =>
+        navigation.navigate('Update', {
+          prescription: item,
+          actionType: 'UPDATE',
+        })
+      }
     />
   );
 
@@ -40,22 +48,9 @@ const PatientDetails = ({route}: Props) => {
           ListEmptyComponent={() => (
             <NoDataCard text="No se han agregado recetas." />
           )}
-          ListFooterComponent={() => (
-            <>
-              <CustomButton
-                text="Agregar nueva receta"
-                dark
-                style={styles.button}
-              />
-              <CustomButton
-                text="Eliminar paciente"
-                mode="outlined"
-                style={styles.button}
-              />
-            </>
-          )}
         />
       </View>
+      <CustomFABGroup actions={actions} />
     </ViewContainer>
   );
 };
@@ -65,7 +60,6 @@ export default PatientDetails;
 const styles = StyleSheet.create({
   list: {
     paddingHorizontal: 10,
-    flex: 1,
   },
   button: {
     marginTop: 15,
