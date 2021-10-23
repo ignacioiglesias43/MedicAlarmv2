@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {StyleProp, StyleSheet, TextStyle, View} from 'react-native';
 import {Card, Caption, Divider, IconButton} from 'react-native-paper';
 import colors from '../../styles/colors';
@@ -15,7 +15,7 @@ interface DataCardProps {
   subtitleStyle?: StyleProp<TextStyle>;
 }
 
-const DataCard = ({
+const DataCard: FC<DataCardProps> = ({
   title,
   fisrt,
   type = 'reminder',
@@ -25,7 +25,7 @@ const DataCard = ({
   onPress,
   titleStyle,
   subtitleStyle,
-}: DataCardProps) => {
+}) => {
   return (
     <Card style={styles.card} elevation={0} onPress={onPress}>
       <Card.Title title={title} titleStyle={[styles.title, titleStyle]} />
@@ -40,14 +40,14 @@ const DataCard = ({
             </Caption>
           )}
         </View>
-        {actionIcon ? (
+        {actionIcon && (
           <IconButton
             icon={actionIcon}
             color={colors.accent}
             size={30}
             onPress={action}
           />
-        ) : null}
+        )}
       </Card.Content>
       <Divider style={styles.divider} />
     </Card>

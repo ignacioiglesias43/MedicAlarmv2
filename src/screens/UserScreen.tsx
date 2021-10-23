@@ -28,7 +28,10 @@ const UserScreen: FC<UserScrenProps> = ({navigation}) => {
   const updateInfo = () => navigation.navigate('UpdateInformation');
   const logout = () => dispatch(updateToken(''));
 
-  const {name, lastname, email, phone, code} = userInfo as User;
+  const {name, lastname, email, phone, code, role} = userInfo as User;
+
+  // NO SE PORQUE TRUENA XD
+  const isADoctor = role !== undefined && role?.length > 0 && role === 'Medic';
 
   return (
     <ViewContainer>
@@ -37,13 +40,15 @@ const UserScreen: FC<UserScrenProps> = ({navigation}) => {
           {name} {lastname}
         </Title>
       </CustomHeader>
-      <DataCard
-        title="ID"
-        fisrt={code!}
-        type="personal"
-        titleStyle={styles.titleCard}
-        subtitleStyle={styles.subCard}
-      />
+      {!isADoctor && (
+        <DataCard
+          title="ID"
+          fisrt={code}
+          type="personal"
+          titleStyle={styles.titleCard}
+          subtitleStyle={styles.subCard}
+        />
+      )}
       <DataCard
         title="Correo electrónico"
         fisrt={email}

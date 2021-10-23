@@ -44,14 +44,18 @@ export const useAuthForm = (formType: FormType) => {
 
   const onUserTypeChange = (newValue: string) => {
     setUserType(newValue as UserType);
-    if(newValue === 'Doctor'){
+    if (newValue === 'Doctor') {
       dispatch(updateModalTitle('Aviso'));
-      dispatch(updateModalMessage('Los médicos requieren de un código para registrarse. Consulte su centro de atención para más detalles'));
+      dispatch(
+        updateModalMessage(
+          'Los médicos requieren de un código para registrarse. Consulte su centro de atención para más detalles',
+        ),
+      );
       dispatch(updateModalIcon('alert-decagram'));
       dispatch(updateModalIconColor(colors.warning));
       dispatch(updateModalVisible(true));
     }
-  }
+  };
 
   const changePasswordIcon = (
     passwordKey: 'password' | 'repeatPassword',
@@ -93,9 +97,10 @@ export const useAuthForm = (formType: FormType) => {
         }
       }
     } catch (error: any) {
-      console.log(error)
+      console.log(error);
       dispatch(updateIndicatorVisible(false));
       if (error.response) {
+        console.log(error.response);
         dispatch(updateModalTitle('Error'));
         dispatch(updateModalMessage(error?.response?.data?.message || ''));
         dispatch(updateModalIcon('alert-decagram'));
@@ -150,7 +155,7 @@ export const useAuthForm = (formType: FormType) => {
           name,
           password,
           phone,
-          key
+          key,
         });
       } else {
         dispatch(updateModalTitle('Advertencia'));
