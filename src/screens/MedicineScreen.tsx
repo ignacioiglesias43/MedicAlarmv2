@@ -1,6 +1,6 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
-import {FlatList, ListRenderItem, StyleSheet, Text, View} from 'react-native';
+import {FlatList, ListRenderItem} from 'react-native';
 import {Medicine} from '../api/medicines/model/Medicines';
 import CustomFAB from '../components/atoms/CustomFAB';
 import CustomHeader from '../components/atoms/CustomHeader';
@@ -57,5 +57,3 @@ const MedicineScreen = ({navigation}: Props) => {
 };
 
 export default MedicineScreen;
-
-const styles = StyleSheet.create({});
