@@ -97,10 +97,8 @@ export const useAuthForm = (formType: FormType) => {
         }
       }
     } catch (error: any) {
-      console.log(error);
       dispatch(updateIndicatorVisible(false));
       if (error.response) {
-        console.log(error.response);
         dispatch(updateModalTitle('Error'));
         dispatch(updateModalMessage(error?.response?.data?.message || ''));
         dispatch(updateModalIcon('alert-decagram'));

@@ -18,7 +18,7 @@ interface ContactScreenProps
   extends NativeStackScreenProps<ContactStackParams, 'Contact'> {}
 
 const ContactScreen: FC<ContactScreenProps> = ({navigation}) => {
-  const {contacts} = useContacts();
+  const {contactsList, searchFunction, search, deleteContactButton} = useContacts();
 
   const renderItem: ListRenderItem<Contact> = ({item}) => (
     <DataCard
@@ -26,7 +26,7 @@ const ContactScreen: FC<ContactScreenProps> = ({navigation}) => {
       fisrt={item.phone}
       actionIcon={'delete'}
       type="personal"
-      action={() => console.log('Hola')}
+      action={() => deleteContactButton(item)}
       onPress={() =>
         navigation.navigate('Update', {contact: item, actionType: 'UPDATE'})
       }
@@ -36,14 +36,14 @@ const ContactScreen: FC<ContactScreenProps> = ({navigation}) => {
   return (
     <ViewContainer>
       <FlatList
-        data={contacts}
+        data={contactsList}
         renderItem={renderItem}
         ListEmptyComponent={() => (
           <NoDataCard text="No se han agregado contactos." />
         )}
         ListHeaderComponent={() => (
           <CustomHeader>
-            <CustomSearcher value={''} onChangeText={() => {}} />
+            <CustomSearcher value={search} onChangeText={(text) => {searchFunction(text)}} />
           </CustomHeader>
         )}
         keyExtractor={item => `${item.id}`}

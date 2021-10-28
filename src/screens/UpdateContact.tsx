@@ -19,13 +19,13 @@ import colors from '../styles/colors';
 interface UpdateContactProps
   extends NativeStackScreenProps<ContactStackParams, 'Contact'> {}
 
-const UpdateContact: FC<UpdateContactProps> = ({route}) => {
-  const {actionType} = route.params as unknown as UpdateParams;
+const UpdateContact: FC<UpdateContactProps> = ({route, navigation}) => {
+  const {actionType, contact} = route.params as unknown as UpdateParams;
 
-  const {formFields, setValues} = useUpdateContact(actionType);
-
-  const update = () => {};
-  const cancel = () => {};
+  const {submitForm, formFields, setValues} = useUpdateContact(
+    actionType,
+    contact ? contact : undefined,
+  );
 
   const title = actionType === 'ADD' ? 'Agregar contacto' : 'Editar contacto';
 
@@ -55,14 +55,14 @@ const UpdateContact: FC<UpdateContactProps> = ({route}) => {
             text="Guardar"
             color={colors.accent}
             style={styles.button}
-            onPress={update}
+            onPress={submitForm}
           />
           <CustomButton
             dark
             mode="outlined"
             text="Cancelar"
             color={colors.accent}
-            onPress={cancel}
+            onPress={() => navigation.goBack()}
           />
         </View>
       </FormContainer>

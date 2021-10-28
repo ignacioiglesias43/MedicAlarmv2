@@ -15,17 +15,19 @@ import authReducer from './auth/authReducer';
 import reminderReducer from './reminders/reminderReducer';
 import loadingIndicatorReducer from './loadingIndicator/loadingIndicatorReducer';
 import modalReducer from './modal/modalReducer';
+import contactReducer from './contacts/contactReducer';
 
 const persistedConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['authReducer', 'reminderReducer'],
+  whitelist: ['authReducer', 'reminderReducer', 'contactReducer'],
   timeout: undefined,
 };
 
 const reducers = combineReducers({
   authReducer,
   reminderReducer,
+  contactReducer,
   loadingIndicatorReducer,
   modalReducer,
 });
