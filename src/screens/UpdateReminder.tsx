@@ -22,8 +22,8 @@ interface Props
 
 const UpdateReminder = ({route}: Props) => {
   const {actionType} = route.params as unknown as UpdateParams;
-  const {formFields, setValues, contacts} = useUpdateReminder(actionType);
-  const [monitoring, setMonitoring] = useState(formFields.monitoring);
+  const {formFields, setValues, contacts, monitoring} =
+    useUpdateReminder(actionType);
 
   const update = () => {};
   const cancel = () => {};
@@ -65,13 +65,13 @@ const UpdateReminder = ({route}: Props) => {
           <View style={styles.checkContainer}>
             <Text style={styles.checkText}>Monitorear alarma:</Text>
             <Checkbox
-              status={monitoring ? 'checked' : 'unchecked'}
+              status={monitoring.status ? 'checked' : 'unchecked'}
               onPress={() => {
-                setMonitoring(!monitoring);
+                monitoring.handle();
               }}
             />
           </View>
-          {monitoring ? (
+          {monitoring.status ? (
             <CustomDropdown title="Contacto de confianza" items={contacts} />
           ) : null}
           <CustomButton
