@@ -14,7 +14,7 @@ import {
   updateModalIcon,
 } from '../store/modal/actionCreators';
 import colors from '../styles/colors';
-import {addContact, deleteContact} from '../store/contacts/actionCreators';
+import {addContact, updateSingleContact} from '../store/contacts/actionCreators';
 import {ResultedContactCreate} from '../api/contact/dto/resulted-contact.dto';
 import {initialContactForm} from '../constants/addContactForm';
 
@@ -44,9 +44,7 @@ export const useUpdateContact = (
         if (actionType === 'ADD') {
           dispatch(addContact({...data}));
         } else {
-          //TODO Cambiar la actualización del contacto en la store
-          dispatch(deleteContact(data.id));
-          dispatch(addContact({...data}));
+          dispatch(updateSingleContact({...data}));
         }
         dispatch(updateIndicatorVisible(false));
         navigation.goBack();
