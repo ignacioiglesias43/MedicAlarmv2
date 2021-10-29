@@ -5,6 +5,7 @@ import {
   updateModalIconColor,
   updateModalVisible,
   updateModalIcon,
+  updateModalIsConfirm,
 } from '../store/modal/actionCreators';
 import colors from '../styles/colors';
 
@@ -13,6 +14,7 @@ export const useModal = () => {
 
   const openModal = (
     message: string,
+    isConfirm: boolean = false,
     title: string = 'Aviso',
     icon: string = 'alert-decagram',
     color: string = colors.warning,
@@ -21,6 +23,7 @@ export const useModal = () => {
     dispatch(updateModalMessage(message));
     dispatch(updateModalIcon(icon));
     dispatch(updateModalIconColor(color));
+    dispatch(updateModalIsConfirm(isConfirm));
     dispatch(updateModalVisible(true));
   };
 

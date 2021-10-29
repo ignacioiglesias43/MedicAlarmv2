@@ -14,6 +14,7 @@ import {
   updateModalVisible,
   updateModalMessage,
   updateModalTitle,
+  updateModalIsConfirm,
 } from '../../store/modal/actionCreators';
 
 import {useAppSelector, useAppDispatch} from '../../store/hooks';
@@ -26,7 +27,7 @@ import colors from '../../styles/colors';
  */
 
 const CustomModal = () => {
-  const {visible, message, title, icon, iconColor} = useAppSelector(
+  const {visible, message, title, icon, iconColor, isConfirm} = useAppSelector(
     (state: RootState) => state.modalReducer,
   );
 
@@ -36,11 +37,15 @@ const CustomModal = () => {
     dispatch(updateModalVisible(false));
     dispatch(updateModalMessage(''));
     dispatch(updateModalTitle(''));
+    dispatch(updateModalIsConfirm(false));
   };
 
   return (
     <Portal>
-      <Modal visible={visible} contentContainerStyle={styles.main}>
+      <Modal
+        visible={visible}
+        contentContainerStyle={styles.main}
+        dismissable={false}>
         <View style={styles.iconView}>
           <IconButton icon={icon} size={80} color={iconColor} />
         </View>
@@ -48,16 +53,27 @@ const CustomModal = () => {
         <Title style={styles.title}>{title}</Title>
         <Text style={styles.message}>{message}</Text>
 
-        <Divider />
 
-        <Button
-          style={styles.btn}
-          onPress={hideModal}
-          color={colors.accent}
-          dark
-          mode="contained">
-          Aceptar
-        </Button>
+        <View style={styles.btnContainer}>
+          {isConfirm && (
+            <Button
+              style={styles.btn}
+              onPress={hideModal}
+              color={colors.accent}
+              dark
+              mode="contained">
+              Aceptar
+            </Button>
+          )}
+          <Button
+            style={styles.btn}
+            onPress={hideModal}
+            color={colors.accent}
+            dark
+            mode={isConfirm ? 'outlined' : 'contained'}>
+            {isConfirm ? 'Cancelar' : 'Aceptar'}
+          </Button>
+        </View>
       </Modal>
     </Portal>
   );
@@ -73,7 +89,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   btn: {
-    marginVertical: 20,
+    marginHorizontal: 10,
+    flex: 1,
+  },
+  btnContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   title: {
     textAlign: 'center',

@@ -7,17 +7,12 @@ import {useQuery} from './useQuery';
 import {deleteContactService, getContactService} from '../api/contact/services';
 import {deleteContact, updateContacts} from '../store/contacts/actionCreators';
 import {updateIndicatorVisible} from '../store/loadingIndicator/actionCreators';
-import {
-  updateModalIcon,
-  updateModalIconColor,
-  updateModalMessage,
-  updateModalTitle,
-} from '../store/modal/actionCreators';
-import colors from '../styles/colors';
+import {useModal} from './useModal';
 
 export const useContacts = () => {
   const {contacts} = useSelector((state: RootState) => state.contactReducer);
   const {token} = useSelector((state: RootState) => state.authReducer);
+  const openModal = useModal();
 
   const {filteredList, searchFunction, query} = useQuery<Contact>(contacts);
 
@@ -40,8 +35,8 @@ export const useContacts = () => {
   };
 
   const deleteContactButton = async (contact: Contact) => {
-    //TODO Modal de confirmación
-    dispatch(updateIndicatorVisible(true));
+    openModal(`¿Seguro que desea eliminar a ${contact.name}?`, true);
+    /*     dispatch(updateIndicatorVisible(true));
     try {
       const response = await deleteContactService(contact.id, token);
       if (response) {
@@ -54,7 +49,7 @@ export const useContacts = () => {
       dispatch(updateModalMessage(error?.response?.data?.message || ''));
       dispatch(updateModalIcon('alert-decagram'));
       dispatch(updateModalIconColor(colors.error));
-    }
+    } */
   };
 
   return {

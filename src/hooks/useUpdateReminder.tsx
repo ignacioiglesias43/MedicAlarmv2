@@ -18,7 +18,7 @@ export const useUpdateReminder = (actionType: 'UPDATE' | 'ADD') => {
   const dispatch = useAppDispatch();
 
   const updateMonitoring = () => {
-    if (isMonitoring === false && contacts.length > 0)
+    if ((!isMonitoring && contacts.length > 0) || isMonitoring)
       setIsMonitoring(!isMonitoring);
     else openModal('Agregue un contacto de confianza primero.');
   };
