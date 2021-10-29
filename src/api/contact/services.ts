@@ -3,6 +3,15 @@ import {CreateContactDto} from './dto/create-contact.dto';
 import {DeleteContactDto} from './dto/delete-cotact.dto';
 import {UpdateContactDto} from './dto/update-contact.dto';
 
+export const getContactService = (token: string) =>
+  request({
+    method: 'GET',
+    url: '/contact',
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
+  });
+
 export const addContactService = (data: CreateContactDto, token: string) =>
   request({
     method: 'POST',

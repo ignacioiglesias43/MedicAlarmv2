@@ -19,8 +19,8 @@ const MedicineScreen = ({navigation}: Props) => {
 
   const renderItem: ListRenderItem<Medicine> = ({item}) => (
     <DataCard
-      title={item.name}
-      fisrt={`Via de administración: ${item.via_admin}`}
+      title={item.name.charAt(0).toUpperCase() + item.name.substring(1).toLowerCase()}
+      fisrt={`Via de administración: ${item.via.toLowerCase()}`}
       actionIcon="delete"
       type="personal"
       action={() => console.log('Hola')}

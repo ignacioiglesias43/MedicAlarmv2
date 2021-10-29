@@ -1,11 +1,11 @@
-import {useState} from 'react';
+import {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/index';
 import {useAppDispatch} from '../store/hooks';
 import {Contact} from '../api/contact/model/Contact';
 import {useQuery} from './useQuery';
-import {deleteContactService} from '../api/contact/services';
-import {deleteContact} from '../store/contacts/actionCreators';
+import {deleteContactService, getContactService} from '../api/contact/services';
+import {deleteContact, updateContacts} from '../store/contacts/actionCreators';
 import {updateIndicatorVisible} from '../store/loadingIndicator/actionCreators';
 import {
   updateModalIcon,
@@ -23,12 +23,28 @@ export const useContacts = () => {
 
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    getContacts();
+  }, [token]);
+
+  const getContacts = async () => {
+    try {
+      const response = await getContactService(token);
+      if (response) {
+        const {data} = response.data;
+        dispatch(updateContacts(data));
+      }
+    } catch (error: any) {
+      console.log({...error});
+    }
+  };
+
   const deleteContactButton = async (contact: Contact) => {
     //TODO Modal de confirmación
     dispatch(updateIndicatorVisible(true));
     try {
-      const res = await deleteContactService(contact.id, token);
-      if (res) {
+      const response = await deleteContactService(contact.id, token);
+      if (response) {
         dispatch(deleteContact(contact.id));
         dispatch(updateIndicatorVisible(false));
       }

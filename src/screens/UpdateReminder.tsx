@@ -22,7 +22,7 @@ interface Props
 
 const UpdateReminder = ({route}: Props) => {
   const {actionType} = route.params as unknown as UpdateParams;
-  const {formFields, setValues} = useUpdateReminder(actionType);
+  const {formFields, setValues, contacts} = useUpdateReminder(actionType);
   const [monitoring, setMonitoring] = useState(formFields.monitoring);
 
   const update = () => {};
@@ -71,7 +71,9 @@ const UpdateReminder = ({route}: Props) => {
               }}
             />
           </View>
-          {monitoring ? <CustomDropdown title="Contacto de confianza" /> : null}
+          {monitoring ? (
+            <CustomDropdown title="Contacto de confianza" items={contacts} />
+          ) : null}
           <CustomButton
             text="Guardar"
             color={colors.accent}

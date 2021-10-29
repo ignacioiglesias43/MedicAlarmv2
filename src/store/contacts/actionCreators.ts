@@ -2,7 +2,7 @@ import {DispatchContactActionType} from '../../types/contact';
 import {ADD_CONTACT, DELETE_CONTACT, UPDATE_CONTACTS} from './actionTypes';
 import {Contact} from '../../api/contact/model/Contact';
 
-export const updateContact =
+export const updateContacts =
   (contact: Contact) => (dispatch: DispatchContactActionType) =>
     dispatch({
       type: UPDATE_CONTACTS,

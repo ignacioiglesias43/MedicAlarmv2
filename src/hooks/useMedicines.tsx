@@ -6,13 +6,7 @@ import {RootState} from '../store/index';
 
 export const useMedicines = () => {
   const {token} = useAppSelector((state: RootState) => state.authReducer);
-  const [medicines, setMedicines] = useState<Medicine[]>([
-    {
-      id: 1,
-      name: 'Keterolaco',
-      via_admin: 'Oral',
-    },
-  ]);
+  const [medicines, setMedicines] = useState<Medicine[]>([]);
 
   useEffect(() => {
     const getMedicines = async () => {
@@ -20,6 +14,10 @@ export const useMedicines = () => {
         const response = await getAllMedicines(token);
 
         console.log(response.data);
+        if(response) {
+          const {data} = response.data;
+          setMedicines(data)
+        }
       } catch (error: any) {
         console.log({...error});
       }

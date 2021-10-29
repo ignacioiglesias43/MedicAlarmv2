@@ -41,9 +41,10 @@ export const useUpdateContact = (
 
       if (result) {
         const {data} = result.data as ResultedContactCreate;
-        if(actionType === "ADD"){
+        if (actionType === 'ADD') {
           dispatch(addContact({...data}));
-        }else{
+        } else {
+          //TODO Cambiar la actualización del contacto en la store
           dispatch(deleteContact(data.id));
           dispatch(addContact({...data}));
         }
@@ -64,9 +65,26 @@ export const useUpdateContact = (
 
   const handleAdd = (fields: Contact) => {
     const {name, phone} = fields;
-    if (name.trim() && phone.trim() && phone.length === 10) {
+    if (formValidation(fields)) {
       dispatch(updateIndicatorVisible(true));
       return addContactService({name, phone}, token);
+    }
+  };
+
+  const handleUpdate = (fields: Contact) => {
+    const {name, phone, id} = fields;
+    dispatch(updateIndicatorVisible(true));
+    if (formValidation(fields)) {
+      if (name !== contactOgData.name || phone !== contactOgData.phone) {
+        return updateContactService({name, phone, id}, token);
+      }
+    }
+  };
+
+  const formValidation = (fields: Contact) => {
+    const {name, phone} = fields;
+    if (name.trim() && phone.trim() && phone.length === 10) {
+      return true;
     } else {
       dispatch(updateModalTitle('Advertencia'));
       dispatch(
@@ -77,18 +95,9 @@ export const useUpdateContact = (
       dispatch(updateModalIcon('alert-decagram'));
       dispatch(updateModalIconColor(colors.warning));
       dispatch(updateModalVisible(true));
+      return false;
     }
   };
-
-  const handleUpdate = (fields: Contact) => {
-    const {name, phone, id} = fields;
-    dispatch(updateIndicatorVisible(true));
-    if(name !== contactOgData.name || phone!==contactOgData.phone){
-      return updateContactService({name, phone, id}, token)
-    }
-  };
-
-
 
   return {
     formFields,
