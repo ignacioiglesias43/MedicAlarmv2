@@ -9,4 +9,4 @@ type ReminderAction = {
   payload: any;
 };
 
-type DispatchReminderActionType = (args: ReminderAction) => ReminderAction;
+type DispatchPatientActionType = (args: ReminderAction) => ReminderAction;

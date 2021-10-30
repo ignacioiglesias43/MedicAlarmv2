@@ -1,0 +1,2 @@
+export const UPDATE_PATIENTS = 'UPDATE_PATIENTS'
+export const ADD_PATIENT = 'ADD_PATIENT';

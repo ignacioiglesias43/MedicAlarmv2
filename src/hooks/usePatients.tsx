@@ -1,19 +1,11 @@
 import {useState} from 'react';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/index';
 import {Patient} from '../api/patient/model/Patient';
 
 export const usePacient = () => {
-  const [patients, setPatients] = useState<Patient[]>([
-    {
-      patient: {
-        id: 1,
-        name: 'Ignacio',
-        lastname: 'Iglesias',
-        phone: '6122192275',
-        email: 'iglesias@gmail.com',
-      },
-      prescriptions: [],
-    },
-  ]);
+  const {patients} = useSelector((state: RootState) => state.patientReducer);
+  const [patientsList, setPatientsList] = useState<Patient[]>(patients);
 
   return {patients};
 };

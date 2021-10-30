@@ -16,11 +16,17 @@ import reminderReducer from './reminders/reminderReducer';
 import loadingIndicatorReducer from './loadingIndicator/loadingIndicatorReducer';
 import modalReducer from './modal/modalReducer';
 import contactReducer from './contacts/contactReducer';
+import patientReducer from './patients/patientReducer';
 
 const persistedConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['authReducer', 'reminderReducer', 'contactReducer'],
+  whitelist: [
+    'authReducer',
+    'reminderReducer',
+    'contactReducer',
+    'patientReducer',
+  ],
   timeout: undefined,
 };
 
@@ -28,6 +34,7 @@ const reducers = combineReducers({
   authReducer,
   reminderReducer,
   contactReducer,
+  patientReducer,
   loadingIndicatorReducer,
   modalReducer,
 });
