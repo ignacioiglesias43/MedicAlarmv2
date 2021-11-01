@@ -1,6 +1,8 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import CustomButton from '../components/atoms/CustomButton';
+import CustomDatePicker from '../components/atoms/CustomDatePicker';
 import CustomDropdown from '../components/atoms/CustomDropdown';
 import CustomInput from '../components/atoms/CustomInput';
 import BackHeader from '../components/molecules/BackHeader';
@@ -18,7 +20,7 @@ interface Props
 
 const UpdateAppoinment = ({route, navigation}: Props) => {
   const {actionType, appoinment} = route.params as unknown as UpdateParams;
-  const {patients} = useUpdateAppoinment(actionType);
+  const {patients, date, submitForm} = useUpdateAppoinment(actionType);
 
   const title = actionType === 'ADD' ? 'Agregar cita' : 'Editar cita';
 
@@ -28,6 +30,26 @@ const UpdateAppoinment = ({route, navigation}: Props) => {
       <FormContainer>
         <View style={styles.container}>
           <CustomDropdown title="Paciente" items={patients} />
+          <CustomDatePicker
+            title="Fecha"
+            date={date.value}
+            handleDate={date.handle}
+          />
+          <CustomButton
+            dark
+            mode="contained"
+            text="Guardar"
+            color={colors.accent}
+            style={styles.button}
+            onPress={submitForm}
+          />
+          <CustomButton
+            dark
+            mode="outlined"
+            text="Cancelar"
+            color={colors.accent}
+            onPress={() => navigation.goBack()}
+          />
         </View>
       </FormContainer>
     </ViewContainer>
