@@ -4,12 +4,11 @@ import CustomButton from '../components/atoms/CustomButton';
 import CustomInput from '../components/atoms/CustomInput';
 import BackHeader from '../components/molecules/BackHeader';
 import ViewContainer from '../components/templates/ViewContainer';
-import useAddPatient from '../hooks/useAddPatient';
+import {useAddPatient} from '../hooks/useAddPatient';
 import colors from '../styles/colors';
 
 const UpdatePatient = () => {
-  const {formFields, setValues} = useAddPatient();
-  const update = () => {};
+  const {code, setCode, submitCode} = useAddPatient();
   const cancel = () => {};
 
   return (
@@ -19,8 +18,11 @@ const UpdatePatient = () => {
         <CustomInput
           label="Código"
           mode="outlined"
-          value={formFields.id}
-          onChangeText={setValues('id')}
+          placeholder="XXXXX-XXXXX"
+          maxLength={11}
+          autoCapitalize="characters"
+          value={code}
+          onChangeText={setCode}
           style={styles.input}
         />
         <CustomButton
@@ -29,7 +31,7 @@ const UpdatePatient = () => {
           text="Guardar"
           color={colors.accent}
           style={styles.button}
-          onPress={update}
+          onPress={submitCode}
         />
         <CustomButton
           dark

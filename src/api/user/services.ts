@@ -1,3 +1,10 @@
-// TODO: Add User Services
+import request from '../request';
 
-export default {};
+export const getUserByCode = (code: string, token: string) =>
+  request({
+    method: 'GET',
+    url: `/user/${code}`,
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
+  });

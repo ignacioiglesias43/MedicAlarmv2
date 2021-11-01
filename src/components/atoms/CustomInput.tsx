@@ -16,6 +16,8 @@ interface CustomInputProps {
   mode?: 'flat' | 'outlined';
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined;
   secureTextEntry?: boolean;
+  placeholder?: string,
+  maxLength?: number,
   icon?: string;
   onChangeText?: ((text: string) => void) & Function;
   onIconPress?: (
@@ -46,6 +48,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
   label,
   mode = 'outlined',
   icon,
+  placeholder,
+  maxLength,
   keyboardType,
   style = {},
   secureTextEntry = false,
@@ -62,6 +66,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
       value={value}
       label={label}
       mode={mode}
+      placeholder={placeholder}
+      maxLength={maxLength}
       secureTextEntry={secureTextEntry}
       autoCapitalize={autoCapitalize}
       onChangeText={onChangeText}

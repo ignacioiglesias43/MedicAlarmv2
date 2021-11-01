@@ -1,5 +1,5 @@
 import {Patient} from '../../api/patient/model/Patient';
-import { User } from '../../api/user/model/User';
+import {User} from '../../api/user/model/User';
 import {DispatchPatientActionType} from '../../types/reminder';
 import {UPDATE_PATIENTS, ADD_PATIENT} from './actionTypes';
 

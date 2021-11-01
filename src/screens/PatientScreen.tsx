@@ -8,13 +8,13 @@ import CustomSearcher from '../components/atoms/CustomSearcher';
 import NoDataCard from '../components/atoms/NoDataCard';
 import DataCard from '../components/molecules/DataCard';
 import ViewContainer from '../components/templates/ViewContainer';
-import {usePacient} from '../hooks/usePatients';
+import {usePatient} from '../hooks/usePatients';
 import {PatientStackParams} from '../navigation/stacks/PatientStack';
 
 interface Props extends NativeStackScreenProps<PatientStackParams, 'Patient'> {}
 
 const PatientScreen = ({navigation}: Props) => {
-  const {patients} = usePacient();
+  const {patients} = usePatient();
 
   const renderItem: ListRenderItem<Patient> = ({item}) => {
     const {patient} = item;
@@ -29,6 +29,10 @@ const PatientScreen = ({navigation}: Props) => {
       onPress={() => navigation.navigate('Details', {patient: patient})}
     />
   )};
+
+    React.useEffect(() => {
+      console.log(patients)
+    }, [])
 
   return (
     <ViewContainer>
