@@ -8,8 +8,19 @@ import ViewContainer from '../components/templates/ViewContainer';
 
 import {useAppointments} from '../hooks/useAppointments';
 import {Divider} from 'react-native-paper';
+import CustomFAB from '../components/atoms/CustomFAB';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {AppointmentStackParams} from '../navigation/stacks/AppointmentsStack';
+interface Props
+  extends NativeStackScreenProps<
+    AppointmentStackParams,
+    'AppointmentsDashboard'
+  > {}
 
-const AppointmentsScreen = () => {
+const AppointmentsScreen = ({navigation}: Props) => {
+  const {userInfo} = useSelector((state: RootState) => state.authReducer);
   const {appointments} = useAppointments();
 
   const renderItem: ListRenderItem<Appointment> = ({item}) => (
@@ -38,6 +49,15 @@ const AppointmentsScreen = () => {
         )}
         keyExtractor={item => `${item.id}`}
       />
+      {userInfo?.role === 'Medic' && (
+        <CustomFAB
+          onPress={() =>
+            navigation.navigate('Update', {
+              actionType: 'ADD',
+            })
+          }
+        />
+      )}
     </ViewContainer>
   );
 };

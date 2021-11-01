@@ -30,10 +30,6 @@ const PatientScreen = ({navigation}: Props) => {
     />
   )};
 
-    React.useEffect(() => {
-      console.log(patients)
-    }, [])
-
   return (
     <ViewContainer>
       <FlatList

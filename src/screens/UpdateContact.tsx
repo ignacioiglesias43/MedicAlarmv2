@@ -17,7 +17,7 @@ import {useUpdateContact} from '../hooks/useUpdateContact';
 import colors from '../styles/colors';
 
 interface UpdateContactProps
-  extends NativeStackScreenProps<ContactStackParams, 'Contact'> {}
+  extends NativeStackScreenProps<ContactStackParams, 'Update'> {}
 
 const UpdateContact: FC<UpdateContactProps> = ({route, navigation}) => {
   const {actionType, contact} = route.params as unknown as UpdateParams;

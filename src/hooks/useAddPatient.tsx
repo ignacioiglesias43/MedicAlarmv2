@@ -18,6 +18,7 @@ export const useAddPatient = () => {
   const {token} = useSelector((state: RootState) => state.authReducer);
 
   const handleUpdateCode = (text: string) => {
+    //TODO: Hacer que el texto sea siempre mayusculas
     var letter = text.substr(text.length - 1);
     if (/\w|[-]/.test(letter) || !letter.trim()) setCode(text);
   };
@@ -37,7 +38,7 @@ export const useAddPatient = () => {
       openModal(error.response.data.message);
     }
   };
-  
+
   return {
     code,
     setCode: handleUpdateCode,
