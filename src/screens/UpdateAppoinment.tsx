@@ -4,7 +4,6 @@ import {StyleSheet, Text, View} from 'react-native';
 import CustomButton from '../components/atoms/CustomButton';
 import CustomDatePicker from '../components/atoms/CustomDatePicker';
 import CustomDropdown from '../components/atoms/CustomDropdown';
-import CustomInput from '../components/atoms/CustomInput';
 import BackHeader from '../components/molecules/BackHeader';
 import FormContainer from '../components/templates/FormContainer';
 import ViewContainer from '../components/templates/ViewContainer';

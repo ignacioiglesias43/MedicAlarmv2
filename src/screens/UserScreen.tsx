@@ -28,7 +28,16 @@ const UserScreen: FC<UserScrenProps> = ({navigation}) => {
   const updateInfo = () => navigation.navigate('UpdateInformation');
   const logout = () => dispatch(updateToken(''));
 
-  const {name, lastname, email, phone, code, role} = userInfo as User;
+  const {
+    name,
+    lastname,
+    email,
+    phone,
+    code,
+    role,
+    speciality,
+    professional_id,
+  } = userInfo as User;
 
   // NO SE PORQUE TRUENA XD
   const isADoctor = role !== undefined && role?.length > 0 && role === 'Medic';
@@ -63,6 +72,24 @@ const UserScreen: FC<UserScrenProps> = ({navigation}) => {
         titleStyle={styles.titleCard}
         subtitleStyle={styles.subCard}
       />
+      {isADoctor && (
+        <>
+          <DataCard
+            title="Especialidad"
+            fisrt={speciality}
+            type="personal"
+            titleStyle={styles.titleCard}
+            subtitleStyle={styles.subCard}
+          />
+          <DataCard
+            title="ID Profesional"
+            fisrt={professional_id}
+            type="personal"
+            titleStyle={styles.titleCard}
+            subtitleStyle={styles.subCard}
+          />
+        </>
+      )}
       <CustomButton
         dark
         mode="contained"
@@ -91,13 +118,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   titleCard: {
-    fontSize: 15,
+    fontSize: 14,
     color: colors.placeholder,
   },
   subCard: {
+    fontSize: 16,
     color: colors.text,
     fontWeight: 'bold',
-    marginLeft: -5,
   },
   button: {
     marginTop: 20,
