@@ -3,6 +3,7 @@ import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 import {Text} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
 import colors from '../../styles/colors';
+import {useDateText} from '../../hooks/useDateText';
 
 interface Props {
   title: string;
@@ -19,13 +20,14 @@ const CustomDatePicker = ({
 }: Props) => {
   //const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
+  const state = useDateText(date.toISOString());
 
   return (
     <>
       <TouchableWithoutFeedback onPress={() => setOpen(true)}>
         <View style={styles.container}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.date}>{date.toUTCString().substr(0, 22)}</Text>
+          <Text style={styles.date}>{state}</Text>
         </View>
       </TouchableWithoutFeedback>
       <DatePicker

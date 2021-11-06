@@ -5,17 +5,15 @@ import {Picker, PickerProps} from '@react-native-picker/picker';
 import {Contact} from '../../api/contact/model/Contact';
 import colors from '../../styles/colors';
 
-export interface DefaultPicker {
-  name: string;
-  id: string;
-}
 interface Props {
   title: string;
-  items?: Array<Contact | DefaultPicker>;
+  selectedValue: any,
+  onValueChange: (x: any) => void,
+  items?: Array<any>;
 }
 
-const CustomDropdown = ({title, items = []}: Props) => {
-  const [selectedItem, setSelectedItem] = useState();
+const CustomDropdown = ({title, items = [], selectedValue, onValueChange}: Props) => {
+  //const [selectedItem, setSelectedItem] = useState();
   const pickerRef = useRef<Picker<undefined>>(null);
 
   function open() {
@@ -30,8 +28,8 @@ const CustomDropdown = ({title, items = []}: Props) => {
       <Text style={styles.title}>{title}</Text>
       <Picker
         ref={pickerRef}
-        selectedValue={selectedItem}
-        onValueChange={(itemValue, itemIndex) => setSelectedItem(itemValue)}>
+        selectedValue={selectedValue}
+        onValueChange={onValueChange}>
         {items.map(e => (
           <Picker.Item label={e.name} value={e.id} key={e.id?.toString()} />
         ))}

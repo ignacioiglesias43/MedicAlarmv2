@@ -20,7 +20,11 @@ export const useModal = () => {
     color: string = colors.warning,
   ) => {
     dispatch(updateModalTitle(title));
-    dispatch(updateModalMessage(message));
+    dispatch(
+      updateModalMessage(
+        message? message : 'Ocurrió un error inesperado',
+      ),
+    );
     dispatch(updateModalIcon(icon));
     dispatch(updateModalIconColor(color));
     dispatch(updateModalIsConfirm(isConfirm));

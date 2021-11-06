@@ -10,7 +10,7 @@ const initialState: ContactState = {
   contacts: [],
 };
 
-const authReducer = (
+const contactReducer = (
   state = initialState,
   action: ContactAction,
 ): ContactState => {
@@ -44,4 +44,4 @@ const authReducer = (
   }
 };
 
-export default authReducer;
+export default contactReducer;

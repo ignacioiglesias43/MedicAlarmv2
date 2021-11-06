@@ -19,7 +19,7 @@ interface Props
 
 const UpdateAppoinment = ({route, navigation}: Props) => {
   const {actionType, appoinment} = route.params as unknown as UpdateParams;
-  const {patients, date, submitForm} = useUpdateAppoinment(actionType);
+  const {patients, date, patient, submitForm} = useUpdateAppoinment(actionType);
 
   const title = actionType === 'ADD' ? 'Agregar cita' : 'Editar cita';
 
@@ -28,7 +28,12 @@ const UpdateAppoinment = ({route, navigation}: Props) => {
       <BackHeader title={title} />
       <FormContainer>
         <View style={styles.container}>
-          <CustomDropdown title="Paciente" items={patients} />
+          <CustomDropdown
+            title="Paciente"
+            items={patients}
+            selectedValue={patient.value}
+            onValueChange={patient.handle}
+          />
           <CustomDatePicker
             title="Fecha"
             date={date.value}

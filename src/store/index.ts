@@ -17,6 +17,7 @@ import loadingIndicatorReducer from './loadingIndicator/loadingIndicatorReducer'
 import modalReducer from './modal/modalReducer';
 import contactReducer from './contacts/contactReducer';
 import patientReducer from './patients/patientReducer';
+import appointmentReducer from './appoinment/appoinmentReducer';
 
 const persistedConfig = {
   key: 'root',
@@ -26,6 +27,7 @@ const persistedConfig = {
     'reminderReducer',
     'contactReducer',
     'patientReducer',
+    'appointmentReducer',
   ],
   timeout: undefined,
 };
@@ -34,6 +36,7 @@ const reducers = combineReducers({
   authReducer,
   reminderReducer,
   contactReducer,
+  appointmentReducer,
   patientReducer,
   loadingIndicatorReducer,
   modalReducer,
