@@ -1,10 +1,10 @@
 import request from '../request';
 import {CreateContactDto} from './dto/create-contact.dto';
-import {DeleteContactDto} from './dto/delete-cotact.dto';
 import {UpdateContactDto} from './dto/update-contact.dto';
+import {GetContactDto} from './dto/get-contact.dto';
 
 export const getContactService = (token: string) =>
-  request({
+  request<GetContactDto>({
     method: 'GET',
     url: '/contact',
     headers: {
@@ -22,10 +22,10 @@ export const addContactService = (data: CreateContactDto, token: string) =>
     data,
   });
 
-export const deleteContactService = (data: DeleteContactDto, token: string) =>
+export const deleteContactService = (id: number, token: string) =>
   request({
     method: 'DELETE',
-    url: `/contact/${data}`,
+    url: `/contact/${id}`,
     headers: {
       Authorization: 'Bearer ' + token,
     },

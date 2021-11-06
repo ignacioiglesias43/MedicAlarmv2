@@ -7,7 +7,6 @@ import {
   Title,
   IconButton,
   Button,
-  Divider,
 } from 'react-native-paper';
 
 import {
@@ -52,7 +51,6 @@ const CustomModal = () => {
 
         <Title style={styles.title}>{title}</Title>
         <Text style={styles.message}>{message}</Text>
-
 
         <View style={styles.btnContainer}>
           {isConfirm && (

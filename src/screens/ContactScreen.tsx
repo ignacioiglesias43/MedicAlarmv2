@@ -18,7 +18,8 @@ interface ContactScreenProps
   extends NativeStackScreenProps<ContactStackParams, 'Contact'> {}
 
 const ContactScreen: FC<ContactScreenProps> = ({navigation}) => {
-  const {contactsList, searchFunction, search, deleteContactButton} = useContacts();
+  const {contactsList, searchFunction, search, deleteContactButton} =
+    useContacts();
 
   const renderItem: ListRenderItem<Contact> = ({item}) => (
     <DataCard
@@ -43,7 +44,12 @@ const ContactScreen: FC<ContactScreenProps> = ({navigation}) => {
         )}
         ListHeaderComponent={() => (
           <CustomHeader>
-            <CustomSearcher value={search} onChangeText={(text) => {searchFunction(text)}} />
+            <CustomSearcher
+              value={search}
+              onChangeText={text => {
+                searchFunction(text);
+              }}
+            />
           </CustomHeader>
         )}
         keyExtractor={item => `${item.id}`}

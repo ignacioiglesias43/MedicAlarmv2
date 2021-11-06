@@ -14,7 +14,7 @@ import {useModal} from './useModal';
 export const useUpdateAppoinment = (actionType: 'UPDATE' | 'ADD') => {
   const {patients} = useAppSelector((state: RootState) => state.patientReducer);
   const [date, setDate] = useState(new Date());
-  const openModal = useModal();
+  const {openModal} = useModal();
   const {token} = useSelector((state: RootState) => state.authReducer);
   const [patient, setPatient] = useState(patients[0].patient.code);
   const fDate = useFormatedDate(date.toISOString());

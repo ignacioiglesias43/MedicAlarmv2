@@ -1,4 +1,4 @@
-import {useAppDispatch} from '../store/hooks';
+import {useAppDispatch, useAppSelector} from '../store/hooks';
 import {
   updateModalMessage,
   updateModalTitle,
@@ -8,9 +8,13 @@ import {
   updateModalIsConfirm,
 } from '../store/modal/actionCreators';
 import colors from '../styles/colors';
+import {RootState} from '../store/index';
 
 export const useModal = () => {
   const dispatch = useAppDispatch();
+  const {visible, ...rest} = useAppSelector(
+    (state: RootState) => state.modalReducer,
+  );
 
   const openModal = (
     message: string,
@@ -20,16 +24,16 @@ export const useModal = () => {
     color: string = colors.warning,
   ) => {
     dispatch(updateModalTitle(title));
-    dispatch(
-      updateModalMessage(
-        message? message : 'Ocurrió un error inesperado',
-      ),
-    );
+    dispatch(updateModalMessage(message || 'Ocurrió un error inesperado'));
     dispatch(updateModalIcon(icon));
     dispatch(updateModalIconColor(color));
     dispatch(updateModalIsConfirm(isConfirm));
     dispatch(updateModalVisible(true));
   };
 
-  return openModal;
+  return {
+    openModal,
+    isModalVisible: visible,
+    ...rest,
+  };
 };

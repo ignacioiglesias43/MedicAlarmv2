@@ -12,7 +12,7 @@ import {User} from '../api/user/model/User';
 
 export const useAddPatient = () => {
   const [code, setCode] = useState('');
-  const openModal = useModal();
+  const {openModal} = useModal();
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
   const {token} = useSelector((state: RootState) => state.authReducer);

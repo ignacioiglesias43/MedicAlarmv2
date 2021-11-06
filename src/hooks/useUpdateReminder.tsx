@@ -8,7 +8,7 @@ import {initialReminderForm} from '../constants/addReminderForm';
 
 export const useUpdateReminder = (actionType: 'UPDATE' | 'ADD') => {
   const {contacts} = useAppSelector((state: RootState) => state.contactReducer);
-  const openModal = useModal();
+  const {openModal} = useModal();
   const {createChangeHandler, formFields} = useForm<Reminder, Reminder>(
     actionType === 'ADD' ? initialReminderForm : initialReminderForm,
   );

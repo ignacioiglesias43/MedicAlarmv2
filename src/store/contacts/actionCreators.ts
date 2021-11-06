@@ -8,7 +8,7 @@ import {
 import {Contact} from '../../api/contact/model/Contact';
 
 export const updateContacts =
-  (contact: Contact) => (dispatch: DispatchContactActionType) =>
+  (contact: Contact[]) => (dispatch: DispatchContactActionType) =>
     dispatch({
       type: UPDATE_CONTACTS,
       payload: contact,
