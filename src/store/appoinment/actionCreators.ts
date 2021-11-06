@@ -1,4 +1,3 @@
-import {DispatchContactActionType} from '../../types/contact';
 import {
   UPDATE_APPOINMENTS,
   UPDATE_APPOINMENT,

@@ -1,29 +1,60 @@
-import {useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/index';
 import {Appointment} from '../api/appointments/model/Appointment';
+import {getAppointmentService} from '../api/appointments/services';
+import {useAppDispatch} from '../store/hooks';
+import {updateAppointmets} from '../store/appoinment/actionCreators';
+import {useFocusEffect} from '@react-navigation/core';
+import { useDateText } from './useDateText';
+
+export interface AppointmentCard {
+  id: number;
+  date: string;
+  name: string | undefined;
+}
 
 export const useAppointments = () => {
-  const [appointments, setAppointments] = useState<Appointment[]>([
-    {
-      id: 1,
-      doctor: {
-        name: 'Dr. Cándido Pérez',
-        email: '',
-        lastName: '',
-      },
-      date: '15/10/2021',
-      hour: '14:30',
-    },
-    {
-      id: 2,
-      doctor: {
-        name: 'Dr. Simi',
-        email: '',
-        lastName: '',
-      },
-      date: '15/10/2021',
-      hour: '18:00',
-    },
-  ]);
+  const {appointments} = useSelector(
+    (state: RootState) => state.appointmentReducer,
+  );
+  const {token, userInfo} = useSelector(
+    (state: RootState) => state.authReducer,
+  );
+  const [appointmentList, setAppointmentList] = useState<AppointmentCard[]>();
 
-  return {appointments};
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    getAppointments();
+  }, [token]);
+
+  //TODO: Sacar el nombre
+  useFocusEffect(
+    useCallback(() => {
+      setAppointmentList(
+        appointments.map(e => {
+          return {
+            id: e.id,
+            date: e.day.substr(0, 16).replace(/-/g,"/").split('T').join(" "),
+            name: userInfo?.role === 'Medic' ? 'Charly' : e.medic?.name,
+          };
+        }),
+      );
+    }, [appointments]),
+  );
+
+  const getAppointments = async () => {
+    try {
+      const response = await getAppointmentService(token);
+      if (response) {
+        const {data} = response.data;
+        dispatch(updateAppointmets(data));
+      }
+    } catch (error: any) {
+      console.log({...error});
+    }
+  };
+
+  return {appointments: appointmentList};
 };

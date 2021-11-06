@@ -6,7 +6,7 @@ import DataCard from '../components/molecules/DataCard';
 import Calendar from '../components/organisms/Calendar';
 import ViewContainer from '../components/templates/ViewContainer';
 
-import {useAppointments} from '../hooks/useAppointments';
+import {AppointmentCard, useAppointments} from '../hooks/useAppointments';
 import {Divider} from 'react-native-paper';
 import CustomFAB from '../components/atoms/CustomFAB';
 import {useSelector} from 'react-redux';
@@ -23,11 +23,14 @@ const AppointmentsScreen = ({navigation}: Props) => {
   const {userInfo} = useSelector((state: RootState) => state.authReducer);
   const {appointments} = useAppointments();
 
-  const renderItem: ListRenderItem<Appointment> = ({item}) => (
+  React.useEffect(() => {
+    console.log(appointments)
+  }, [])
+
+  const renderItem: ListRenderItem<AppointmentCard> = ({item}) => (
     <DataCard
-      title={item.doctor.name}
+      title={item.name}
       fisrt={`Fecha: ${item.date}`}
-      second={`Hora: ${item.hour}`}
       type="citation"
       action={() => console.log('Hola')}
     />

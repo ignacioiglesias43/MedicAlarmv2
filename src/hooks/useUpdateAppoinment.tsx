@@ -1,12 +1,14 @@
 import {useNavigation} from '@react-navigation/core';
 import {useState} from 'react';
 import {useSelector} from 'react-redux';
+import {ResultedAppoinmentCreate} from '../api/appointments/dto/resulted-appointment.dto';
+import {Appointment} from '../api/appointments/model/Appointment';
 import {addAppointmentService} from '../api/appointments/services';
 import {addAppointment} from '../store/appoinment/actionCreators';
 import {useAppDispatch, useAppSelector} from '../store/hooks';
 import {RootState} from '../store/index';
 import {updateIndicatorVisible} from '../store/loadingIndicator/actionCreators';
-import { useFormatedDate } from './useDateText';
+import {useFormatedDate} from './useDateText';
 import {useModal} from './useModal';
 
 export const useUpdateAppoinment = (actionType: 'UPDATE' | 'ADD') => {
@@ -15,7 +17,7 @@ export const useUpdateAppoinment = (actionType: 'UPDATE' | 'ADD') => {
   const openModal = useModal();
   const {token} = useSelector((state: RootState) => state.authReducer);
   const [patient, setPatient] = useState(patients[0].patient.code);
-  const fDate = useFormatedDate(date.toISOString())
+  const fDate = useFormatedDate(date.toISOString());
   const patientList = patients.map(a => ({
     name: a.patient.name,
     id: a.patient.code,
@@ -28,14 +30,15 @@ export const useUpdateAppoinment = (actionType: 'UPDATE' | 'ADD') => {
   const handlePatient = (patient: any) => setPatient(patient);
 
   const submitForm = async () => {
-    const data = {code: patient!, day: fDate};
-    console.log(data)
+    const data = {patient: patient!, day: fDate};
     try {
       dispatch(updateIndicatorVisible(true));
       const result = await addAppointmentService(data, token);
       if (result) {
         dispatch(updateIndicatorVisible(false));
-        console.log(result.data);
+        const {data} = result.data as ResultedAppoinmentCreate;
+        dispatch(addAppointment(data));
+        navigation.goBack();
       }
     } catch (error: any) {
       dispatch(updateIndicatorVisible(false));

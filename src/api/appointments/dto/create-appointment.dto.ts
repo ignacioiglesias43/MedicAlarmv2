@@ -1,5 +1,5 @@
 
 export interface CreateAppoinment {
-    code: string,
+    patient: string,
     day: string,
 }
