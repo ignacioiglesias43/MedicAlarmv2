@@ -1,10 +1,8 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
 import {FlatList, ListRenderItem, StyleSheet, Text, View} from 'react-native';
-import {FAB, Portal} from 'react-native-paper';
 import {Prescription} from '../api/prescriptions/model/Prescription';
-import CustomButton from '../components/atoms/CustomButton';
-import CustomFABGroup from '../components/atoms/CustomFABGroup';
+import CustomFAB from '../components/atoms/CustomFAB';
 import NoDataCard from '../components/atoms/NoDataCard';
 import BackHeader from '../components/molecules/BackHeader';
 import DataCard from '../components/molecules/DataCard';
@@ -19,7 +17,7 @@ interface Props extends NativeStackScreenProps<PatientStackParams, 'Patient'> {}
 
 const PatientDetails = ({route, navigation}: Props) => {
   const {patient} = route.params as unknown as DetailsParams;
-  const {prescriptions, actions} = usePatientMedicines();
+  const {prescriptions} = usePatientMedicines();
 
   const renderItem: ListRenderItem<Prescription> = ({item}) => (
     <DataCard
@@ -50,7 +48,9 @@ const PatientDetails = ({route, navigation}: Props) => {
           )}
         />
       </View>
-      <CustomFABGroup actions={actions} />
+      <CustomFAB
+        onPress={() => navigation.navigate('Update', {actionType: 'ADD'})}
+      />
     </ViewContainer>
   );
 };

@@ -8,19 +8,6 @@ import { PatientStackParams } from '../navigation/stacks/PatientStack';
 export const usePatientMedicines = () => {
   const {navigate} = useNavigation<NativeStackScreenProps<PatientStackParams, 'Patient'>>()
 
-  const actions: FABGroupProps[] = [
-    {
-      icon: 'plus',
-      label: 'Añadir receta',
-      onPress: () => {navigate('Update', {actionType: 'ADD'})}
-    },
-    {
-      icon: 'delete',
-      label: 'Eliminar paciente',
-      onPress: () => console.log('eliminar lógica'),
-    },
-  ];
-
   const [prescriptions, setPrescriptions] = useState<Prescription[]>([
     {
       id: 1,
@@ -34,5 +21,5 @@ export const usePatientMedicines = () => {
     },
   ]);
 
-  return {prescriptions, actions};
+  return {prescriptions};
 };

@@ -8,9 +8,9 @@ interface DataCardProps {
   type?: 'reminder' | 'citation' | 'personal';
   fisrt: string;
   second?: string;
-  actionIcon?: string;
+  actionIcon?: false | string;
   action?: () => void;
-  onPress?: () => void;
+  onPress?: () => void | false;
   titleStyle?: StyleProp<TextStyle>;
   subtitleStyle?: StyleProp<TextStyle>;
 }

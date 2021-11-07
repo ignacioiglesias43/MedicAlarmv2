@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Dimensions} from 'react-native';
 
 import {
@@ -12,41 +12,41 @@ import colors from '../../styles/colors';
 
 const {width} = Dimensions.get('window');
 
-const Calendar = () => {
+interface Props {
+  selectedDate: string;
+  handleSelectedDate: (x: string) => void;
+  markedDates: Array<String>;
+}
+
+const Calendar = ({selectedDate, handleSelectedDate, markedDates}: Props) => {
   LocaleConfig.locales.es = calendarES;
   LocaleConfig.defaultLocale = 'es';
 
+  let marks = {
+    [selectedDate]: {
+      selected: true,
+      selectedColor: colors.markedDates,
+      selectedTextColor: colors.background,
+    },
+  };
+
+  markedDates.map(item => {
+    marks[item] = {
+      ...marks[item],
+      marked: true,
+    };
+  });
+
   return (
     <CalendarComponent
-      // Initially visible month. Default = Date()
-      current={new Date(Date.now())}
-      // Handler which gets executed on day press. Default = undefined
-      onDayPress={day => {
-        console.log('selected day', day);
-      }}
-      // Handler which gets executed on day long press. Default = undefined
-      onDayLongPress={day => {
-        console.log('selected day', day);
-      }}
-      // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
+      onDayPress={({dateString}) => handleSelectedDate(dateString)}
       monthFormat={'MMMM yyyy'}
-      // Handler which gets executed when visible month changes in calendar. Default = undefined
-      onMonthChange={(month: any) => {
-        console.log('month changed', month);
-      }}
       firstDay={1}
       onPressArrowLeft={subtractMonth => subtractMonth()}
       onPressArrowRight={addMonth => addMonth()}
       enableSwipeMonths={true}
-      // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
       disableAllTouchEventsForDisabledDays
-      markedDates={{
-        '2021-10-15': {
-          selected: true,
-          selectedColor: colors.markedDates,
-          selectedTextColor: colors.textOnImage,
-        },
-      }}
+      markedDates={marks}
       style={{width}}
       theme={{
         backgroundColor: colors.background,

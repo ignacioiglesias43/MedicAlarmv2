@@ -9,12 +9,14 @@ interface Props {
   title: string;
   mode?: 'datetime' | 'date' | 'time';
   date: Date;
+  minimumDate: Date;
   handleDate: (date: Date) => void;
 }
 
 const CustomDatePicker = ({
   title,
   mode = 'datetime',
+  minimumDate = new Date(Date.now()),
   date,
   handleDate,
 }: Props) => {
@@ -35,6 +37,7 @@ const CustomDatePicker = ({
         open={open}
         mode={mode}
         date={date}
+        minimumDate={minimumDate}
         onConfirm={date => {
           setOpen(false);
           handleDate(date);

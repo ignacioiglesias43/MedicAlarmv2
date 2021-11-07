@@ -2,11 +2,13 @@ import {useCallback, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/index';
 import {Appointment} from '../api/appointments/model/Appointment';
-import {getAppointmentService} from '../api/appointments/services';
+import {deleteAppointmentService, getAppointmentService} from '../api/appointments/services';
 import {useAppDispatch} from '../store/hooks';
-import {updateAppointmets} from '../store/appoinment/actionCreators';
+import {deleteAppointment, updateAppointmets} from '../store/appoinment/actionCreators';
 import {useFocusEffect} from '@react-navigation/core';
-import { useDateText } from './useDateText';
+import {useModal} from './useModal';
+import { updateIndicatorVisible } from '../store/loadingIndicator/actionCreators';
+import colors from '../styles/colors';
 
 export interface AppointmentCard {
   id: number;
@@ -15,33 +17,37 @@ export interface AppointmentCard {
 }
 
 export const useAppointments = () => {
+  const {openModal, isModalVisible, message} = useModal();
   const {appointments} = useSelector(
     (state: RootState) => state.appointmentReducer,
   );
-  const {token, userInfo} = useSelector(
-    (state: RootState) => state.authReducer,
+  const {token} = useSelector((state: RootState) => state.authReducer);
+  const [appointmentList, setAppointmentList] = useState<Appointment[]>();
+  const [selectedDate, setSelectedDate] = useState(
+    new Date(Date.now()).toISOString().substr(0, 10),
   );
-  const [appointmentList, setAppointmentList] = useState<AppointmentCard[]>();
+  const [markedDates, setMarkedDates] = useState([]);
 
   const dispatch = useAppDispatch();
+
+  const handleSelectedDate = (day: string) => setSelectedDate(day);
 
   useEffect(() => {
     getAppointments();
   }, [token]);
 
-  //TODO: Sacar el nombre
+  useEffect(() => {
+    const dates = new Set(appointments.map(e => e.day.substr(0, 10)));
+    setMarkedDates([...dates]);
+  }, [appointments]);
+
   useFocusEffect(
     useCallback(() => {
       setAppointmentList(
-        appointments.map(e => {
-          return {
-            id: e.id,
-            date: e.day.substr(0, 16).replace(/-/g,"/").split('T').join(" "),
-            name: userInfo?.role === 'Medic' ? 'Charly' : e.medic?.name,
-          };
-        }),
+        appointments
+          .filter(e => selectedDate === e.day.substr(0, 10))
       );
-    }, [appointments]),
+    }, [selectedDate, appointments]),
   );
 
   const getAppointments = async () => {
@@ -56,5 +62,29 @@ export const useAppointments = () => {
     }
   };
 
-  return {appointments: appointmentList};
+  const deleteAppoinmentButton = async (id: number) => {
+    dispatch(updateIndicatorVisible(true));
+    //TODO: Modal de confirmación
+    try {
+      const response = await deleteAppointmentService(id, token)
+      if(response){
+        dispatch(deleteAppointment(id))
+      }
+    } catch (error: any) {
+      const message = error?.response?.data?.message || '';
+      openModal(message, false, 'Error');
+    } finally {
+      dispatch(updateIndicatorVisible(false));
+    }
+  }
+
+  return {
+    appointments: appointmentList,
+    deleteAppoinmentButton,
+    selectedDate: {
+      value: selectedDate,
+      handle: handleSelectedDate,
+    },
+    markedDates,
+  };
 };

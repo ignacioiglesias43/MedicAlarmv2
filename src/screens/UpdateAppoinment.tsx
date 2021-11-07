@@ -19,7 +19,10 @@ interface Props
 
 const UpdateAppoinment = ({route, navigation}: Props) => {
   const {actionType, appoinment} = route.params as unknown as UpdateParams;
-  const {patients, date, patient, submitForm} = useUpdateAppoinment(actionType);
+  const {patients, date, patient, submitForm} = useUpdateAppoinment(
+    actionType,
+    appoinment || undefined,
+  );
 
   const title = actionType === 'ADD' ? 'Agregar cita' : 'Editar cita';
 

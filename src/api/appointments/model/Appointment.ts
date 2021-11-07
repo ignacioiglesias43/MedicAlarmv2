@@ -5,5 +5,6 @@ export interface Appointment {
   patient_id: number,
   medic_id: number;
   medic?: User,
+  patient?: User,
   day: string;
 }
