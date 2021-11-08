@@ -14,19 +14,18 @@ import {PatientStackParams} from '../navigation/stacks/PatientStack';
 interface Props extends NativeStackScreenProps<PatientStackParams, 'Patient'> {}
 
 const PatientScreen = ({navigation}: Props) => {
-  const {patients} = usePatient();
+  const {patients, deletePatientButton} = usePatient();
 
   const renderItem: ListRenderItem<Patient> = ({item}) => {
-    const {patient} = item;
-
+    const {user} = item;
     return (
     <DataCard
-      title={patient.name}
-      fisrt={patient.email}
+      title={user.name}
+      fisrt={user.email}
       actionIcon={'delete'}
       type="personal"
-      action={() => console.log('Hola')}
-      onPress={() => navigation.navigate('Details', {patient: patient})}
+      action={()=>{}}
+      onPress={() => navigation.navigate('Details', {patient: user})}
     />
   )};
 
@@ -43,7 +42,7 @@ const PatientScreen = ({navigation}: Props) => {
             <CustomSearcher value={''} onChangeText={() => {}} />
           </CustomHeader>
         )}
-        keyExtractor={item => `${item.patient.id}`}
+        keyExtractor={item => `${item.user.id}`}
       />
       <CustomFAB onPress={() => navigation.navigate('Add')} />
     </ViewContainer>

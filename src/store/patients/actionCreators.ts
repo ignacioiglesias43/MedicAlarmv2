@@ -1,3 +1,4 @@
+import { addPatientDto } from '../../api/patient/dto/add-patient.dto';
 import {Patient} from '../../api/patient/model/Patient';
 import {User} from '../../api/user/model/User';
 import {DispatchPatientActionType} from '../../types/reminder';
@@ -11,8 +12,15 @@ export const updatePatients =
     });
 
 export const addPatient =
-  (patient: User) => (dispatch: DispatchPatientActionType) =>
+  (data: addPatientDto) => (dispatch: DispatchPatientActionType) =>
     dispatch({
       type: ADD_PATIENT,
-      payload: patient,
+      payload: data,
+    });
+
+export const deletePatient =
+  (id: string) => (dispatch: DispatchPatientActionType) =>
+    dispatch({
+      type: ADD_PATIENT,
+      payload: id,
     });

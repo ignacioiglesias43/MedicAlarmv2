@@ -10,12 +10,6 @@ import {useModal} from './useModal';
 import { updateIndicatorVisible } from '../store/loadingIndicator/actionCreators';
 import colors from '../styles/colors';
 
-export interface AppointmentCard {
-  id: number;
-  date: string;
-  name: string | undefined;
-}
-
 export const useAppointments = () => {
   const {openModal, isModalVisible, message} = useModal();
   const {appointments} = useSelector(

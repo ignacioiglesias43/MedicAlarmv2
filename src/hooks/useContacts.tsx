@@ -28,7 +28,7 @@ export const useContacts = () => {
         dispatch(updateContacts(data));
       }
     } catch (error: any) {
-      console.log('errorrr ', {...error});
+      console.log('error: ', {...error});
     }
   }, [dispatch, token]);
 

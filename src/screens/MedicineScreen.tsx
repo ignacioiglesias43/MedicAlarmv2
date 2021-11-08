@@ -36,7 +36,7 @@ const MedicineScreen = ({navigation}: Props) => {
         data={medicines}
         renderItem={renderItem}
         ListEmptyComponent={() => (
-          <NoDataCard text="No se han agregado contactos." />
+          <NoDataCard text="No se han agregado medicamentos." />
         )}
         ListHeaderComponent={() => (
           <CustomHeader>

@@ -32,12 +32,12 @@ export const useUpdateAppoinment = (
   const [patient, setPatient] = useState(
     actionType === 'UPDATE'
       ? appoinment?.patient?.code
-      : patients[0].patient.code,
+      : patients[0].user.code,
   );
   const fDate = useFormatedDate(date.toISOString());
   const patientList = patients.map(a => ({
-    name: a.patient.name,
-    id: a.patient.code,
+    name: a.user.name,
+    id: a.user.code,
   }));
 
   const dispatch = useAppDispatch();
