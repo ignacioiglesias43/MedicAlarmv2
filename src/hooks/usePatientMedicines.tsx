@@ -1,25 +1,14 @@
-import { useNavigation } from '@react-navigation/core';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/core';
 import {useState} from 'react';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/index';
 import {Prescription} from '../api/prescriptions/model/Prescription';
-import {FABGroupProps} from '../components/atoms/CustomFABGroup';
-import { PatientStackParams } from '../navigation/stacks/PatientStack';
 
-export const usePatientMedicines = () => {
-  const {navigate} = useNavigation<NativeStackScreenProps<PatientStackParams, 'Patient'>>()
+export const usePatientMedicines = (code: string) => {
+  const {patients} = useSelector((state: RootState) => state.patientReducer);
+  const patient = patients.find(e => e.user.code === code);
+  
+  const navigation = useNavigation();
 
-  const [prescriptions, setPrescriptions] = useState<Prescription[]>([
-    {
-      id: 1,
-      medicine: {
-        id: 1,
-        name: 'Keterolaco',
-        via_admin: 'Oral',
-      },
-      frecuency: 8,
-      count: 8,
-    },
-  ]);
-
-  return {prescriptions};
+  return {prescriptions: patient?.prescriptions};
 };

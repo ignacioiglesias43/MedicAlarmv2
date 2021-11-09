@@ -17,7 +17,7 @@ interface Props extends NativeStackScreenProps<PatientStackParams, 'Patient'> {}
 
 const PatientDetails = ({route, navigation}: Props) => {
   const {patient} = route.params as unknown as DetailsParams;
-  const {prescriptions} = usePatientMedicines();
+  const {prescriptions} = usePatientMedicines(patient.code!);
 
   const renderItem: ListRenderItem<Prescription> = ({item}) => (
     <DataCard

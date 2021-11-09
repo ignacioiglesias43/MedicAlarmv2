@@ -15,9 +15,9 @@ export const useUpdateMedicine = (actionType: 'UPDATE' | 'ADD') => {
     ]
 
     const {createChangeHandler, formFields} = useForm<Medicine, Medicine>({
-        id: actionType === 'UPDATE' ? 0 : 0,
+        id: actionType ===  'UPDATE' ? 0 : 0,
         name: actionType === 'UPDATE' ? 'Keterolaco' : '',
-        via_admin: 'Oral',
+        via: 'Oral',
     })
 
     return {

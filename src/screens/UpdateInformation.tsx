@@ -18,7 +18,8 @@ interface UpdateInformationProps
   extends NativeStackScreenProps<UserStackParams, 'UpdateInformation'> {}
 
 const UpdateInformation: FC<UpdateInformationProps> = ({navigation}) => {
-  const {formFields, setValues, update, cancel} = useUpdateInfo(navigation);
+  const {formFields, setValues, update, cancel, medic} =
+    useUpdateInfo(navigation);
 
   return (
     <ViewContainer>
@@ -55,6 +56,24 @@ const UpdateInformation: FC<UpdateInformationProps> = ({navigation}) => {
             onChangeText={setValues('phone')}
             style={styles.input}
           />
+          {medic && (
+            <>
+              <CustomInput
+                label="Especialidad"
+                mode="outlined"
+                value={formFields.speciality!}
+                onChangeText={setValues('speciality')}
+                style={styles.input}
+              />
+              <CustomInput
+                label="ID Profesional"
+                mode="outlined"
+                value={formFields.professional_id!}
+                onChangeText={setValues('professional_id')}
+                style={styles.input}
+              />
+            </>
+          )}
           <CustomButton
             dark
             mode="contained"
