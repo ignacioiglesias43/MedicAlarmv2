@@ -58,6 +58,7 @@ const AuthForm: FC<AuthFormProps> = ({formType, children}) => {
       <CustomInput
         label="Contraseña"
         mode="outlined"
+        autoCapitalize="none"
         icon={passwordIcons.password}
         secureTextEntry={passwordIcons.password === 'eye'}
         onIconPress={() =>
@@ -83,6 +84,7 @@ const AuthForm: FC<AuthFormProps> = ({formType, children}) => {
               )
             }
             value={formFields.repeatPassword}
+            autoCapitalize="none"
             onChangeText={setValues('repeatPassword')}
           />
           <CustomInput
