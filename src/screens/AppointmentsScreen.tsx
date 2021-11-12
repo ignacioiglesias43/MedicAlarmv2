@@ -37,7 +37,9 @@ const AppointmentsScreen = ({navigation}: Props) => {
       actionIcon={userInfo?.role === 'Medic' && 'delete'}
       action={() => deleteAppoinmentButton(item.id)}
       onPress={() => {
-        if (userInfo?.role === 'Medic') onUpdateAppointment(item);
+        if (userInfo?.role === 'Medic') {
+          onUpdateAppointment(item);
+        }
       }}
     />
   );
@@ -65,15 +67,17 @@ const AppointmentsScreen = ({navigation}: Props) => {
         )}
         keyExtractor={item => `${item.id}`}
       />
-      {userInfo?.role === 'Medic' && (
-        <CustomFAB
-          onPress={() =>
-            navigation.navigate('Update', {
-              actionType: 'ADD',
-            })
-          }
-        />
-      )}
+      <>
+        {userInfo?.role === 'Medic' && (
+          <CustomFAB
+            onPress={() =>
+              navigation.navigate('Update', {
+                actionType: 'ADD',
+              })
+            }
+          />
+        )}
+      </>
     </ViewContainer>
   );
 };
