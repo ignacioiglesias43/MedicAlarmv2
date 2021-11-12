@@ -1,4 +1,4 @@
-import {useEffect, useCallback} from 'react';
+import {useEffect, useCallback, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/index';
 import {useAppDispatch} from '../store/hooks';
@@ -9,12 +9,13 @@ import {deleteContact, updateContacts} from '../store/contacts/actionCreators';
 import {updateIndicatorVisible} from '../store/loadingIndicator/actionCreators';
 import {useModal} from './useModal';
 import colors from '../styles/colors';
+import {updateModalUserHasConfirmed} from '../store/modal/actionCreators';
 
 export const useContacts = () => {
   const {contacts} = useSelector((state: RootState) => state.contactReducer);
   const {token} = useSelector((state: RootState) => state.authReducer);
-  const {openModal, isModalVisible, message} = useModal();
-
+  const [userSelected, setUserSelected] = useState<Contact>();
+  const {openModal, userHasConfirmed} = useModal();
   const {filteredList, searchFunction, query} = useQuery<Contact>(contacts);
 
   const dispatch = useAppDispatch();
@@ -25,6 +26,7 @@ export const useContacts = () => {
 
       if (response) {
         const {data} = response.data;
+        console.log(data);
         dispatch(updateContacts(data));
       }
     } catch (error: any) {
@@ -32,28 +34,38 @@ export const useContacts = () => {
     }
   }, [dispatch, token]);
 
+  const deleteContactButton = (contact: Contact) => {
+    setUserSelected(contact);
+    openModal(`¿Seguro que desea eliminar a ${contact.name}?`, true);
+  };
+
+  const handleDeleteUser = useCallback(async () => {
+    try {
+      dispatch(updateIndicatorVisible(true));
+      dispatch(updateModalUserHasConfirmed(false));
+      const response = await deleteContactService(userSelected?.id!, token);
+      if (response) {
+        dispatch(deleteContact(userSelected?.id!));
+        dispatch(updateIndicatorVisible(false));
+      }
+    } catch (error: any) {
+      const errMessage = error?.response?.data?.message || '';
+      openModal(errMessage, false, 'Error', 'alert-decagram', colors.error);
+    } finally {
+      dispatch(updateIndicatorVisible(false));
+      setUserSelected(undefined);
+    }
+  }, [dispatch, openModal, token, userSelected]);
+
   useEffect(() => {
     getContacts();
   }, [getContacts]);
 
-  const deleteContactButton = async (contact: Contact) => {
-    openModal(`¿Seguro que desea eliminar a ${contact.name}?`, true);
-    /* if (!isModalVisible) {
-      try {
-        dispatch(updateIndicatorVisible(true));
-        const response = await deleteContactService(contact.id!, token);
-        if (response) {
-          dispatch(deleteContact(contact.id!));
-          dispatch(updateIndicatorVisible(false));
-        }
-      } catch (error: any) {
-        const message = error?.response?.data?.message || '';
-        openModal(message, false, 'Error', 'alert-decagram', colors.error);
-      } finally {
-        dispatch(updateIndicatorVisible(false));
-      }
-    } */
-  };
+  useEffect(() => {
+    if (userHasConfirmed) {
+      handleDeleteUser();
+    }
+  }, [handleDeleteUser, userHasConfirmed]);
 
   return {
     contactsList: filteredList,
