@@ -14,6 +14,7 @@ import {updateModalUserHasConfirmed} from '../store/modal/actionCreators';
 export const useContacts = () => {
   const {contacts} = useSelector((state: RootState) => state.contactReducer);
   const {token} = useSelector((state: RootState) => state.authReducer);
+
   const [userSelected, setUserSelected] = useState<Contact>();
   const {openModal, userHasConfirmed} = useModal();
   const {filteredList, searchFunction, query} = useQuery<Contact>(contacts);
@@ -26,7 +27,6 @@ export const useContacts = () => {
 
       if (response) {
         const {data} = response.data;
-        console.log(data);
         dispatch(updateContacts(data));
       }
     } catch (error: any) {

@@ -1,32 +1,36 @@
 import {useEffect, useState} from 'react';
+
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/index';
+import {Reminder} from '../api/reminder/model/Reminder';
+import {useQuery} from './useQuery';
+
 import {useAppDispatch} from '../store/hooks';
+import {getRemindersService} from '../api/reminder/services';
+import {updateReminders} from '../store/reminders/actionCreators';
 
 const useReminder = () => {
+  const {token} = useSelector((state: RootState) => state.authReducer);
   const {reminders} = useSelector((state: RootState) => state.reminderReducer);
-  const [reminderList, setReminderList] = useState(reminders);
+  const {filteredList, searchFunction, query} = useQuery<Reminder>(reminders);
 
-  //TODO: Sacar lo relacionado a busqueda a su propio hook
-  const [query, setQuery] = useState('');
-  const updateQuery = (text: string) => setQuery(text);
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    console.log(query);
-    if (query) {
-      setReminderList(
-        reminders.filter(item => {
-          const itemData = item.name
-            ? item.name.toUpperCase()
-            : ''.toUpperCase();
-          return itemData.indexOf(query.toUpperCase()) > -1;
-        }),
-      );
-    } else {
-      setReminderList(reminders);
-    }
-  }, [query]);
+    const getReminders = async () => {
+      try {
+        const response = await getRemindersService(token);
 
-  return {reminderList, updateQuery, query};
+        dispatch(updateReminders([...response.data.data]));
+      } catch (error: any) {
+        console.log({...error});
+      }
+    };
+
+    getReminders();
+  }, [dispatch, token]);
+
+  return {reminderList: filteredList, updateQuery: searchFunction, query};
 };
 
 export default useReminder;

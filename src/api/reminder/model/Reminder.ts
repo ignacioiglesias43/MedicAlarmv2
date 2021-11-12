@@ -1,4 +1,4 @@
-import { Contact } from "../../contact/model/Contact";
+import {Contact} from '../../contact/model/Contact';
 
 export interface Reminder {
   id: number;
@@ -8,5 +8,5 @@ export interface Reminder {
   next_hour: string;
   total_shots?: number;
   count: number;
-  contact?: Contact
+  contact?: Contact;
 }

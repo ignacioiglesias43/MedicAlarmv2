@@ -19,10 +19,9 @@ export function useQuery<T>(array: Array<T>) {
   };
 
   useEffect(() => {
+    console.log(array);
     setFilteredList(array);
   }, [array]);
-
-  const updateQuery = (text: string) => setQuery(text);
 
   return {filteredList, searchFunction, query};
 }
