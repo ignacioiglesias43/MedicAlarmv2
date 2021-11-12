@@ -5,6 +5,7 @@ import {
   UPDATE_MODAL_TITLE,
   UPDATE_MODAL_VISIBLE,
   UPDATE_IS_CONFIRM,
+  UPDATE_USER_HAS_CONFIRMED,
 } from './actionTypes';
 
 const initialState: ModalState = {
@@ -14,6 +15,7 @@ const initialState: ModalState = {
   icon: 'alert-circle',
   iconColor: colors.error,
   isConfirm: false,
+  userHasConfirmed: false,
 };
 
 const modalReducer = (
@@ -33,6 +35,8 @@ const modalReducer = (
       return {...state, iconColor: action.payload};
     case UPDATE_IS_CONFIRM:
       return {...state, isConfirm: action.payload};
+    case UPDATE_USER_HAS_CONFIRMED:
+      return {...state, userHasConfirmed: action.payload};
     default:
       return state;
   }

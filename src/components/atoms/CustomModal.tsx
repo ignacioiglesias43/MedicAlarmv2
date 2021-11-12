@@ -14,6 +14,7 @@ import {
   updateModalMessage,
   updateModalTitle,
   updateModalIsConfirm,
+  updateModalUserHasConfirmed,
 } from '../../store/modal/actionCreators';
 
 import {useAppSelector, useAppDispatch} from '../../store/hooks';
@@ -32,7 +33,8 @@ const CustomModal = () => {
 
   const dispatch = useAppDispatch();
 
-  const hideModal = () => {
+  const hideModal = (type: 'CONFIRM' | 'CANCEL') => () => {
+    dispatch(updateModalUserHasConfirmed(type === 'CONFIRM'));
     dispatch(updateModalVisible(false));
     dispatch(updateModalMessage(''));
     dispatch(updateModalTitle(''));
@@ -56,7 +58,7 @@ const CustomModal = () => {
           {isConfirm && (
             <Button
               style={styles.btn}
-              onPress={hideModal}
+              onPress={hideModal('CONFIRM')}
               color={colors.accent}
               dark
               mode="contained">
@@ -65,7 +67,7 @@ const CustomModal = () => {
           )}
           <Button
             style={styles.btn}
-            onPress={hideModal}
+            onPress={hideModal('CANCEL')}
             color={colors.accent}
             dark
             mode={isConfirm ? 'outlined' : 'contained'}>

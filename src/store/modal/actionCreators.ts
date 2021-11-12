@@ -5,6 +5,7 @@ import {
   UPDATE_MODAL_ICON,
   UPDATE_MODAL_ICON_COLOR,
   UPDATE_IS_CONFIRM,
+  UPDATE_USER_HAS_CONFIRMED,
 } from './actionTypes';
 
 export const updateModalVisible =
@@ -47,4 +48,11 @@ export const updateModalIsConfirm =
     dispatch({
       type: UPDATE_IS_CONFIRM,
       payload: isConfirm,
+    });
+
+export const updateModalUserHasConfirmed =
+  (hasConfirmed: boolean) => (dispatch: DispatchModalActionType) =>
+    dispatch({
+      type: UPDATE_USER_HAS_CONFIRMED,
+      payload: hasConfirmed,
     });

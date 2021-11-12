@@ -4,7 +4,8 @@ interface ModalState {
   message: string;
   icon: string;
   iconColor: string;
-  isConfirm: boolean,
+  isConfirm: boolean;
+  userHasConfirmed: boolean;
 }
 
 type ModalAction = {
