@@ -3,7 +3,7 @@ import {ListRenderItem, FlatList, StyleSheet, View} from 'react-native';
 import DataCard from '../components/molecules/DataCard';
 import Calendar from '../components/organisms/Calendar';
 import ViewContainer from '../components/templates/ViewContainer';
-import {AppointmentCard, useAppointments} from '../hooks/useAppointments';
+import {useAppointments} from '../hooks/useAppointments';
 import {Divider} from 'react-native-paper';
 import CustomFAB from '../components/atoms/CustomFAB';
 import {useSelector} from 'react-redux';
@@ -15,13 +15,13 @@ import {Appointment} from '../api/appointments/model/Appointment';
 interface Props
   extends NativeStackScreenProps<
     AppointmentStackParams,
-    'AppointmentsDashboard'
+    'Update'
   > {}
 
 const AppointmentsScreen = ({navigation}: Props) => {
   const {userInfo} = useSelector((state: RootState) => state.authReducer);
-  const {appointments, deleteAppoinmentButton, selectedDate, markedDates} =
-    useAppointments();
+  const {appointments, deleteAppoinmentButton, selectedDate, markedDates, addAppoinment} =
+    useAppointments(navigation);
 
   const onUpdateAppointment = (item: Appointment) => {
     navigation.navigate('Update', {actionType: 'UPDATE', appoinment: item});
@@ -70,11 +70,7 @@ const AppointmentsScreen = ({navigation}: Props) => {
       <>
         {userInfo?.role === 'Medic' && (
           <CustomFAB
-            onPress={() =>
-              navigation.navigate('Update', {
-                actionType: 'ADD',
-              })
-            }
+            onPress={addAppoinment}
           />
         )}
       </>

@@ -27,6 +27,7 @@ import {
 import {signupService, loginService} from '../api/auth/services';
 
 import colors from '../styles/colors';
+import {useModal} from './useModal';
 
 export const useAuthForm = (formType: FormType) => {
   const {formFields, createChangeHandler} = useForm<ILoginForm, ISignupForm>(
@@ -38,6 +39,7 @@ export const useAuthForm = (formType: FormType) => {
     password: 'eye',
     repeatPassword: 'eye',
   });
+  const {openModal} = useModal();
 
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
@@ -98,12 +100,9 @@ export const useAuthForm = (formType: FormType) => {
       }
     } catch (error: any) {
       dispatch(updateIndicatorVisible(false));
+      console.log(error)
       if (error.response) {
-        dispatch(updateModalTitle('Error'));
-        dispatch(updateModalMessage(error?.response?.data?.message || ''));
-        dispatch(updateModalIcon('alert-decagram'));
-        dispatch(updateModalIconColor(colors.error));
-        dispatch(updateModalVisible(true));
+        openModal(error?.response?.data?.message);
       }
     }
   };

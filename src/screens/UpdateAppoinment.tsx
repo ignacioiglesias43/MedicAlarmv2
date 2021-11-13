@@ -39,6 +39,7 @@ const UpdateAppoinment = ({route, navigation}: Props) => {
           />
           <CustomDatePicker
             title="Fecha"
+            minimumDate={new Date(Date.now())}
             date={date.value}
             handleDate={date.handle}
           />

@@ -1,7 +1,9 @@
-import { Appointment } from "../model/Appointment";
+import {Appointment} from '../model/Appointment';
 
 export interface ResultedAppoinmentCreate {
-    data: Appointment;
-    message: string,
-  }
-  
+  data: Appointment;
+}
+
+export interface ResultedAppointmentGet {
+  data: Array<Appointment>;
+}

@@ -31,7 +31,7 @@ const CustomDropdown = ({title, items = [], selectedValue, onValueChange}: Props
         selectedValue={selectedValue}
         onValueChange={onValueChange}>
         {items.map(e => (
-          <Picker.Item label={e.name} value={e.id} key={e.id?.toString()} />
+          <Picker.Item label={`${e.name} - ${e.id}`} value={e.id} key={e.id?.toString()} />
         ))}
       </Picker>
     </View>

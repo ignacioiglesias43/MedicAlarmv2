@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {Dimensions} from 'react-native';
 
 import {

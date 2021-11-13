@@ -2,15 +2,26 @@ import {useCallback, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/index';
 import {Appointment} from '../api/appointments/model/Appointment';
-import {deleteAppointmentService, getAppointmentService} from '../api/appointments/services';
+import {
+  deleteAppointmentService,
+  getAppointmentService,
+} from '../api/appointments/services';
 import {useAppDispatch} from '../store/hooks';
-import {deleteAppointment, updateAppointmets} from '../store/appoinment/actionCreators';
+import {
+  deleteAppointment,
+  updateAppointmets,
+} from '../store/appoinment/actionCreators';
 import {useFocusEffect} from '@react-navigation/core';
 import {useModal} from './useModal';
-import { updateIndicatorVisible } from '../store/loadingIndicator/actionCreators';
+import {updateIndicatorVisible} from '../store/loadingIndicator/actionCreators';
 import colors from '../styles/colors';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {AppointmentStackParams} from '../navigation/stacks/AppointmentsStack';
 
-export const useAppointments = () => {
+export const useAppointments = (
+  navigation: NativeStackNavigationProp<AppointmentStackParams, 'Update'>,
+) => {
+  const {patients} = useSelector((state: RootState) => state.patientReducer);
   const {openModal, isModalVisible, message} = useModal();
   const {appointments} = useSelector(
     (state: RootState) => state.appointmentReducer,
@@ -26,6 +37,16 @@ export const useAppointments = () => {
 
   const handleSelectedDate = (day: string) => setSelectedDate(day);
 
+  const addAppoinment = () => {
+    if (patients.length > 0) {
+      navigation.navigate('Update', {
+        actionType: 'ADD',
+      });
+    } else {
+      openModal('Se necesitan pacientes asignados para esta acción');
+    }
+  };
+
   useEffect(() => {
     getAppointments();
   }, [token]);
@@ -38,8 +59,7 @@ export const useAppointments = () => {
   useFocusEffect(
     useCallback(() => {
       setAppointmentList(
-        appointments
-          .filter(e => selectedDate === e.day.substr(0, 10))
+        appointments.filter(e => selectedDate === e.day.substr(0, 10)),
       );
     }, [selectedDate, appointments]),
   );
@@ -60,9 +80,9 @@ export const useAppointments = () => {
     dispatch(updateIndicatorVisible(true));
     //TODO: Modal de confirmación
     try {
-      const response = await deleteAppointmentService(id, token)
-      if(response){
-        dispatch(deleteAppointment(id))
+      const response = await deleteAppointmentService(id, token);
+      if (response) {
+        dispatch(deleteAppointment(id));
       }
     } catch (error: any) {
       const message = error?.response?.data?.message || '';
@@ -70,7 +90,7 @@ export const useAppointments = () => {
     } finally {
       dispatch(updateIndicatorVisible(false));
     }
-  }
+  };
 
   return {
     appointments: appointmentList,
@@ -80,5 +100,6 @@ export const useAppointments = () => {
       handle: handleSelectedDate,
     },
     markedDates,
+    addAppoinment,
   };
 };

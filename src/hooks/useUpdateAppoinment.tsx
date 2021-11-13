@@ -9,6 +9,8 @@ import {
 } from '../api/appointments/services';
 import {
   addAppointment,
+  addDate,
+  updateDates,
   updateSingleAppointment,
 } from '../store/appoinment/actionCreators';
 import {useAppDispatch, useAppSelector} from '../store/hooks';
@@ -22,6 +24,9 @@ export const useUpdateAppoinment = (
   appoinment?: Appointment | undefined,
 ) => {
   const {patients} = useAppSelector((state: RootState) => state.patientReducer);
+  const {markedDates} = useAppSelector(
+    (state: RootState) => state.appointmentReducer,
+  );
   const [date, setDate] = useState(
     actionType === 'UPDATE'
       ? new Date(Date.parse(appoinment?.day!))
@@ -30,9 +35,7 @@ export const useUpdateAppoinment = (
   const {openModal} = useModal();
   const {token} = useSelector((state: RootState) => state.authReducer);
   const [patient, setPatient] = useState(
-    actionType === 'UPDATE'
-      ? appoinment?.patient?.code
-      : patients[0].user.code,
+    actionType === 'UPDATE' ? appoinment?.patient?.code : patients[0].user.code,
   );
   const fDate = useFormatedDate(date.toISOString());
   const patientList = patients.map(a => ({
@@ -59,6 +62,10 @@ export const useUpdateAppoinment = (
           dispatch(updateSingleAppointment(data));
         } else {
           dispatch(addAppointment(data));
+        }
+        const rDate = date.toISOString().split('T')[0];
+        if (!markedDates.find(e => e === rDate)) {
+          dispatch(addDate(rDate));
         }
         navigation.goBack();
       }
