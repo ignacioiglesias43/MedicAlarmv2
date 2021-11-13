@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/core';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import CustomButton from '../components/atoms/CustomButton';
@@ -8,8 +9,8 @@ import {useAddPatient} from '../hooks/useAddPatient';
 import colors from '../styles/colors';
 
 const UpdatePatient = () => {
+  const navigation = useNavigation();
   const {code, setCode, submitCode} = useAddPatient();
-  const cancel = () => {};
 
   return (
     <ViewContainer>
@@ -38,7 +39,9 @@ const UpdatePatient = () => {
           mode="outlined"
           text="Cancelar"
           color={colors.accent}
-          onPress={cancel}
+          onPress={() => {
+            navigation.goBack();
+          }}
         />
       </View>
     </ViewContainer>
