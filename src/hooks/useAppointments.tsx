@@ -14,7 +14,7 @@ import {
 import {useFocusEffect} from '@react-navigation/core';
 import {useModal} from './useModal';
 import {updateIndicatorVisible} from '../store/loadingIndicator/actionCreators';
-import colors from '../styles/colors';
+
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AppointmentStackParams} from '../navigation/stacks/AppointmentsStack';
 
@@ -22,7 +22,7 @@ export const useAppointments = (
   navigation: NativeStackNavigationProp<AppointmentStackParams, 'Update'>,
 ) => {
   const {patients} = useSelector((state: RootState) => state.patientReducer);
-  const {openModal, isModalVisible, message} = useModal();
+  const {openModal} = useModal();
   const {appointments} = useSelector(
     (state: RootState) => state.appointmentReducer,
   );
@@ -31,7 +31,7 @@ export const useAppointments = (
   const [selectedDate, setSelectedDate] = useState(
     new Date(Date.now()).toISOString().substr(0, 10),
   );
-  const [markedDates, setMarkedDates] = useState([]);
+  const [markedDates, setMarkedDates] = useState<string[]>([]);
 
   const dispatch = useAppDispatch();
 
@@ -47,24 +47,7 @@ export const useAppointments = (
     }
   };
 
-  useEffect(() => {
-    getAppointments();
-  }, [token]);
-
-  useEffect(() => {
-    const dates = new Set(appointments.map(e => e.day.substr(0, 10)));
-    setMarkedDates([...dates]);
-  }, [appointments]);
-
-  useFocusEffect(
-    useCallback(() => {
-      setAppointmentList(
-        appointments.filter(e => selectedDate === e.day.substr(0, 10)),
-      );
-    }, [selectedDate, appointments]),
-  );
-
-  const getAppointments = async () => {
+  const getAppointments = useCallback(async () => {
     try {
       const response = await getAppointmentService(token);
       if (response) {
@@ -74,7 +57,7 @@ export const useAppointments = (
     } catch (error: any) {
       console.log({...error});
     }
-  };
+  }, [dispatch, token]);
 
   const deleteAppoinmentButton = async (id: number) => {
     dispatch(updateIndicatorVisible(true));
@@ -91,6 +74,23 @@ export const useAppointments = (
       dispatch(updateIndicatorVisible(false));
     }
   };
+
+  useEffect(() => {
+    getAppointments();
+  }, [getAppointments]);
+
+  useEffect(() => {
+    const dates = new Set(appointments.map(e => e?.day?.substr(0, 10) || ''));
+    setMarkedDates([...dates]);
+  }, [appointments]);
+
+  useFocusEffect(
+    useCallback(() => {
+      setAppointmentList(
+        appointments.filter(e => selectedDate === e?.day?.substr(0, 10) || ''),
+      );
+    }, [selectedDate, appointments]),
+  );
 
   return {
     appointments: appointmentList,

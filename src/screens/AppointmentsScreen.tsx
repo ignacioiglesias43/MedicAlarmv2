@@ -13,15 +13,17 @@ import {AppointmentStackParams} from '../navigation/stacks/AppointmentsStack';
 import NoDataCard from '../components/atoms/NoDataCard';
 import {Appointment} from '../api/appointments/model/Appointment';
 interface Props
-  extends NativeStackScreenProps<
-    AppointmentStackParams,
-    'Update'
-  > {}
+  extends NativeStackScreenProps<AppointmentStackParams, 'Update'> {}
 
 const AppointmentsScreen = ({navigation}: Props) => {
   const {userInfo} = useSelector((state: RootState) => state.authReducer);
-  const {appointments, deleteAppoinmentButton, selectedDate, markedDates, addAppoinment} =
-    useAppointments(navigation);
+  const {
+    appointments,
+    deleteAppoinmentButton,
+    selectedDate,
+    markedDates,
+    addAppoinment,
+  } = useAppointments(navigation);
 
   const onUpdateAppointment = (item: Appointment) => {
     navigation.navigate('Update', {actionType: 'UPDATE', appoinment: item});
@@ -67,13 +69,7 @@ const AppointmentsScreen = ({navigation}: Props) => {
         )}
         keyExtractor={item => `${item.id}`}
       />
-      <>
-        {userInfo?.role === 'Medic' && (
-          <CustomFAB
-            onPress={addAppoinment}
-          />
-        )}
-      </>
+      <>{userInfo?.role === 'Medic' && <CustomFAB onPress={addAppoinment} />}</>
     </ViewContainer>
   );
 };
