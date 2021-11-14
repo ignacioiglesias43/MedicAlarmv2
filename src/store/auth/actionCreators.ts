@@ -21,7 +21,7 @@ export const updateTokenExpiresAt =
     });
 
 export const updateUserInfo =
-  (userInfo: User) => (dispatch: DispatchAuthActionType) =>
+  (userInfo: User | null) => (dispatch: DispatchAuthActionType) =>
     dispatch({
       type: UPDATE_USER_INFO,
       payload: userInfo,

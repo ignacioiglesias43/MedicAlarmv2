@@ -16,6 +16,8 @@ export const useContacts = () => {
   const {token} = useSelector((state: RootState) => state.authReducer);
 
   const [userSelected, setUserSelected] = useState<Contact>();
+  const [isLoading, setIsLoading] = useState(false);
+
   const {openModal, userHasConfirmed} = useModal();
   const {filteredList, searchFunction, query} = useQuery<Contact>(contacts);
 
@@ -23,6 +25,7 @@ export const useContacts = () => {
 
   const getContacts = useCallback(async () => {
     try {
+      setIsLoading(true);
       const response = await getContactService(token);
 
       if (response) {
@@ -31,6 +34,8 @@ export const useContacts = () => {
       }
     } catch (error: any) {
       console.log('error: ', {...error});
+    } finally {
+      setIsLoading(false);
     }
   }, [dispatch, token]);
 
@@ -69,8 +74,10 @@ export const useContacts = () => {
 
   return {
     contactsList: filteredList,
-    searchFunction,
     search: query,
+    handleReload: getContacts,
+    isLoading,
+    searchFunction,
     deleteContactButton,
   };
 };

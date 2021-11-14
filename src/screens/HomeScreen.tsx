@@ -17,7 +17,8 @@ interface Props
   extends NativeStackScreenProps<ReminderStackParams, 'Reminder'> {}
 
 const HomeScreen = ({navigation}: Props) => {
-  const {reminderList, updateQuery, query} = useReminder();
+  const {reminderList, updateQuery, query, isLoading, handleReload} =
+    useReminder();
 
   const renderItem: ListRenderItem<Reminder> = ({item}) => (
     <DataCard
@@ -45,6 +46,8 @@ const HomeScreen = ({navigation}: Props) => {
             <CustomSearcher value={query} onChangeText={updateQuery} />
           </CustomHeader>
         )}
+        refreshing={isLoading}
+        onRefresh={handleReload}
         keyExtractor={item => `${item.id}`}
       />
       <CustomFAB

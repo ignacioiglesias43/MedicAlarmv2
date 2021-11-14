@@ -4,7 +4,15 @@ import {StyleSheet} from 'react-native';
 import {Title} from 'react-native-paper';
 
 import {useAppDispatch, useAppSelector} from '../store/hooks';
-import {updateToken} from '../store/auth/actionCreators';
+import {
+  updateToken,
+  updateTokenExpiresAt,
+  updateUserInfo,
+} from '../store/auth/actionCreators';
+import {updateReminders} from '../store/reminders/actionCreators';
+import {updateAppointmets} from '../store/appoinment/actionCreators';
+import {updateContacts} from '../store/contacts/actionCreators';
+import {updatePatients} from '../store/patients/actionCreators';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {UserStackParams} from '../navigation/stacks/UserStack';
@@ -25,9 +33,6 @@ const UserScreen: FC<UserScrenProps> = ({navigation}) => {
   const {userInfo} = useAppSelector((state: RootState) => state.authReducer);
   const dispatch = useAppDispatch();
 
-  const updateInfo = () => navigation.navigate('UpdateInformation');
-  const logout = () => dispatch(updateToken(''));
-
   const {
     name,
     lastname,
@@ -39,8 +44,18 @@ const UserScreen: FC<UserScrenProps> = ({navigation}) => {
     professional_id,
   } = userInfo as User;
 
-  // NO SE PORQUE TRUENA XD
   const isADoctor = role !== undefined && role?.length > 0 && role === 'Medic';
+
+  const updateInfo = () => navigation.navigate('UpdateInformation');
+  const logout = () => {
+    dispatch(updateToken(''));
+    dispatch(updateTokenExpiresAt(''));
+    dispatch(updateUserInfo(null));
+    dispatch(updateReminders([]));
+    dispatch(updateAppointmets([]));
+    dispatch(updateContacts([]));
+    dispatch(updatePatients([]));
+  };
 
   return (
     <ViewContainer>
@@ -49,15 +64,17 @@ const UserScreen: FC<UserScrenProps> = ({navigation}) => {
           {name} {lastname}
         </Title>
       </CustomHeader>
-      {!isADoctor && (
-        <DataCard
-          title="ID"
-          fisrt={code}
-          type="personal"
-          titleStyle={styles.titleCard}
-          subtitleStyle={styles.subCard}
-        />
-      )}
+      <>
+        {!isADoctor && (
+          <DataCard
+            title="ID"
+            fisrt={code!}
+            type="personal"
+            titleStyle={styles.titleCard}
+            subtitleStyle={styles.subCard}
+          />
+        )}
+      </>
       <DataCard
         title="Correo electrónico"
         fisrt={email}
@@ -72,24 +89,26 @@ const UserScreen: FC<UserScrenProps> = ({navigation}) => {
         titleStyle={styles.titleCard}
         subtitleStyle={styles.subCard}
       />
-      {isADoctor && (
-        <>
-          <DataCard
-            title="Especialidad"
-            fisrt={speciality}
-            type="personal"
-            titleStyle={styles.titleCard}
-            subtitleStyle={styles.subCard}
-          />
-          <DataCard
-            title="ID Profesional"
-            fisrt={professional_id}
-            type="personal"
-            titleStyle={styles.titleCard}
-            subtitleStyle={styles.subCard}
-          />
-        </>
-      )}
+      <>
+        {isADoctor && (
+          <>
+            <DataCard
+              title="Especialidad"
+              fisrt={speciality!}
+              type="personal"
+              titleStyle={styles.titleCard}
+              subtitleStyle={styles.subCard}
+            />
+            <DataCard
+              title="ID Profesional"
+              fisrt={professional_id!}
+              type="personal"
+              titleStyle={styles.titleCard}
+              subtitleStyle={styles.subCard}
+            />
+          </>
+        )}
+      </>
       <CustomButton
         dark
         mode="contained"
