@@ -12,6 +12,8 @@ target 'MedicAlarm' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+
   target 'MedicAlarmTests' do
     inherit! :complete
     # Pods for testing

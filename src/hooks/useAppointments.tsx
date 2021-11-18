@@ -3,6 +3,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../store/index';
 import {Appointment} from '../api/appointments/model/Appointment';
 import {
+  channelAppointment,
   deleteAppointmentService,
   getAppointmentService,
 } from '../api/appointments/services';
@@ -14,9 +15,10 @@ import {
 import {useFocusEffect} from '@react-navigation/core';
 import {useModal} from './useModal';
 import {updateIndicatorVisible} from '../store/loadingIndicator/actionCreators';
-import colors from '../styles/colors';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AppointmentStackParams} from '../navigation/stacks/AppointmentsStack';
+import pusher from '../api/pusher';
+import {Alert} from 'react-native';
 
 export const useAppointments = (
   navigation: NativeStackNavigationProp<AppointmentStackParams, 'Update'>,
@@ -26,12 +28,17 @@ export const useAppointments = (
   const {appointments} = useSelector(
     (state: RootState) => state.appointmentReducer,
   );
-  const {token} = useSelector((state: RootState) => state.authReducer);
+  const {token, userInfo} = useSelector(
+    (state: RootState) => state.authReducer,
+  );
   const [appointmentList, setAppointmentList] = useState<Appointment[]>();
   const [selectedDate, setSelectedDate] = useState(
     new Date(Date.now()).toISOString().substr(0, 10),
   );
   const [markedDates, setMarkedDates] = useState([]);
+
+  //DE PRUEBA
+  const [test, settest] = useState('');
 
   const dispatch = useAppDispatch();
 
@@ -49,7 +56,19 @@ export const useAppointments = (
 
   useEffect(() => {
     getAppointments();
+    console.log(token);
   }, [token]);
+
+  useEffect(() => {
+    try {
+      const channel = pusher(token).subscribe(`Appointment.${userInfo?.id}`);
+      channel.bind('appointment', (data: any) => {
+        settest(data.message)
+      });
+    } catch (error: any) {
+      console.log(error);
+    }
+  }, []);
 
   useEffect(() => {
     const dates = new Set(appointments.map(e => e.day.substr(0, 10)));
@@ -101,5 +120,6 @@ export const useAppointments = (
     },
     markedDates,
     addAppoinment,
+    test
   };
 };

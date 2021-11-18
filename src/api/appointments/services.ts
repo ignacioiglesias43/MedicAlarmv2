@@ -1,3 +1,4 @@
+import pusher from '../pusher';
 import request from '../request';
 import {CreateAppoinment} from './dto/create-appointment.dto';
 import {UpdateAppoinment} from './dto/update-appointment.dto';
@@ -42,3 +43,6 @@ export const deleteAppointmentService = (id: number, token: string) =>
       Authorization: 'Bearer ' + token,
     },
   });
+
+export const channelAppointment = (token: string, id: string) =>
+  pusher(token).subscribe(`private-Appointment.${id}`);
