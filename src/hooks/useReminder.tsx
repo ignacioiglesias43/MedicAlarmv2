@@ -1,4 +1,4 @@
-import {useEffect, useState, useCallback} from 'react';
+import {useEffect, useState} from 'react';
 
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/index';
@@ -8,39 +8,44 @@ import {useQuery} from './useQuery';
 import {useAppDispatch} from '../store/hooks';
 import {getRemindersService} from '../api/reminder/services';
 import {updateReminders} from '../store/reminders/actionCreators';
+import pusher from '../api/pusher';
+import {Alert} from 'react-native';
 
 const useReminder = () => {
-  const {token} = useSelector((state: RootState) => state.authReducer);
+  const {token, userInfo} = useSelector(
+    (state: RootState) => state.authReducer,
+  );
   const {reminders} = useSelector((state: RootState) => state.reminderReducer);
   const {filteredList, searchFunction, query} = useQuery<Reminder>(reminders);
-  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useAppDispatch();
 
-  const getReminders = useCallback(async () => {
+  useEffect(() => {
     try {
-      setIsLoading(true);
-      const response = await getRemindersService(token);
-
-      dispatch(updateReminders([...response.data.data]));
+      var channel = pusher(token).subscribe(`private-Patient.${userInfo?.id}`);
+      channel.bind('patient', (data: any) => {
+        Alert.alert(data.message);
+      });
     } catch (error: any) {
-      console.log({...error});
-    } finally {
-      setIsLoading(false);
+      console.log(error);
     }
-  }, [dispatch, token]);
+  }, []);
 
   useEffect(() => {
-    getReminders();
-  }, [getReminders]);
+    const getReminders = async () => {
+      try {
+        const response = await getRemindersService(token);
 
-  return {
-    reminderList: filteredList,
-    updateQuery: searchFunction,
-    handleReload: getReminders,
-    query,
-    isLoading,
-  };
+        dispatch(updateReminders([...response.data.data]));
+      } catch (error: any) {
+        console.log({...error});
+      }
+    };
+
+    getReminders();
+  }, [dispatch, token]);
+
+  return {reminderList: filteredList, updateQuery: searchFunction, query};
 };
 
 export default useReminder;

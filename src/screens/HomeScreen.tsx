@@ -12,6 +12,7 @@ import NoDataCard from '../components/atoms/NoDataCard';
 import CustomFAB from '../components/atoms/CustomFAB';
 import CustomSearcher from '../components/atoms/CustomSearcher';
 import CustomHeader from '../components/atoms/CustomHeader';
+import { Text } from 'react-native-paper';
 
 interface Props
   extends NativeStackScreenProps<ReminderStackParams, 'Reminder'> {}

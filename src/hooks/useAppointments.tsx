@@ -3,6 +3,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../store/index';
 import {Appointment} from '../api/appointments/model/Appointment';
 import {
+  channelAppointment,
   deleteAppointmentService,
   getAppointmentService,
 } from '../api/appointments/services';
@@ -14,24 +15,30 @@ import {
 import {useFocusEffect} from '@react-navigation/core';
 import {useModal} from './useModal';
 import {updateIndicatorVisible} from '../store/loadingIndicator/actionCreators';
-
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AppointmentStackParams} from '../navigation/stacks/AppointmentsStack';
+import pusher from '../api/pusher';
+import {Alert} from 'react-native';
 
 export const useAppointments = (
   navigation: NativeStackNavigationProp<AppointmentStackParams, 'Update'>,
 ) => {
   const {patients} = useSelector((state: RootState) => state.patientReducer);
-  const {openModal} = useModal();
+  const {openModal, isModalVisible, message} = useModal();
   const {appointments} = useSelector(
     (state: RootState) => state.appointmentReducer,
   );
-  const {token} = useSelector((state: RootState) => state.authReducer);
+  const {token, userInfo} = useSelector(
+    (state: RootState) => state.authReducer,
+  );
   const [appointmentList, setAppointmentList] = useState<Appointment[]>();
   const [selectedDate, setSelectedDate] = useState(
     new Date(Date.now()).toISOString().substr(0, 10),
   );
-  const [markedDates, setMarkedDates] = useState<string[]>([]);
+  const [markedDates, setMarkedDates] = useState([]);
+
+  //DE PRUEBA
+  const [test, settest] = useState('');
 
   const dispatch = useAppDispatch();
 
@@ -47,7 +54,36 @@ export const useAppointments = (
     }
   };
 
-  const getAppointments = useCallback(async () => {
+  useEffect(() => {
+    getAppointments();
+    console.log(token);
+  }, [token]);
+
+  useEffect(() => {
+    try {
+      const channel = pusher(token).subscribe(`Appointment.${userInfo?.id}`);
+      channel.bind('appointment', (data: any) => {
+        settest(data.message);
+      });
+    } catch (error: any) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    const dates = new Set(appointments.map(e => e.day.substr(0, 10)));
+    setMarkedDates([...dates]);
+  }, [appointments]);
+
+  useFocusEffect(
+    useCallback(() => {
+      setAppointmentList(
+        appointments.filter(e => selectedDate === e.day.substr(0, 10)),
+      );
+    }, [selectedDate, appointments]),
+  );
+
+  const getAppointments = async () => {
     try {
       const response = await getAppointmentService(token);
       if (response) {
@@ -57,7 +93,7 @@ export const useAppointments = (
     } catch (error: any) {
       console.log({...error});
     }
-  }, [dispatch, token]);
+  };
 
   const deleteAppoinmentButton = async (id: number) => {
     dispatch(updateIndicatorVisible(true));
@@ -75,23 +111,6 @@ export const useAppointments = (
     }
   };
 
-  useEffect(() => {
-    getAppointments();
-  }, [getAppointments]);
-
-  useEffect(() => {
-    const dates = new Set(appointments.map(e => e?.day?.substr(0, 10) || ''));
-    setMarkedDates([...dates]);
-  }, [appointments]);
-
-  useFocusEffect(
-    useCallback(() => {
-      setAppointmentList(
-        appointments.filter(e => selectedDate === e?.day?.substr(0, 10) || ''),
-      );
-    }, [selectedDate, appointments]),
-  );
-
   return {
     appointments: appointmentList,
     deleteAppoinmentButton,
@@ -101,5 +120,6 @@ export const useAppointments = (
     },
     markedDates,
     addAppoinment,
+    test,
   };
 };
