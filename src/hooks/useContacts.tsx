@@ -46,7 +46,6 @@ export const useContacts = () => {
       const response = await deleteContactService(userSelected?.id!, token);
       if (response) {
         dispatch(deleteContact(userSelected?.id!));
-        dispatch(updateIndicatorVisible(false));
       }
     } catch (error: any) {
       const errMessage = error?.response?.data?.message || '';

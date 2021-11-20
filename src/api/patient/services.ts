@@ -21,3 +21,12 @@ export const getPatientsService = (token: string) =>
       Authorization: 'Bearer ' + token,
     },
   });
+
+export const deletePatientService = (id: string, token: string) =>
+  request({
+    method: 'DELETE',
+    url: `/patient/${id}`,
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
+  });

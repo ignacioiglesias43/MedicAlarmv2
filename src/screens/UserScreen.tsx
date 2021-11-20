@@ -17,6 +17,10 @@ import DataCard from '../components/molecules/DataCard';
 import ViewContainer from '../components/templates/ViewContainer';
 
 import colors from '../styles/colors';
+import { updatePatients } from '../store/patients/actionCreators';
+import { updateAppointmets } from '../store/appoinment/actionCreators';
+import { updateContacts } from '../store/contacts/actionCreators';
+import { updateReminders } from '../store/reminders/actionCreators';
 
 interface UserScrenProps
   extends NativeStackScreenProps<UserStackParams, 'Dashboard'> {}
@@ -26,7 +30,13 @@ const UserScreen: FC<UserScrenProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
 
   const updateInfo = () => navigation.navigate('UpdateInformation');
-  const logout = () => dispatch(updateToken(''));
+  const logout = () => {
+    dispatch(updatePatients([]))
+    dispatch(updateAppointmets([]))
+    dispatch(updateContacts([]))
+    dispatch(updateReminders([]))
+    dispatch(updateToken(''));
+  };
 
   const {
     name,

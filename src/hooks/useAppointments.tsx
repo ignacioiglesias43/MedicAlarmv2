@@ -3,7 +3,6 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../store/index';
 import {Appointment} from '../api/appointments/model/Appointment';
 import {
-  channelAppointment,
   deleteAppointmentService,
   getAppointmentService,
 } from '../api/appointments/services';
@@ -18,13 +17,14 @@ import {updateIndicatorVisible} from '../store/loadingIndicator/actionCreators';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AppointmentStackParams} from '../navigation/stacks/AppointmentsStack';
 import pusher from '../api/pusher';
-import {Alert} from 'react-native';
+import {useNotification} from './useNotification';
+import {updateModalUserHasConfirmed} from '../store/modal/actionCreators';
 
 export const useAppointments = (
   navigation: NativeStackNavigationProp<AppointmentStackParams, 'Update'>,
 ) => {
   const {patients} = useSelector((state: RootState) => state.patientReducer);
-  const {openModal, isModalVisible, message} = useModal();
+  const {openModal, userHasConfirmed} = useModal();
   const {appointments} = useSelector(
     (state: RootState) => state.appointmentReducer,
   );
@@ -36,10 +36,8 @@ export const useAppointments = (
     new Date(Date.now()).toISOString().substr(0, 10),
   );
   const [markedDates, setMarkedDates] = useState([]);
-
-  //DE PRUEBA
-  const [test, settest] = useState('');
-
+  const {onDisplayNotification} = useNotification();
+  const [appSelected, setappSelected] = useState<number>();
   const dispatch = useAppDispatch();
 
   const handleSelectedDate = (day: string) => setSelectedDate(day);
@@ -56,17 +54,18 @@ export const useAppointments = (
 
   useEffect(() => {
     getAppointments();
-    console.log(token);
   }, [token]);
 
   useEffect(() => {
-    try {
-      const channel = pusher(token).subscribe(`Appointment.${userInfo?.id}`);
-      channel.bind('appointment', (data: any) => {
-        settest(data.message)
-      });
-    } catch (error: any) {
-      console.log(error);
+    if (userInfo?.role !== 'Medic') {
+      try {
+        const channel = pusher(token).subscribe(`Appointment.${userInfo?.id}`);
+        channel.bind('appointment', (data: any) => {
+          onDisplayNotification('appointment', data.message);
+        });
+      } catch (error: any) {
+        console.log(error);
+      }
     }
   }, []);
 
@@ -95,21 +94,31 @@ export const useAppointments = (
     }
   };
 
-  const deleteAppoinmentButton = async (id: number) => {
-    dispatch(updateIndicatorVisible(true));
-    //TODO: Modal de confirmación
+  const handleDeteleteAppointment = useCallback(async () => {
     try {
-      const response = await deleteAppointmentService(id, token);
+      dispatch(updateIndicatorVisible(true));
+      dispatch(updateModalUserHasConfirmed(false));
+      const response = await deleteAppointmentService(appSelected!, token);
       if (response) {
-        dispatch(deleteAppointment(id));
+        dispatch(deleteAppointment(appSelected!));
       }
     } catch (error: any) {
       const message = error?.response?.data?.message || '';
       openModal(message, false, 'Error');
     } finally {
       dispatch(updateIndicatorVisible(false));
+      setappSelected(undefined);
     }
+  }, [dispatch, openModal, token, appSelected]);
+
+  const deleteAppoinmentButton = async (id: number) => {
+    setappSelected(id);
+    openModal('¿Seguro que desea eliminar esta cita?', true);
   };
+
+  useEffect(() => {
+    if (userHasConfirmed) handleDeteleteAppointment();
+  }, [handleDeteleteAppointment, userHasConfirmed]);
 
   return {
     appointments: appointmentList,
@@ -120,6 +129,5 @@ export const useAppointments = (
     },
     markedDates,
     addAppoinment,
-    test
   };
 };

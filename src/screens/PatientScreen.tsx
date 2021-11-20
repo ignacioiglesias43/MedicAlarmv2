@@ -1,7 +1,7 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
 import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
-import { Patient } from '../api/patient/model/Patient';
+import {Patient} from '../api/patient/model/Patient';
 import CustomFAB from '../components/atoms/CustomFAB';
 import CustomHeader from '../components/atoms/CustomHeader';
 import CustomSearcher from '../components/atoms/CustomSearcher';
@@ -19,15 +19,20 @@ const PatientScreen = ({navigation}: Props) => {
   const renderItem: ListRenderItem<Patient> = ({item}) => {
     const {user} = item;
     return (
-    <DataCard
-      title={user.name}
-      fisrt={user.email}
-      actionIcon={'delete'}
-      type="personal"
-      action={()=>{}}
-      onPress={() => navigation.navigate('Details', {patient: user})}
-    />
-  )};
+      <DataCard
+        title={user?.name}
+        fisrt={user?.email}
+        actionIcon={'delete'}
+        type="personal"
+        action={() => deletePatientButton(item)}
+        onPress={() => navigation.navigate('Details', {patient: user})}
+      />
+    );
+  };
+
+  React.useEffect(() => {
+    console.log(patients)
+  }, [])
 
   return (
     <ViewContainer>
@@ -42,7 +47,7 @@ const PatientScreen = ({navigation}: Props) => {
             <CustomSearcher value={''} onChangeText={() => {}} />
           </CustomHeader>
         )}
-        keyExtractor={item => `${item.user.id}`}
+        keyExtractor={({id}) => `${id}`}
       />
       <CustomFAB onPress={() => navigation.navigate('Add')} />
     </ViewContainer>
