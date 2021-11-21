@@ -12,6 +12,7 @@ import {deletePatient, updatePatients} from '../store/patients/actionCreators';
 import {resultedGetPattientDto} from '../api/patient/dto/resulted-patient.dto';
 import {useModal} from './useModal';
 import {updateModalUserHasConfirmed} from '../store/modal/actionCreators';
+import colors from '../styles/colors';
 
 export const usePatient = () => {
   const {patients} = useSelector((state: RootState) => state.patientReducer);

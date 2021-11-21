@@ -16,8 +16,8 @@ interface CustomInputProps {
   mode?: 'flat' | 'outlined';
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined;
   secureTextEntry?: boolean;
-  placeholder?: string,
-  maxLength?: number,
+  placeholder?: string;
+  maxLength?: number;
   icon?: string;
   onChangeText?: ((text: string) => void) & Function;
   onIconPress?: (

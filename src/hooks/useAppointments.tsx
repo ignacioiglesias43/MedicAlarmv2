@@ -59,7 +59,7 @@ export const useAppointments = (
   useEffect(() => {
     if (userInfo?.role !== 'Medic') {
       try {
-        const channel = pusher(token).subscribe(`Appointment.${userInfo?.id}`);
+        const channel = pusher(token).subscribe(`private-Appointment.${userInfo?.id}`);
         channel.bind('appointment', (data: any) => {
           onDisplayNotification('appointment', data.message);
         });
