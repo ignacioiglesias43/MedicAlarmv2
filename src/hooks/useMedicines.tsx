@@ -21,7 +21,7 @@ export const useMedicines = () => {
 
         if (response) {
           const {data} = response.data;
-          setMedicines(data);
+          setMedicines(data.data);
         }
       } catch (error: any) {
         console.log({...error});
