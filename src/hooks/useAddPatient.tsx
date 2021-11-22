@@ -8,7 +8,6 @@ import {RootState} from '../store';
 import {useModal} from './useModal';
 import {updateIndicatorVisible} from '../store/loadingIndicator/actionCreators';
 import {addPatient} from '../store/patients/actionCreators';
-import {User} from '../api/user/model/User';
 import { addPatientToDoctor } from '../api/patient/services';
 import { resultedAddPatientDto } from '../api/patient/dto/resulted-patient.dto';
 
@@ -20,7 +19,6 @@ export const useAddPatient = () => {
   const {token} = useSelector((state: RootState) => state.authReducer);
 
   const handleUpdateCode = (text: string) => {
-    //TODO: Hacer que el texto sea siempre mayusculas
     var letter = text.substr(text.length - 1);
     if (/\w|[-]/.test(letter) || !letter.trim()) setCode(text);
   };

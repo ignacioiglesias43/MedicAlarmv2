@@ -39,13 +39,13 @@ const Calendar = ({selectedDate, handleSelectedDate, markedDates}: Props) => {
 
   return (
     <CalendarComponent
+      current={selectedDate}
       onDayPress={({dateString}) => handleSelectedDate(dateString)}
       monthFormat={'MMMM yyyy'}
       firstDay={1}
       onPressArrowLeft={subtractMonth => subtractMonth()}
       onPressArrowRight={addMonth => addMonth()}
       enableSwipeMonths={true}
-      disableAllTouchEventsForDisabledDays
       markedDates={marks}
       style={{width}}
       theme={{

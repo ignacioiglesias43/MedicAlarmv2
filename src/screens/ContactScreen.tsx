@@ -23,8 +23,8 @@ const ContactScreen: FC<ContactScreenProps> = ({navigation}) => {
     isLoading,
     handleReload,
     searchFunction,
-    search,
     deleteContactButton,
+    query,
   } = useContacts();
 
   const renderItem: ListRenderItem<Contact> = ({item}) => (
@@ -50,12 +50,7 @@ const ContactScreen: FC<ContactScreenProps> = ({navigation}) => {
         )}
         ListHeaderComponent={() => (
           <CustomHeader>
-            <CustomSearcher
-              value={search}
-              onChangeText={text => {
-                searchFunction(text);
-              }}
-            />
+            <CustomSearcher value={query} onChangeText={searchFunction} />
           </CustomHeader>
         )}
         refreshing={isLoading}

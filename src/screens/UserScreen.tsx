@@ -33,6 +33,17 @@ const UserScreen: FC<UserScrenProps> = ({navigation}) => {
   const {userInfo} = useAppSelector((state: RootState) => state.authReducer);
   const dispatch = useAppDispatch();
 
+  const updateInfo = () => navigation.navigate('UpdateInformation');
+  const logout = () => {
+    dispatch(updatePatients([]));
+    dispatch(updateAppointmets([]));
+    dispatch(updateContacts([]));
+    dispatch(updateReminders([]));
+    dispatch(updateToken(''));
+    dispatch(updateTokenExpiresAt(''));
+    dispatch(updateUserInfo(null));
+  };
+
   const {
     name,
     lastname,
@@ -45,17 +56,6 @@ const UserScreen: FC<UserScrenProps> = ({navigation}) => {
   } = userInfo as User;
 
   const isADoctor = role !== undefined && role?.length > 0 && role === 'Medic';
-
-  const updateInfo = () => navigation.navigate('UpdateInformation');
-  const logout = () => {
-    dispatch(updateToken(''));
-    dispatch(updateTokenExpiresAt(''));
-    dispatch(updateUserInfo(null));
-    dispatch(updateReminders([]));
-    dispatch(updateAppointmets([]));
-    dispatch(updateContacts([]));
-    dispatch(updatePatients([]));
-  };
 
   return (
     <ViewContainer>

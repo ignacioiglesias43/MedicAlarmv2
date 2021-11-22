@@ -8,7 +8,11 @@ export function useQuery<T>(array: Array<T>) {
     if (text) {
       setFilteredList(
         array.filter(item => {
-          const itemData = item.name ? item.name.toUpperCase() : '';
+          const itemData = item.user
+            ? item.user.name.toUpperCase()
+            : item.name
+            ? item.name.toUpperCase()
+            : '';
           return itemData.indexOf(text.toUpperCase()) > -1;
         }),
       );

@@ -19,6 +19,7 @@ export const useContacts = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const {openModal, userHasConfirmed} = useModal();
+
   const {filteredList, searchFunction, query} = useQuery<Contact>(contacts);
 
   const dispatch = useAppDispatch();
@@ -51,7 +52,6 @@ export const useContacts = () => {
       const response = await deleteContactService(userSelected?.id!, token);
       if (response) {
         dispatch(deleteContact(userSelected?.id!));
-        dispatch(updateIndicatorVisible(false));
       }
     } catch (error: any) {
       const errMessage = error?.response?.data?.message || '';
@@ -78,6 +78,7 @@ export const useContacts = () => {
     handleReload: getContacts,
     isLoading,
     searchFunction,
+    query,
     deleteContactButton,
   };
 };
