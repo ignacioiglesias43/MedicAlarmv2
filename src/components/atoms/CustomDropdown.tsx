@@ -1,39 +1,34 @@
-import React, {useState, useRef} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-paper';
-import {Picker, PickerProps} from '@react-native-picker/picker';
-import {Contact} from '../../api/contact/model/Contact';
+import Picker, {Item} from 'react-native-picker-select';
+
 import colors from '../../styles/colors';
 
 interface Props {
   title: string;
-  selectedValue: any,
-  onValueChange: (x: any) => void,
-  items?: Array<any>;
+  onValueChange: (value: any, index: number) => void;
+  items?: Array<Item>;
+  placeholder?: object;
+  value: any;
 }
 
-const CustomDropdown = ({title, items = [], selectedValue, onValueChange}: Props) => {
-  //const [selectedItem, setSelectedItem] = useState();
-  const pickerRef = useRef<Picker<undefined>>(null);
-
-  function open() {
-    pickerRef.current!.focus();
-  }
-  function close() {
-    pickerRef.current!.blur();
-  }
-
+const CustomDropdown = ({
+  title,
+  items = [],
+  onValueChange,
+  placeholder,
+  value,
+}: Props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <Picker
-        ref={pickerRef}
-        selectedValue={selectedValue}
-        onValueChange={onValueChange}>
-        {items.map(e => (
-          <Picker.Item label={`${e.name} - ${e.id}`} value={e.id} key={e.id?.toString()} />
-        ))}
-      </Picker>
+        onValueChange={onValueChange}
+        items={items}
+        placeholder={placeholder}
+        value={value}
+      />
     </View>
   );
 };

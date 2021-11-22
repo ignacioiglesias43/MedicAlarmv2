@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/index';
 import {Reminder} from '../api/reminder/model/Reminder';
@@ -15,10 +15,24 @@ const useReminder = () => {
     (state: RootState) => state.authReducer,
   );
   const {onDisplayNotification} = useNotification();
+  const [isLoading, setIsLoading] = useState(false);
   const {reminders} = useSelector((state: RootState) => state.reminderReducer);
   const {filteredList, searchFunction, query} = useQuery<Reminder>(reminders);
 
   const dispatch = useAppDispatch();
+
+  const getReminders = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const response = await getRemindersService(token);
+
+      dispatch(updateReminders([...response.data.data]));
+    } catch (error: any) {
+      console.log({...error});
+    } finally {
+      setIsLoading(false);
+    }
+  }, [dispatch, token]);
 
   useEffect(() => {
     try {
@@ -29,23 +43,19 @@ const useReminder = () => {
     } catch (error: any) {
       console.log(error);
     }
-  }, []);
+  }, [onDisplayNotification, token, userInfo?.id]);
 
   useEffect(() => {
-    const getReminders = async () => {
-      try {
-        const response = await getRemindersService(token);
-
-        dispatch(updateReminders([...response.data.data]));
-      } catch (error: any) {
-        console.log({...error});
-      }
-    };
-
     getReminders();
-  }, [dispatch, token]);
+  }, [getReminders]);
 
-  return {reminderList: filteredList, updateQuery: searchFunction, query};
+  return {
+    query,
+    isLoading,
+    reminderList: filteredList,
+    updateQuery: searchFunction,
+    handleReload: getReminders,
+  };
 };
 
 export default useReminder;

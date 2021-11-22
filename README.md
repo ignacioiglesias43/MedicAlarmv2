@@ -36,3 +36,4 @@ Copy here link to docs for native dependencies
 
 Picker: https://github.com/react-native-picker/picker
 Date Picker: https://github.com/henninghall/react-native-date-picker
+https://github.com/lawnstarter/react-native-picker-select

@@ -72,14 +72,14 @@ export const useAppointments = (
   }, []);
 
   useEffect(() => {
-    const dates = new Set(appointments.map(e => e.day.substr(0, 10)));
+    const dates = new Set(appointments.map(e => e?.day?.substr(0, 10) || ''));
     setMarkedDates([...dates]);
   }, [appointments]);
 
   useFocusEffect(
     useCallback(() => {
       setAppointmentList(
-        appointments.filter(e => selectedDate === e.day.substr(0, 10)),
+        appointments.filter(e => selectedDate === e?.day?.substr(0, 10) || ''),
       );
     }, [selectedDate, appointments]),
   );

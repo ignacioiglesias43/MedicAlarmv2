@@ -1,7 +1,7 @@
 import {Contact} from '../../contact/model/Contact';
 
 export interface Reminder {
-  id: number;
+  id?: number;
   name: string;
   frecuency: number;
   monitoring: boolean;

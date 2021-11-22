@@ -20,13 +20,12 @@ import colors from '../styles/colors';
 interface Props
   extends NativeStackScreenProps<ReminderStackParams, 'Reminder'> {}
 
-const UpdateReminder = ({route}: Props) => {
+const UpdateReminder = ({route, navigation}: Props) => {
   const {actionType} = route.params as unknown as UpdateParams;
-  const {formFields, setValues, contacts, monitoring} =
+  const {formFields, setValues, contacts, monitoring, saveReminder} =
     useUpdateReminder(actionType);
 
-  const update = () => {};
-  const cancel = () => {};
+  const cancel = () => navigation.goBack();
 
   const title = actionType === 'ADD' ? 'Agregar alarma' : 'Editar alarma';
 
@@ -72,13 +71,22 @@ const UpdateReminder = ({route}: Props) => {
             />
           </View>
           {monitoring.status ? (
-            <CustomDropdown title="Contacto de confianza" items={contacts} />
+            <CustomDropdown
+              title="Contacto de confianza"
+              items={contacts}
+              placeholder={{
+                label: 'Seleccione un contacto de confianza',
+                value: formFields.contact,
+              }}
+              onValueChange={value => setValues('contact')(value)}
+              value={formFields.contact}
+            />
           ) : null}
           <CustomButton
             text="Guardar"
             color={colors.accent}
             style={styles.button}
-            onPress={update}
+            onPress={saveReminder}
             dark
           />
           <CustomButton
