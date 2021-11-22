@@ -17,6 +17,7 @@ export const useContacts = () => {
 
   const [userSelected, setUserSelected] = useState<Contact>();
   const {openModal, userHasConfirmed} = useModal();
+  
   const {filteredList, searchFunction, query} = useQuery<Contact>(contacts);
 
   const dispatch = useAppDispatch();
@@ -69,7 +70,7 @@ export const useContacts = () => {
   return {
     contactsList: filteredList,
     searchFunction,
-    search: query,
+    query,
     deleteContactButton,
   };
 };

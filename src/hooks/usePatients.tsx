@@ -13,11 +13,13 @@ import {resultedGetPattientDto} from '../api/patient/dto/resulted-patient.dto';
 import {useModal} from './useModal';
 import {updateModalUserHasConfirmed} from '../store/modal/actionCreators';
 import colors from '../styles/colors';
+import {useQuery} from './useQuery';
 
 export const usePatient = () => {
   const {patients} = useSelector((state: RootState) => state.patientReducer);
   const {token} = useSelector((state: RootState) => state.authReducer);
   const {openModal, userHasConfirmed} = useModal();
+  const {filteredList, searchFunction, query} = useQuery<Patient>(patients);
 
   const [patientSelected, setpatientSelected] = useState<Patient>();
   const dispatch = useAppDispatch();
@@ -64,8 +66,7 @@ export const usePatient = () => {
     if (userHasConfirmed) {
       handleDeletePatient();
     }
-  }, [handleDeletePatient, userHasConfirmed])
+  }, [handleDeletePatient, userHasConfirmed]);
 
-
-  return {patients, deletePatientButton};
+  return {patients: filteredList, deletePatientButton, searchFunction, query};
 };

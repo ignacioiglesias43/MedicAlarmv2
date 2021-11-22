@@ -14,7 +14,7 @@ import {PatientStackParams} from '../navigation/stacks/PatientStack';
 interface Props extends NativeStackScreenProps<PatientStackParams, 'Patient'> {}
 
 const PatientScreen = ({navigation}: Props) => {
-  const {patients, deletePatientButton} = usePatient();
+  const {patients, deletePatientButton, searchFunction, query} = usePatient();
 
   const renderItem: ListRenderItem<Patient> = ({item}) => {
     const {user} = item;
@@ -44,10 +44,10 @@ const PatientScreen = ({navigation}: Props) => {
         )}
         ListHeaderComponent={() => (
           <CustomHeader>
-            <CustomSearcher value={''} onChangeText={() => {}} />
+            <CustomSearcher value={query} onChangeText={searchFunction} />
           </CustomHeader>
         )}
-        keyExtractor={({id}) => `${id}`}
+        keyExtractor={(_, index) => `${index}`}
       />
       <CustomFAB onPress={() => navigation.navigate('Add')} />
     </ViewContainer>
