@@ -19,17 +19,22 @@ const PatientDetails = ({route, navigation}: Props) => {
   const {patient} = route.params as unknown as DetailsParams;
   const {prescriptions} = usePatientMedicines(patient.code!);
 
+  React.useEffect(() => {
+    console.log(prescriptions);
+  }, []);
+
   const renderItem: ListRenderItem<Prescription> = ({item}) => (
     <DataCard
-      title={item.medicine!.name}
-      fisrt={`Cada: ${item.frecuency} hrs`}
-      second={`Repetir: ${item.count} veces`}
+      title={item.medicament?.name!}
+      fisrt={`Cada: ${item.interval} hrs`}
+      second={`Hasta: ${item.duration.substr(0, 11)}`}
       actionIcon="delete"
       type="personal"
       action={() => console.log('Hoa')}
       onPress={() =>
         navigation.navigate('Update', {
           prescription: item,
+          code: patient.code!,
           actionType: 'UPDATE',
         })
       }
@@ -49,7 +54,12 @@ const PatientDetails = ({route, navigation}: Props) => {
         />
       </View>
       <CustomFAB
-        onPress={() => navigation.navigate('Update', {actionType: 'ADD'})}
+        onPress={() =>
+          navigation.navigate('Update', {
+            actionType: 'ADD',
+            code: patient.code!,
+          })
+        }
       />
     </ViewContainer>
   );

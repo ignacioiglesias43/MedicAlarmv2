@@ -2,7 +2,7 @@ import {AxiosResponse} from 'axios';
 import {Medicine} from '../model/Medicines';
 
 export interface GetMedicinesDTO extends AxiosResponse<GetMedicinesData> {}
-
+export interface GetFilterMedicineDTO extends AxiosResponse<GetFilterMedicine>{}
 interface GetMedicinesData {
   current_page: number;
   from: number;
@@ -17,4 +17,8 @@ interface GetMedicinesData {
   path: string;
   links: Array<any>;
   data: Medicine[];
+}
+
+interface GetFilterMedicine {
+  data: Array<Medicine>
 }

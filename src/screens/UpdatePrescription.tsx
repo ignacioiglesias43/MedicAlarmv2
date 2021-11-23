@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import CustomButton from '../components/atoms/CustomButton';
 import CustomDropdown from '../components/atoms/CustomDropdown';
+
 import CustomInput from '../components/atoms/CustomInput';
 import BackHeader from '../components/molecules/BackHeader';
 import ViewContainer from '../components/templates/ViewContainer';
@@ -15,14 +16,16 @@ import {
   UpdateParams,
 } from '../navigation/stacks/PatientStack';
 import colors from '../styles/colors';
+import {Medicine} from '../api/medicines/model/Medicines';
+import CustomPickerSearch from '../components/atoms/CustomPickerSearch';
 
 interface Props extends NativeStackScreenProps<PatientStackParams, 'Patient'> {}
 
 const UpdatePrescription = ({route, navigation}: Props) => {
-  const {actionType} = route.params as unknown as UpdateParams;
-  const {formFields, setValues} = useUpdatePrescription(actionType);
+  const {actionType, code} = route.params as unknown as UpdateParams;
+  const {formFields, setValues, medicines, handleQuery, handleSubmit} =
+    useUpdatePrescription(actionType, code);
 
-  const update = () => {};
   const cancel = () => navigation.goBack();
 
   const title = actionType === 'ADD' ? 'Agregar receta' : 'Editar receta';
@@ -30,39 +33,42 @@ const UpdatePrescription = ({route, navigation}: Props) => {
   return (
     <ViewContainer>
       <BackHeader title={title} />
-      <FormContainer>
-        <View style={styles.container}>
-          {/* TODO Implementar un picker con un search */}
-          <CustomDropdown title="Medicamento" />
-          <CustomInput
-            label="Frecuencia"
-            value={`${formFields.frecuency}`}
-            onChangeText={setValues('frecuency')}
-            style={styles.input}
-          />
-          <CustomInput
-            label="Repeticiones"
-            value={`${formFields.count}`}
-            onChangeText={setValues('count')}
-            style={styles.input}
-          />
-          <CustomButton
-            dark
-            mode="contained"
-            text="Guardar"
-            color={colors.accent}
-            style={styles.button}
-            onPress={update}
-          />
-          <CustomButton
-            dark
-            mode="outlined"
-            text="Cancelar"
-            color={colors.accent}
-            onPress={cancel}
-          />
-        </View>
-      </FormContainer>
+      <View style={styles.container}>
+        <CustomPickerSearch
+          title="Medicamento"
+          data={medicines}
+          onChangeText={handleQuery}
+          placeholder={formFields.medicament?.name}
+          onSelect={(value: Medicine) => setValues('medicament')(value)}
+        />
+        <CustomInput
+          label="Frecuencia"
+          value={`${formFields.frecuency}`}
+          onChangeText={setValues('frecuency')}
+          style={styles.input}
+        />
+        <CustomInput
+          label="Días"
+          value={`${formFields.interval}`}
+          onChangeText={setValues('interval')}
+          style={styles.input}
+        />
+        <CustomButton
+          dark
+          mode="contained"
+          text="Guardar"
+          color={colors.accent}
+          style={styles.button}
+          onPress={handleSubmit}
+        />
+        <CustomButton
+          dark
+          mode="outlined"
+          text="Cancelar"
+          color={colors.accent}
+          onPress={cancel}
+        />
+      </View>
     </ViewContainer>
   );
 };

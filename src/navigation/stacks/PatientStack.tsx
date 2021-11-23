@@ -19,6 +19,7 @@ export type PatientStackParams = {
 export interface UpdateParams {
   prescription?: Prescription;
   actionType: 'ADD' | 'UPDATE';
+  code: string,
 }
 export interface DetailsParams {
   patient: User;
