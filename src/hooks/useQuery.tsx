@@ -23,7 +23,6 @@ export function useQuery<T>(array: Array<T>) {
   };
 
   useEffect(() => {
-    console.log(array);
     setFilteredList(array);
   }, [array]);
 

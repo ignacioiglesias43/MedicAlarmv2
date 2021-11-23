@@ -1,9 +1,10 @@
 import {Reminder} from '../api/reminder/model/Reminder';
 
 export const initialReminderForm: Reminder = {
-  name: '',
+  description: '',
   frecuency: 0,
-  monitoring: false,
+  notify: false,
+  days: 0,
+  next_alarm: '',
   next_hour: '',
-  count: 0,
 };

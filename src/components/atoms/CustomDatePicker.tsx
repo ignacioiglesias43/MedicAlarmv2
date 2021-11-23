@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 import {Text} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
+import moment from 'moment';
+import 'moment/locale/es-mx';
 import colors from '../../styles/colors';
-import {useDateText} from '../../hooks/useDateText';
 
 interface Props {
   title: string;
@@ -22,8 +23,7 @@ const CustomDatePicker = ({
 }: Props) => {
   //const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
-  const state = useDateText(date.toISOString());
-
+  const state = moment(date).format(mode === 'time' ? 'h:mm a' : 'LL');
   return (
     <>
       <TouchableWithoutFeedback onPress={() => setOpen(true)}>

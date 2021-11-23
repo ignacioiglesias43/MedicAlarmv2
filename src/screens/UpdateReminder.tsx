@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Checkbox, Text} from 'react-native-paper';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -7,23 +7,23 @@ import {
   UpdateParams,
 } from '../navigation/stacks/ReminderStack';
 
+import BackHeader from '../components/molecules/BackHeader';
 import CustomButton from '../components/atoms/CustomButton';
 import CustomInput from '../components/atoms/CustomInput';
 import CustomDropdown from '../components/atoms/CustomDropdown';
-import BackHeader from '../components/molecules/BackHeader';
+import CustomDatePicker from '../components/atoms/CustomDatePicker';
 import ViewContainer from '../components/templates/ViewContainer';
 import FormContainer from '../components/templates/FormContainer';
 
 import {useUpdateReminder} from '../hooks/useUpdateReminder';
 import colors from '../styles/colors';
 
-interface Props
-  extends NativeStackScreenProps<ReminderStackParams, 'Reminder'> {}
+interface Props extends NativeStackScreenProps<ReminderStackParams, 'Update'> {}
 
 const UpdateReminder = ({route, navigation}: Props) => {
   const {actionType} = route.params as unknown as UpdateParams;
-  const {formFields, setValues, contacts, monitoring, saveReminder} =
-    useUpdateReminder(actionType);
+  const {formFields, setValues, contacts, monitoring, saveReminder, date} =
+    useUpdateReminder(actionType, route, navigation);
 
   const cancel = () => navigation.goBack();
 
@@ -36,14 +36,14 @@ const UpdateReminder = ({route, navigation}: Props) => {
         <View style={styles.container}>
           <CustomInput
             label="Asunto"
-            value={formFields.name}
-            onChangeText={setValues('name')}
+            value={formFields.description!}
+            onChangeText={setValues('description')}
             style={styles.input}
           />
           <CustomInput
             label="Repeticiones"
-            value={`${formFields.count}`}
-            onChangeText={setValues('count')}
+            value={`${formFields.days}`}
+            onChangeText={setValues('days')}
             keyboardType="numeric"
             style={styles.input}
           />
@@ -54,12 +54,12 @@ const UpdateReminder = ({route, navigation}: Props) => {
             keyboardType="numeric"
             style={styles.input}
           />
-          <CustomInput
-            label="Hora inicial"
-            value={formFields.next_hour!}
-            onChangeText={setValues('next_hour')}
-            keyboardType="numeric"
-            style={styles.input}
+          <CustomDatePicker
+            title="Hora inicial"
+            minimumDate={new Date(Date.now())}
+            date={date.value}
+            mode="time"
+            handleDate={date.handle}
           />
           <View style={styles.checkContainer}>
             <Text style={styles.checkText}>Monitorear alarma:</Text>

@@ -13,6 +13,8 @@ import CustomFAB from '../components/atoms/CustomFAB';
 import CustomSearcher from '../components/atoms/CustomSearcher';
 import CustomHeader from '../components/atoms/CustomHeader';
 
+import moment from 'moment';
+import 'moment/locale/es-mx';
 interface Props
   extends NativeStackScreenProps<ReminderStackParams, 'Reminder'> {}
 
@@ -22,8 +24,8 @@ const HomeScreen = ({navigation}: Props) => {
 
   const renderItem: ListRenderItem<Reminder> = ({item}) => (
     <DataCard
-      title={item.name}
-      fisrt={item.next_hour}
+      title={item?.description!}
+      fisrt={moment(item.next_alarm).format('h:mm a')}
       second={`${item.frecuency} hrs`}
       actionIcon={'delete'}
       action={() => console.log('Hola')}

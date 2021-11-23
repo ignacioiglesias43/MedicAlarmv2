@@ -1,6 +1,9 @@
 import request from '../request';
 import {GetRemindersDTO} from './dto/reminder.dto';
-import {CreateReminderDTO} from './dto/create-reminder.dto';
+import {
+  CreateReminderDTO,
+  CreateReminderResponseDTO,
+} from './dto/create-reminder.dto';
 import {Reminder} from './model/Reminder';
 
 export const getRemindersService = (token: string) =>
@@ -13,7 +16,7 @@ export const getRemindersService = (token: string) =>
   });
 
 export const createReminderService = (data: CreateReminderDTO, token: string) =>
-  request<GetRemindersDTO>({
+  request<CreateReminderResponseDTO>({
     method: 'POST',
     url: '/alarm',
     headers: {

@@ -2,11 +2,12 @@ import {Contact} from '../../contact/model/Contact';
 
 export interface Reminder {
   id?: number;
-  name: string;
+  description?: string;
   frecuency: number;
-  monitoring: boolean;
+  notify: boolean;
   next_hour: string;
+  next_alarm: string;
   total_shots?: number;
-  count: number;
+  days: number;
   contact?: Contact;
 }

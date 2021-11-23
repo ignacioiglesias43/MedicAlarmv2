@@ -26,7 +26,7 @@ const useReminder = () => {
       setIsLoading(true);
       const response = await getRemindersService(token);
 
-      dispatch(updateReminders([...response.data.data]));
+      dispatch(updateReminders(response.data.data));
     } catch (error: any) {
       console.log({...error});
     } finally {

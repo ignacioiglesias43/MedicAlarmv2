@@ -11,8 +11,7 @@ const reminderReducer = (
 ): ReminderState => {
   switch (action.type) {
     case UPDATE_REMINDERS:
-      const newReminders = state.reminders.concat(action.payload);
-      return {...state, reminders: newReminders};
+      return {...state, reminders: action.payload};
     default:
       return state;
   }
