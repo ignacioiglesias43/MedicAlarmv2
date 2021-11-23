@@ -18,12 +18,12 @@ import colors from '../styles/colors';
 
 interface Props extends NativeStackScreenProps<PatientStackParams, 'Patient'> {}
 
-const UpdatePrescription = ({route}: Props) => {
+const UpdatePrescription = ({route, navigation}: Props) => {
   const {actionType} = route.params as unknown as UpdateParams;
   const {formFields, setValues} = useUpdatePrescription(actionType);
 
   const update = () => {};
-  const cancel = () => {};
+  const cancel = () => navigation.goBack();
 
   const title = actionType === 'ADD' ? 'Agregar receta' : 'Editar receta';
 
@@ -32,6 +32,7 @@ const UpdatePrescription = ({route}: Props) => {
       <BackHeader title={title} />
       <FormContainer>
         <View style={styles.container}>
+          {/* TODO Implementar un picker con un search */}
           <CustomDropdown title="Medicamento" />
           <CustomInput
             label="Frecuencia"

@@ -1,6 +1,6 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import CustomButton from '../components/atoms/CustomButton';
 import CustomDatePicker from '../components/atoms/CustomDatePicker';
 import CustomDropdown from '../components/atoms/CustomDropdown';
@@ -33,8 +33,12 @@ const UpdateAppoinment = ({route, navigation}: Props) => {
         <View style={styles.container}>
           <CustomDropdown
             title="Paciente"
+            placeholder={{
+              label: 'Seleccione a un paciente',
+              value: patient.value,
+            }}
             items={patients}
-            selectedValue={patient.value}
+            value={patient.value}
             onValueChange={patient.handle}
           />
           <CustomDatePicker

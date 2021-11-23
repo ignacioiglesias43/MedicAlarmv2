@@ -61,7 +61,7 @@ export const useUpdateAppoinment = (
         } else {
           dispatch(addAppointment(data));
         }*/
-        dispatch(updateAppointmets(data))
+        dispatch(updateAppointmets(data));
         navigation.goBack();
       }
     } catch (error: any) {
@@ -76,13 +76,17 @@ export const useUpdateAppoinment = (
     return addAppointmentService(data, token);
   };
 
-  const handleUpdate = (id: number, patient: string, day: string) => {
-    const data = {id, patient, day};
+  const handleUpdate = (id: number, _patient: string, day: string) => {
+    const data = {id, patient: _patient, day};
     return updateAppointmentService(data, token);
   };
 
   return {
-    patients: patientList,
+    patients: patientList.map(p => ({
+      label: p.name,
+      value: p.id,
+      key: p.id,
+    })),
     submitForm,
     date: {value: date, handle: handleDate},
     patient: {value: patient, handle: handlePatient},

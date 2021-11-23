@@ -20,7 +20,7 @@ import colors from '../styles/colors';
 interface Props
   extends NativeStackScreenProps<MedicineStackParams, 'Medicine'> {}
 
-const UpdateMedicine = ({route}: Props) => {
+const UpdateMedicine = ({route, navigation}: Props) => {
   const {actionType} = route.params as unknown as UpdateParams;
   const {formFields, setValues, pickerOptions} = useUpdateMedicine(actionType);
 
@@ -28,7 +28,7 @@ const UpdateMedicine = ({route}: Props) => {
     actionType === 'ADD' ? 'Agregar medicamento' : 'Editar medicamento';
 
   const update = () => {};
-  const cancel = () => {};
+  const cancel = () => navigation.goBack();
 
   return (
     <ViewContainer>
@@ -41,7 +41,16 @@ const UpdateMedicine = ({route}: Props) => {
             onChangeText={setValues('name')}
             style={styles.input}
           />
-          <CustomDropdown title="Via de administración" items={pickerOptions} />
+          <CustomDropdown
+            title="Via de administración"
+            items={pickerOptions}
+            placeholder={{
+              label: 'Seleccione un contacto de confianza',
+              value: formFields.via,
+            }}
+            value={formFields.via}
+            onValueChange={value => setValues('via')(value)}
+          />
           <CustomButton
             dark
             mode="contained"
