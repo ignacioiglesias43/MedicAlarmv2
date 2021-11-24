@@ -19,8 +19,14 @@ interface Props
   extends NativeStackScreenProps<ReminderStackParams, 'Reminder'> {}
 
 const HomeScreen = ({navigation}: Props) => {
-  const {reminderList, updateQuery, query, isLoading, handleReload} =
-    useReminder();
+  const {
+    reminderList,
+    updateQuery,
+    query,
+    isLoading,
+    handleReload,
+    deleteReminder,
+  } = useReminder();
 
   const renderItem: ListRenderItem<Reminder> = ({item}) => (
     <DataCard
@@ -28,7 +34,7 @@ const HomeScreen = ({navigation}: Props) => {
       fisrt={moment(item.next_alarm).format('h:mm a')}
       second={`${item.frecuency} hrs`}
       actionIcon={'delete'}
-      action={() => console.log('Hola')}
+      action={() => deleteReminder(item)}
       onPress={() =>
         navigation.navigate('Update', {reminder: item, actionType: 'UPDATE'})
       }

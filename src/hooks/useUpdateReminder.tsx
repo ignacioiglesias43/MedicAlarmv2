@@ -5,14 +5,24 @@ import {RootState} from '../store/index';
 import {useState, useEffect} from 'react';
 import {useModal} from './useModal';
 import {initialReminderForm} from '../constants/addReminderForm';
-import {createReminderService} from '../api/reminder/services';
-import {CreateReminderDTO} from '../api/reminder/dto/create-reminder.dto';
+import {
+  createReminderService,
+  updateReminderService,
+} from '../api/reminder/services';
+import {
+  CreateReminderDTO,
+  UpdateReminderDTO,
+} from '../api/reminder/dto/create-reminder.dto';
 import {RouteProp} from '@react-navigation/core';
 import {ReminderStackParams} from '../navigation/stacks/ReminderStack';
 import moment from 'moment';
 import {updateReminders} from '../store/reminders/actionCreators';
 import {updateIndicatorVisible} from '../store/loadingIndicator/actionCreators';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {
+  updateSnackBarMessage,
+  updateSnackBarVisible,
+} from '../store/snackbar/actionCreators';
 
 export const useUpdateReminder = (
   actionType: 'UPDATE' | 'ADD',
@@ -67,7 +77,8 @@ export const useUpdateReminder = (
       const response = await createReminderService(reminderData, token);
       dispatch(updateReminders(reminders.concat(response.data.data)));
       navigation.goBack();
-      // TODO mostrar snackbar con response.data.message
+      dispatch(updateSnackBarMessage(response.data.message));
+      dispatch(updateSnackBarVisible(true));
     } catch (error) {
       // TODO mostrar error
       console.log('error', error);
@@ -79,9 +90,34 @@ export const useUpdateReminder = (
 
   const updateReminder = async () => {
     try {
-      console.log('update');
+      dispatch(updateIndicatorVisible(true));
+      const reminderData: UpdateReminderDTO = {
+        id: formFields.id!,
+        days: formFields.days,
+        frecuency: formFields.frecuency,
+        description: formFields.description!,
+        next_alarm: moment(date).format(),
+        notify: isMonitoring,
+      };
+
+      if (formFields.contact) {
+        reminderData.contact_id = formFields.contact.id;
+      }
+
+      const response = await updateReminderService(reminderData, token);
+      const indexUp = reminders.findIndex(rem => rem.id === formFields.id!);
+      const rems = [...reminders];
+      rems[indexUp] = response.data.data;
+      dispatch(updateReminders(rems));
+      navigation.goBack();
+      dispatch(updateSnackBarMessage(response.data.message));
+      dispatch(updateSnackBarVisible(true));
+      console.log(response);
     } catch (error) {
-      console.log(error);
+      console.log('error', error);
+      console.log(error.response);
+    } finally {
+      dispatch(updateIndicatorVisible(false));
     }
   };
 

@@ -45,7 +45,7 @@ const UpdateMedicine = ({route, navigation}: Props) => {
             title="Via de administración"
             items={pickerOptions}
             placeholder={{
-              label: 'Seleccione un contacto de confianza',
+              label: 'Seleccione la vía de administración',
               value: formFields.via,
             }}
             value={formFields.via}

@@ -9,4 +9,6 @@ type AppointmentAction = {
   payload: any;
 };
 
-type DispatchAppoinmtentActionType = (args: AppointmentAction) => AppointmentAction;
+type DispatchAppoinmtentActionType = (
+  args: AppointmentAction,
+) => AppointmentAction;

@@ -2,9 +2,10 @@ import request from '../request';
 import {GetRemindersDTO} from './dto/reminder.dto';
 import {
   CreateReminderDTO,
+  UpdateReminderDTO,
   CreateReminderResponseDTO,
+  DeleteRemindersDTO,
 } from './dto/create-reminder.dto';
-import {Reminder} from './model/Reminder';
 
 export const getRemindersService = (token: string) =>
   request<GetRemindersDTO>({
@@ -25,10 +26,20 @@ export const createReminderService = (data: CreateReminderDTO, token: string) =>
     data,
   });
 
-export const deleteReminderService = (alarm: Reminder, token: string) =>
-  request<GetRemindersDTO>({
+export const updateReminderService = (data: UpdateReminderDTO, token: string) =>
+  request<CreateReminderResponseDTO>({
+    method: 'PUT',
+    url: '/alarm',
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
+    data,
+  });
+
+export const deleteReminderService = (id: number, token: string) =>
+  request<DeleteRemindersDTO>({
     method: 'DELETE',
-    url: '/alarm/' + alarm,
+    url: '/alarm/' + id,
     headers: {
       Authorization: 'Bearer ' + token,
     },

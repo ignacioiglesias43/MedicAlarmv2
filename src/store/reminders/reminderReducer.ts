@@ -1,5 +1,5 @@
 import {ReminderAction, ReminderState} from '../../types/reminder';
-import {UPDATE_REMINDERS} from './actionTypes';
+import {UPDATE_REMINDERS, DELETE_REMINDERS} from './actionTypes';
 
 const initialState: ReminderState = {
   reminders: [],
@@ -12,6 +12,11 @@ const reminderReducer = (
   switch (action.type) {
     case UPDATE_REMINDERS:
       return {...state, reminders: action.payload};
+    case DELETE_REMINDERS:
+      return {
+        ...state,
+        reminders: state.reminders.filter(item => item.id !== action.payload),
+      };
     default:
       return state;
   }
