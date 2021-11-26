@@ -5,4 +5,5 @@ export interface Prescription {
   medicament?: Medicine | undefined
   frecuency: number,
   interval: number,
+  duration?: string,
 }

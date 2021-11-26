@@ -4,6 +4,8 @@ import {
   DELETE_PATIENT,
   UPDATE_PATIENTS,
   ADD_PRES_TO_PATIENT,
+  DEL_PRES_TO_PATIENT,
+  UPT_PRES_TO_PATIENT,
 } from './actionTypes';
 
 const initialState: PatientState = {
@@ -38,14 +40,52 @@ const patientReducer = (
       return {
         ...state,
         patients: state.patients.map(item => {
-          if (item.user.code === action.payload.id) return {
-            ...item,
-            prescriptions:[
-              ...item.prescriptions,
-              action.payload.prescription
-            ]
-          };
+          if (item.user.code === action.payload.id)
+            return {
+              ...item,
+              prescriptions: [
+                ...item.prescriptions,
+                action.payload.prescription,
+              ],
+            };
           else return item;
+        }),
+      };
+    case DEL_PRES_TO_PATIENT:
+      return {
+        ...state,
+        patients: state.patients.map(item => {
+          if (item.user.code === action.payload.code)
+            return {
+              ...item,
+              prescriptions: item.prescriptions.filter(
+                e => e.id !== action.payload.id,
+              ),
+            };
+          else return item;
+        }),
+      };
+    case UPT_PRES_TO_PATIENT:
+      console.log(action);
+      return {
+        ...state,
+        patients: state.patients.map(item => {
+          if (item.user.code === action.payload.id) {
+            const index = item.prescriptions.findIndex(
+              e => e.id === action.payload.prescription.id,
+            );
+            return {
+              ...item,
+              prescriptions: [
+                ...item.prescriptions.slice(0, index),
+                {
+                  ...item.prescriptions[index],
+                  ...action.payload.prescription,
+                },
+                ...item.prescriptions.slice(index + 1),
+              ],
+            };
+          } else return item;
         }),
       };
     default:

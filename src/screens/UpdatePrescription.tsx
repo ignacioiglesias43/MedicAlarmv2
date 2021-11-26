@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import CustomButton from '../components/atoms/CustomButton';
 import CustomDropdown from '../components/atoms/CustomDropdown';
@@ -16,15 +16,15 @@ import {
   UpdateParams,
 } from '../navigation/stacks/PatientStack';
 import colors from '../styles/colors';
-import {Medicine} from '../api/medicines/model/Medicines';
+import { Medicine } from '../api/medicines/model/Medicines';
 import CustomPickerSearch from '../components/atoms/CustomPickerSearch';
 
-interface Props extends NativeStackScreenProps<PatientStackParams, 'Patient'> {}
+interface Props extends NativeStackScreenProps<PatientStackParams, 'Patient'> { }
 
-const UpdatePrescription = ({route, navigation}: Props) => {
-  const {actionType, code} = route.params as unknown as UpdateParams;
-  const {formFields, setValues, medicines, handleQuery, handleSubmit} =
-    useUpdatePrescription(actionType, code);
+const UpdatePrescription = ({ route, navigation }: Props) => {
+  const { actionType, code, prescription } = route.params as unknown as UpdateParams;
+  const { formFields, setValues, medicines, handleQuery, handleSubmit } =
+    useUpdatePrescription(actionType, code, prescription!);
 
   const cancel = () => navigation.goBack();
 
@@ -36,19 +36,21 @@ const UpdatePrescription = ({route, navigation}: Props) => {
       <View style={styles.container}>
         <CustomPickerSearch
           title="Medicamento"
-          data={medicines}
+          data={medicines || []}
           onChangeText={handleQuery}
           placeholder={formFields.medicament?.name}
           onSelect={(value: Medicine) => setValues('medicament')(value)}
         />
         <CustomInput
-          label="Frecuencia"
+          label="Días"
           value={`${formFields.frecuency}`}
           onChangeText={setValues('frecuency')}
+          keyboardType="numeric"
           style={styles.input}
         />
         <CustomInput
-          label="Días"
+          label="Frecuencia"
+          keyboardType="numeric"
           value={`${formFields.interval}`}
           onChangeText={setValues('interval')}
           style={styles.input}
@@ -82,5 +84,5 @@ const styles = StyleSheet.create({
   input: {
     marginBottom: 20,
   },
-  button: {marginBottom: 20},
+  button: { marginBottom: 20 },
 });

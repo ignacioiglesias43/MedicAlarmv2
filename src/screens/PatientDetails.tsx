@@ -17,20 +17,20 @@ interface Props extends NativeStackScreenProps<PatientStackParams, 'Patient'> {}
 
 const PatientDetails = ({route, navigation}: Props) => {
   const {patient} = route.params as unknown as DetailsParams;
-  const {prescriptions} = usePatientMedicines(patient.code!);
+  const {prescriptions, deletePrescriptionButton} = usePatientMedicines(patient.code!);
 
   React.useEffect(() => {
-    console.log(prescriptions);
-  }, []);
+    console.log(prescriptions)
+  }, [])
 
   const renderItem: ListRenderItem<Prescription> = ({item}) => (
     <DataCard
       title={item.medicament?.name!}
       fisrt={`Cada: ${item.interval} hrs`}
-      second={`Hasta: ${item.duration.substr(0, 11)}`}
+      second={`Hasta: ${item.duration?.match(/.*\s/)}`}
       actionIcon="delete"
       type="personal"
-      action={() => console.log('Hoa')}
+      action={() => deletePrescriptionButton(item)}
       onPress={() =>
         navigation.navigate('Update', {
           prescription: item,

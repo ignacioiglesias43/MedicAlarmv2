@@ -1,6 +1,6 @@
-import React, {FC} from 'react';
-import {StyleProp, StyleSheet, TextStyle, View} from 'react-native';
-import {Card, Caption, Divider, IconButton} from 'react-native-paper';
+import React, { FC } from 'react';
+import { StyleProp, StyleSheet, TextStyle, View } from 'react-native';
+import { Card, Caption, Divider, IconButton } from 'react-native-paper';
 import colors from '../../styles/colors';
 
 interface DataCardProps {
