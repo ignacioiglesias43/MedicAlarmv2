@@ -56,7 +56,6 @@ const useUpdatePrescription = (actionType: 'ADD' | 'UPDATE', code: string, presc
         duration: formFields.frecuency,
         patient: code,
       };
-      console.log(prescriptionData);
       const response = await addPrescriptionToPatient(prescriptionData, token);
       if (response) {
         const { data } = response.data;
@@ -97,7 +96,6 @@ const useUpdatePrescription = (actionType: 'ADD' | 'UPDATE', code: string, presc
       const response = await updatePrescriptionToPatient(data as UpdatePrescriptionDTO, token)
       if (response) {
         const { data } = response.data as any
-        console.log(data)
         dispatch(updatePrescriptionPatient({ prescription: data[0], id: code }))
         navigation.goBack()
       } /*

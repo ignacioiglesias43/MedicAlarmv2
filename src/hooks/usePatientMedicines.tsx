@@ -25,7 +25,6 @@ export const usePatientMedicines = (code: string) => {
       dispatch(updateModalUserHasConfirmed(false));
       const response = await deletePrescriptionPatient("" + selectedPres?.id, token)
       if (response) {
-        console.log("Borrame pa")
         dispatch(deletePrescritpionOnPatient({ id: "" + selectedPres?.id, code }))
       }
     } catch (error: any) {

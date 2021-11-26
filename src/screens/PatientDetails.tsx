@@ -19,10 +19,6 @@ const PatientDetails = ({route, navigation}: Props) => {
   const {patient} = route.params as unknown as DetailsParams;
   const {prescriptions, deletePrescriptionButton} = usePatientMedicines(patient.code!);
 
-  React.useEffect(() => {
-    console.log(prescriptions)
-  }, [])
-
   const renderItem: ListRenderItem<Prescription> = ({item}) => (
     <DataCard
       title={item.medicament?.name!}

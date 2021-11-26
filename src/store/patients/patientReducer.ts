@@ -66,7 +66,6 @@ const patientReducer = (
         }),
       };
     case UPT_PRES_TO_PATIENT:
-      console.log(action);
       return {
         ...state,
         patients: state.patients.map(item => {
