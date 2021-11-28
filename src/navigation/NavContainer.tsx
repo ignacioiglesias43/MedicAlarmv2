@@ -1,4 +1,5 @@
 import React from 'react';
+import RNBootSplash from 'react-native-bootsplash';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -46,8 +47,12 @@ const NavContainer = () => {
     onDisplayNotification('appointment', message);
   });
 
+  /** Splash Screen */
+
+  const onNavigationReady = () => RNBootSplash.hide({fade: true});
+
   return (
-    <NavigationContainer>
+    <NavigationContainer onReady={onNavigationReady}>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
