@@ -12,6 +12,7 @@ import NavContainer from './src/navigation/NavContainer';
 import ModalIndicator from './src/components/atoms/ModalIndicator';
 import CustomModal from './src/components/atoms/CustomModal';
 import SnackBar from './src/components/atoms/SnackBar';
+import PusherContainer from './src/components/templates/PusherContainer';
 
 const persistedStore = persistStore(store);
 
@@ -21,10 +22,12 @@ const App = () => {
       <PersistGate persistor={persistedStore} loading={null}>
         <PaperProvider theme={theme}>
           <SafeAreaProvider>
-            <NavContainer />
-            <SnackBar />
-            <CustomModal />
-            <ModalIndicator />
+            <PusherContainer>
+              <NavContainer />
+              <SnackBar />
+              <CustomModal />
+              <ModalIndicator />
+            </PusherContainer>
           </SafeAreaProvider>
         </PaperProvider>
       </PersistGate>

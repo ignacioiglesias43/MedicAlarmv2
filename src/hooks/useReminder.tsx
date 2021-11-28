@@ -13,8 +13,6 @@ import {
   updateReminders,
   deleteReminder,
 } from '../store/reminders/actionCreators';
-import pusher from '../api/pusher';
-import {useNotification} from './useNotification';
 import {useModal} from './useModal';
 import {updateIndicatorVisible} from '../store/loadingIndicator/actionCreators';
 import {updateModalUserHasConfirmed} from '../store/modal/actionCreators';
@@ -24,10 +22,7 @@ import {
 } from '../store/snackbar/actionCreators';
 
 const useReminder = () => {
-  const {token, userInfo} = useSelector(
-    (state: RootState) => state.authReducer,
-  );
-  const {onDisplayNotification} = useNotification();
+  const {token} = useSelector((state: RootState) => state.authReducer);
   const [isLoading, setIsLoading] = useState(false);
   const [reminderSelected, setReminderSelected] = useState<Reminder>();
   const {reminders} = useSelector((state: RootState) => state.reminderReducer);
@@ -75,17 +70,6 @@ const useReminder = () => {
       true,
     );
   };
-
-  useEffect(() => {
-    try {
-      var channel = pusher(token).subscribe(`private-Patient.${userInfo?.id}`);
-      channel.bind('patient', (data: any) => {
-        onDisplayNotification('patient', data.message);
-      });
-    } catch (error: any) {
-      console.log(error);
-    }
-  }, [onDisplayNotification, token, userInfo?.id]);
 
   useEffect(() => {
     getReminders();
