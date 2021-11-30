@@ -78,7 +78,7 @@ export const useUpdateReminder = (
 
       const response = await createReminderService(reminderData, token);
       dispatch(updateReminders(reminders.concat(response.data.data)));
-      onCreateTriggerNotification(response.data.data);
+      onCreateTriggerNotification(response.data.data, token);
       navigation.goBack();
       dispatch(updateSnackBarMessage(response.data.message));
       dispatch(updateSnackBarVisible(true));
