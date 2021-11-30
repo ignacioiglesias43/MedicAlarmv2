@@ -99,7 +99,7 @@ export const useUpdateReminder = (
         days: formFields.days,
         frecuency: formFields.frecuency,
         description: formFields.description!,
-        next_alarm: moment(date).format(),
+        next_alarm: moment(date).format('Y-M-D H:m'),
         notify: isMonitoring,
       };
 
