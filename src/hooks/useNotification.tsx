@@ -35,7 +35,7 @@ export const useNotification = () => {
     });
   }
 
-  async function onCreateTriggerNotification(data: Reminder) {
+  async function onCreateTriggerNotification(data: Reminder, token: string) {
     const trigger: TimestampTrigger = {
       type: TriggerType.TIMESTAMP,
       timestamp: moment(data.next_alarm).valueOf(),
@@ -60,6 +60,10 @@ export const useNotification = () => {
           ],
           importance: AndroidImportance.HIGH,
           visibility: AndroidVisibility.PUBLIC,
+          autoCancel: false,
+          showChronometer: true,
+          chronometerDirection: 'down',
+          timestamp: moment(data.next_alarm).valueOf() + 180000,
         },
       },
       trigger,
