@@ -35,7 +35,7 @@ export const useNotification = () => {
     });
   }
 
-  async function onCreateTriggerNotification(data: Reminder, token: string) {
+  async function onCreateTriggerNotification(data: Reminder) {
     const trigger: TimestampTrigger = {
       type: TriggerType.TIMESTAMP,
       timestamp: moment(data.next_alarm).valueOf(),

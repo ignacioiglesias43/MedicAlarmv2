@@ -22,6 +22,7 @@ import {
 } from '../store/snackbar/actionCreators';
 
 import notifee from '@notifee/react-native';
+import {useNotification} from './useNotification';
 
 const useReminder = () => {
   const {token} = useSelector((state: RootState) => state.authReducer);
@@ -29,6 +30,7 @@ const useReminder = () => {
   const [reminderSelected, setReminderSelected] = useState<Reminder>();
   const {reminders} = useSelector((state: RootState) => state.reminderReducer);
   const {filteredList, searchFunction, query} = useQuery<Reminder>(reminders);
+  const {onCreateTriggerNotification} = useNotification();
 
   const dispatch = useAppDispatch();
   const {openModal, userHasConfirmed} = useModal();
@@ -39,6 +41,9 @@ const useReminder = () => {
       const response = await getRemindersService(token);
 
       dispatch(updateReminders(response.data.data));
+      response.data.data.forEach(e => {
+        onCreateTriggerNotification(e);
+      });
     } catch (error: any) {
       console.log({...error});
     } finally {
@@ -57,6 +62,7 @@ const useReminder = () => {
       dispatch(deleteReminder(reminderSelected?.id!));
       dispatch(updateSnackBarMessage(response.data.message));
       dispatch(updateSnackBarVisible(true));
+      await notifee.cancelNotification(`reminder-${reminderSelected?.id!}`);
     } catch (error: any) {
       console.log({...error});
     } finally {

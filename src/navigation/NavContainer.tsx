@@ -1,9 +1,9 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store/index';
 
 import notifee, {EventType} from '@notifee/react-native';
@@ -13,6 +13,15 @@ import MainNavigator from './tabs/MainNavigator';
 import {useNotification} from '../hooks/useNotification';
 import {useEvent, useChannel} from '@harelpls/use-pusher/react-native';
 import {postponeReminderService} from '../api/reminder/services';
+import {
+  deleteReminder,
+  updateSingleReminder,
+} from '../store/reminders/actionCreators';
+import {
+  updateSnackBarMessage,
+  updateSnackBarVisible,
+} from '../store/snackbar/actionCreators';
+import moment from 'moment';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,32 +34,42 @@ const NavContainer = () => {
     (state: RootState) => state.authReducer,
   );
   const isSignedIn = token.length > 0;
+  const dispatch = useDispatch();
+  const {onDisplayNotification, onCreateTriggerNotification} =
+    useNotification();
 
   /** Notifications */
-  const updateReminder = useCallback(
-    async (id: string) => {
-      try {
-        const res = await postponeReminderService(id, token);
-      } catch (error: any) {
-        console.log({...error});
-      }
-    },
-    [notifee],
-  );
-
   useEffect(() => {
-    return notifee.onForegroundEvent(({type, detail}) => {
+    return notifee.onForegroundEvent(async ({type, detail}) => {
       const {notification, pressAction} = detail;
-      if (pressAction?.id !== 'default') {
-        updateReminder(pressAction!.id);
-      }
       console.log(notification);
+      if (pressAction) {
+        if (pressAction?.id !== 'default') {
+          try {
+            const res = await postponeReminderService(pressAction?.id, token);
+            const {data, message} = res.data;
+            if (moment(data.end_date).diff(moment(new Date())) <= 0) {
+              //Si fue la última
+              dispatch(deleteReminder(data.id!));
+            } else {
+              //Si no es la última
+              onCreateTriggerNotification(data);
+              dispatch(updateSingleReminder(data));
+              dispatch(updateSnackBarMessage(message));
+              dispatch(updateSnackBarVisible(true));
+            }
+          } catch (error: any) {
+            console.log({...error});
+          } finally {
+            await notifee.cancelNotification(notification?.id!);
+          }
+        }
+      }
     });
   }, []);
 
   /** Pusher */
 
-  const {onDisplayNotification} = useNotification();
   const patientChannel = useChannel(`private-Patient.${userInfo?.id}`);
   const prescriptionChannel = useChannel(
     `private-Prescription.${userInfo?.id}`,

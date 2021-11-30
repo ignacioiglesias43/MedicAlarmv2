@@ -78,7 +78,7 @@ export const useUpdateReminder = (
 
       const response = await createReminderService(reminderData, token);
       dispatch(updateReminders(reminders.concat(response.data.data)));
-      onCreateTriggerNotification(response.data.data, token);
+      onCreateTriggerNotification(response.data.data);
       navigation.goBack();
       dispatch(updateSnackBarMessage(response.data.message));
       dispatch(updateSnackBarVisible(true));
@@ -111,6 +111,7 @@ export const useUpdateReminder = (
       const indexUp = reminders.findIndex(rem => rem.id === formFields.id!);
       const rems = [...reminders];
       rems[indexUp] = response.data.data;
+      onCreateTriggerNotification(response.data.data);
       dispatch(updateReminders(rems));
       navigation.goBack();
       dispatch(updateSnackBarMessage(response.data.message));

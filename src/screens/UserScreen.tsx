@@ -24,6 +24,7 @@ import CustomButton from '../components/atoms/CustomButton';
 import DataCard from '../components/molecules/DataCard';
 import ViewContainer from '../components/templates/ViewContainer';
 
+import notifee from '@notifee/react-native';
 import colors from '../styles/colors';
 
 interface UserScrenProps
@@ -34,7 +35,7 @@ const UserScreen: FC<UserScrenProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
 
   const updateInfo = () => navigation.navigate('UpdateInformation');
-  const logout = () => {
+  const logout = async () => {
     dispatch(updatePatients([]));
     dispatch(updateAppointmets([]));
     dispatch(updateContacts([]));
@@ -42,6 +43,7 @@ const UserScreen: FC<UserScrenProps> = ({navigation}) => {
     dispatch(updateToken(''));
     dispatch(updateTokenExpiresAt(''));
     dispatch(updateUserInfo(null));
+    await notifee.cancelAllNotifications();
   };
 
   const {

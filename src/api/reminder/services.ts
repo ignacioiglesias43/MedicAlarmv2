@@ -6,6 +6,7 @@ import {
   CreateReminderResponseDTO,
   DeleteRemindersDTO,
 } from './dto/create-reminder.dto';
+import {postponeReminderResultDTO} from './dto/resulter-reminder.dto';
 
 export const getRemindersService = (token: string) =>
   request<GetRemindersDTO>({
@@ -46,8 +47,8 @@ export const deleteReminderService = (id: number, token: string) =>
   });
 
 export const postponeReminderService = (id: string, token: string) =>
-  request({
-    method: 'POST',
+  request<CreateReminderResponseDTO>({
+    method: 'GET',
     url: `alarm/off/${id}`,
     headers: {
       Authorization: 'Bearer ' + token,

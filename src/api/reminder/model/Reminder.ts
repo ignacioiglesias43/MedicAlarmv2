@@ -9,5 +9,6 @@ export interface Reminder {
   next_alarm: string;
   total_shots?: number;
   days: number;
+  end_date?: string;
   contact?: Contact;
 }

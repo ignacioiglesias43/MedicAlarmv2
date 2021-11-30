@@ -48,7 +48,7 @@ const UpdateReminder = ({route, navigation}: Props) => {
             style={styles.input}
           />
           <CustomInput
-            label="Frecuencia (horas)"
+            label="Frecuencia (Minutos)"
             value={`${formFields.frecuency}`}
             onChangeText={setValues('frecuency')}
             keyboardType="numeric"
