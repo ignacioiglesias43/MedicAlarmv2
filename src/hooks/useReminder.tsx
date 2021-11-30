@@ -21,6 +21,8 @@ import {
   updateSnackBarVisible,
 } from '../store/snackbar/actionCreators';
 
+import notifee from '@notifee/react-native';
+
 const useReminder = () => {
   const {token} = useSelector((state: RootState) => state.authReducer);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,6 +32,12 @@ const useReminder = () => {
 
   const dispatch = useAppDispatch();
   const {openModal, userHasConfirmed} = useModal();
+
+  useEffect(() => {
+    notifee
+      .getTriggerNotificationIds()
+      .then(ids => console.log('All trigger notifications: ', ids));
+  }, []);
 
   const getReminders = useCallback(async () => {
     try {
@@ -55,7 +63,7 @@ const useReminder = () => {
       dispatch(deleteReminder(reminderSelected?.id!));
       dispatch(updateSnackBarMessage(response.data.message));
       dispatch(updateSnackBarVisible(true));
-    } catch (error) {
+    } catch (error: any) {
       console.log({...error});
     } finally {
       dispatch(updateIndicatorVisible(false));

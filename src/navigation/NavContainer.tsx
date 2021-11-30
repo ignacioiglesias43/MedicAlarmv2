@@ -37,7 +37,7 @@ const NavContainer = () => {
     onDisplayNotification('patient', message);
   });
 
-  useEvent<Notification>(prescriptionChannel, 'precription', data => {
+  useEvent<Notification>(prescriptionChannel, 'prescription', data => {
     const {message} = data as Notification;
     onDisplayNotification('precription', message);
   });

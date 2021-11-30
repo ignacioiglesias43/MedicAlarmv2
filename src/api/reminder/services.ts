@@ -44,3 +44,12 @@ export const deleteReminderService = (id: number, token: string) =>
       Authorization: 'Bearer ' + token,
     },
   });
+
+export const postponeReminderService = (id: string, token: string) =>
+  request({
+    method: 'POST',
+    url: `alarm/off/${id}`,
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
+  });

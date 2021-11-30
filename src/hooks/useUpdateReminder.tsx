@@ -23,6 +23,7 @@ import {
   updateSnackBarMessage,
   updateSnackBarVisible,
 } from '../store/snackbar/actionCreators';
+import {useNotification} from '../hooks/useNotification';
 
 export const useUpdateReminder = (
   actionType: 'UPDATE' | 'ADD',
@@ -39,6 +40,7 @@ export const useUpdateReminder = (
   const {createChangeHandler, formFields} = useForm<Reminder>(
     actionType === 'ADD' ? initialReminderForm : reminder!,
   );
+  const {onCreateTriggerNotification} = useNotification();
 
   const [isMonitoring, setIsMonitoring] = useState(formFields.notify);
   const [date, setDate] = useState(
@@ -76,10 +78,11 @@ export const useUpdateReminder = (
 
       const response = await createReminderService(reminderData, token);
       dispatch(updateReminders(reminders.concat(response.data.data)));
+      onCreateTriggerNotification(response.data.data);
       navigation.goBack();
       dispatch(updateSnackBarMessage(response.data.message));
       dispatch(updateSnackBarVisible(true));
-    } catch (error) {
+    } catch (error: any) {
       // TODO mostrar error
       console.log('error', error);
       console.log(error.response);
@@ -113,7 +116,7 @@ export const useUpdateReminder = (
       dispatch(updateSnackBarMessage(response.data.message));
       dispatch(updateSnackBarVisible(true));
       console.log(response);
-    } catch (error) {
+    } catch (error: any) {
       console.log('error', error);
       console.log(error.response);
     } finally {
