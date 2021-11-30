@@ -33,12 +33,6 @@ const useReminder = () => {
   const dispatch = useAppDispatch();
   const {openModal, userHasConfirmed} = useModal();
 
-  useEffect(() => {
-    notifee
-      .getTriggerNotificationIds()
-      .then(ids => console.log('All trigger notifications: ', ids));
-  }, []);
-
   const getReminders = useCallback(async () => {
     try {
       setIsLoading(true);
