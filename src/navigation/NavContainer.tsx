@@ -42,7 +42,6 @@ const NavContainer = () => {
   useEffect(() => {
     return notifee.onForegroundEvent(async ({type, detail}) => {
       const {notification, pressAction} = detail;
-      console.log(notification);
       if (pressAction) {
         if (pressAction?.id !== 'default') {
           try {
@@ -51,17 +50,17 @@ const NavContainer = () => {
             if (moment(data.end_date).diff(moment(new Date())) <= 0) {
               //Si fue la última
               dispatch(deleteReminder(data.id!));
+              await notifee.cancelNotification(notification?.id!);
             } else {
               //Si no es la última
               onCreateTriggerNotification(data);
               dispatch(updateSingleReminder(data));
               dispatch(updateSnackBarMessage(message));
               dispatch(updateSnackBarVisible(true));
+              await notifee.cancelNotification(notification?.id!);
             }
           } catch (error: any) {
             console.log({...error});
-          } finally {
-            await notifee.cancelNotification(notification?.id!);
           }
         }
       }

@@ -17,6 +17,7 @@ import FormContainer from '../components/templates/FormContainer';
 
 import {useUpdateReminder} from '../hooks/useUpdateReminder';
 import colors from '../styles/colors';
+import moment from 'moment';
 
 interface Props extends NativeStackScreenProps<ReminderStackParams, 'Update'> {}
 
@@ -56,7 +57,7 @@ const UpdateReminder = ({route, navigation}: Props) => {
           />
           <CustomDatePicker
             title="Hora inicial"
-            minimumDate={new Date(Date.now())}
+            minimumDate={moment(Date.now()).add(2, 'm').toDate()}
             date={date.value}
             mode="time"
             handleDate={date.handle}

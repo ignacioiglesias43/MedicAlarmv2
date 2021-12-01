@@ -46,7 +46,7 @@ export const useUpdateReminder = (
   const [date, setDate] = useState(
     actionType === 'UPDATE'
       ? new Date(Date.parse(formFields.next_alarm))
-      : new Date(),
+      : moment(Date.now()).add(2, 'm').toDate(),
   );
 
   const dispatch = useAppDispatch();

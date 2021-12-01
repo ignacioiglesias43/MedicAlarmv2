@@ -32,7 +32,7 @@ const HomeScreen = ({navigation}: Props) => {
     <DataCard
       title={item?.description!}
       fisrt={moment(item.next_alarm).format('h:mm a')}
-      second={`${item.frecuency} hrs`}
+      second={`${item.frecuency} minutos`}
       actionIcon={'delete'}
       action={() => deleteReminder(item)}
       onPress={() =>

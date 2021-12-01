@@ -3,6 +3,7 @@ import notifee, {
   AndroidVisibility,
   TriggerType,
   TimestampTrigger,
+  RepeatFrequency,
 } from '@notifee/react-native';
 import moment from 'moment';
 import {Reminder} from '../api/reminder/model/Reminder';
@@ -55,12 +56,13 @@ export const useNotification = () => {
               title: 'Aceptar',
               pressAction: {
                 id: `${data.id}`,
+                launchActivity: 'default',
               },
             },
           ],
           importance: AndroidImportance.HIGH,
           visibility: AndroidVisibility.PUBLIC,
-          autoCancel: false,
+          //autoCancel: false,
           showChronometer: true,
           chronometerDirection: 'down',
           timestamp: moment(data.next_alarm).valueOf() + 180000,
