@@ -160,10 +160,12 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file('medic_alarm_2.keystore')
-            storePassword 'password1'
-            keyAlias 'medicalarm2'
-            keyPassword 'password1'
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
         }
     }
     buildTypes {
