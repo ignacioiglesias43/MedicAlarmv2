@@ -89,6 +89,7 @@ export const useAuthForm = (formType: FormType) => {
           dispatch(updateIndicatorVisible(false));
         } else {
           const {message} = result.data as ResultedUserSignup;
+          console.log(result.data);
           dispatch(updateIndicatorVisible(false));
           dispatch(updateModalTitle('Se ha registrado correctamente'));
           dispatch(updateModalMessage(message));
@@ -100,7 +101,7 @@ export const useAuthForm = (formType: FormType) => {
       }
     } catch (error: any) {
       dispatch(updateIndicatorVisible(false));
-      console.log(error)
+      console.log(error);
       if (error.response) {
         openModal(error?.response?.data?.message);
       }

@@ -17,6 +17,7 @@ import {RootState} from '../store/index';
 import {updateIndicatorVisible} from '../store/loadingIndicator/actionCreators';
 import {useFormatedDate} from './useDateText';
 import {useModal} from './useModal';
+import moment from 'moment';
 
 export const useUpdateAppoinment = (
   actionType: 'UPDATE' | 'ADD',
@@ -33,7 +34,7 @@ export const useUpdateAppoinment = (
   const [patient, setPatient] = useState(
     actionType === 'UPDATE' ? appoinment?.patient?.code : patients[0].user.code,
   );
-  const fDate = useFormatedDate(date.toISOString());
+  const fDate = moment(date).format('Y-M-D H:m');
   const patientList = patients.map(a => ({
     name: a.user.name,
     id: a.user.code,
