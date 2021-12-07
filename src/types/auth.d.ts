@@ -2,6 +2,7 @@ import {User} from '../api/user/model/User';
 
 interface AuthState {
   token: string;
+  tokenExpiresAt: string;
   userInfo: User | null | undefined;
 }
 

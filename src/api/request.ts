@@ -1,5 +1,6 @@
 import axios, {AxiosRequestConfig, AxiosResponse, Method} from 'axios';
 
+import {API_URL} from '@env';
 export interface RequestProps {
   method: Method;
   url: string;
@@ -8,9 +9,8 @@ export interface RequestProps {
   params?: AxiosRequestConfig['params'];
 }
 
-// TODO: Change URL
 const api = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: API_URL,
 });
 
 const request = <T>({
@@ -27,7 +27,7 @@ const request = <T>({
     data,
     headers: {
       ...headers,
-      'Access-Control-Allow-Origin': '*',
+      //'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
     },
   });

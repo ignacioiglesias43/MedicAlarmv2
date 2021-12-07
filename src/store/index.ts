@@ -12,16 +12,36 @@ import {
 import persistReducer from 'redux-persist/es/persistReducer';
 
 import authReducer from './auth/authReducer';
+import reminderReducer from './reminders/reminderReducer';
+import loadingIndicatorReducer from './loadingIndicator/loadingIndicatorReducer';
+import modalReducer from './modal/modalReducer';
+import contactReducer from './contacts/contactReducer';
+import patientReducer from './patients/patientReducer';
+import appointmentReducer from './appoinment/appoinmentReducer';
+import snackbarReducer from './snackbar/snackbarReducer';
 
 const persistedConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['authReducer'],
+  whitelist: [
+    'authReducer',
+    'reminderReducer',
+    'contactReducer',
+    'patientReducer',
+    'appointmentReducer',
+  ],
   timeout: undefined,
 };
 
 const reducers = combineReducers({
   authReducer,
+  reminderReducer,
+  contactReducer,
+  appointmentReducer,
+  patientReducer,
+  loadingIndicatorReducer,
+  modalReducer,
+  snackbarReducer,
 });
 
 const persistedReducer = persistReducer(persistedConfig, reducers);

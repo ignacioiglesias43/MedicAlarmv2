@@ -1,10 +1,14 @@
 export interface User {
   id?: number;
+  code?: string;
   name: string;
-  lastName: string;
-  userName?: string;
+  lastname: string;
   email: string;
-  password?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  phone: string;
+  speciality?: string,
+  professional_id?: string,
+  email_verified_at?: string;
+  created_at?: string;
+  updated_at?: string;
+  role?: string;
 }
